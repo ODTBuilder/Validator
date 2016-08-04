@@ -1,0 +1,50 @@
+.GitBuilder-LayerList {
+	width:inherit;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+.GitBuilder-LayerList-Item {
+	width: 100%;
+	height: auto;
+	background: white;
+	position: relative;
+	margin: 1em 0;
+	padding: 0.8em;
+	border: 1px solid #adadad;
+	list-style: none;
+	padding-left: 42px;
+	border-radius: 4px;
+}
+
+.GitBuilder-LayerList-Item-Handle {
+	border-radius: 4px 0 0 4px;
+	background: #f8f8f8;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+/* 		padding: 8px; */
+	padding-top: 11px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 8px;
+}
+
+.ui-selecting {
+	background: #eee;
+}
+
+.ui-selecting .handle {
+	background: #ddd;
+}
+
+.ui-selected {
+	background: #def;
+}
+
+.ui-selected .handle {
+	background: #cde;
+}
