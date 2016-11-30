@@ -23,6 +23,7 @@
 	
 	<context:component-scan base-package="com.git.opengds" />
 	
+<<<<<<< HEAD
 	<!-- json -->
 	<beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
 	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">   
@@ -32,5 +33,8 @@
             </beans:list>
         </beans:property>
  	</beans:bean>
+=======
+	
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	
 </beans:beans>

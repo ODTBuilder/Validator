@@ -1,5 +1,9 @@
 /*!
+<<<<<<< HEAD
  * jQuery UI CSS Framework 1.12.1
+=======
+ * jQuery UI CSS Framework 1.12.0
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -201,10 +205,21 @@ a.ui-button:active,
 .ui-widget-header .ui-icon {
 	background-image: url("images/ui-icons_222222_256x240.png");
 }
+<<<<<<< HEAD
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon,
 .ui-button:hover .ui-icon,
 .ui-button:focus .ui-icon {
+=======
+.ui-button .ui-icon {
+	background-image: url("images/ui-icons_888888_256x240.png");
+}
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon,
+.ui-state-default .ui-icon {
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	background-image: url("images/ui-icons_454545_256x240.png");
 }
 .ui-state-active .ui-icon,
@@ -219,9 +234,12 @@ a.ui-button:active,
 .ui-state-error-text .ui-icon {
 	background-image: url("images/ui-icons_cd0a0a_256x240.png");
 }
+<<<<<<< HEAD
 .ui-button .ui-icon {
 	background-image: url("images/ui-icons_888888_256x240.png");
 }
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 /* positioning */
 .ui-icon-blank { background-position: 16px 16px; }

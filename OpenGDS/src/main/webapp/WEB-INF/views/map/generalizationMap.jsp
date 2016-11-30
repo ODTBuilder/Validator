@@ -1,10 +1,48 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 <html>
 <jsp:include page="/WEB-INF/views/common/common.jsp" />
 <head>
 <!-- 공통함수 -->
 <%-- 부트스트랩 --%>
 <script src="${pageContext.request.contextPath}/resources/js/generalization/generalization.js"></script>
+=======
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<html>
+<head>
+
+
+
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery/jquery-2.2.2.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/resources/js/ol3/ol-debug.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/ol3/ol.css">
+
+<script src="${pageContext.request.contextPath}/resources/js/jqueryui/jquery-ui.min.js"></script>
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/jqueryui/jquery-ui.min.css"> --%>
+
+<script src="${pageContext.request.contextPath}/resources/js/spectrum/spectrum.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/spectrum/spectrum.css">
+
+<script src="${pageContext.request.contextPath}/resources/js/gitbuilder/gitbuilder_2.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/gitbuilder/gitbuilder_2.css">
+
+<%-- <script src="${pageContext.request.contextPath}/resources/js/gserver/gserver.js"></script> --%>
+
+
+<!-- 공통함수 -->
+<script src="${ctx}/resources/js/common/common.js"></script>
+<script src="${ctx}/resources/js/generalization/generalization.js"></script>
+<script type="text/javascript">
+var CONTEXT = "${pageContext.request.contextPath}";
+</script>
+
+<%-- 부트스트랩 --%>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/bootstrap/css/bootstrap.min.css">
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 <style type="text/css">
 .cntGeneralWarp {width: 97.5%;margin:0 auto;padding:40px 0 100px 0;font-family:'NanumGothic';}
 .tbDetail{border-collapse:collapse; width:100%; text-align: center;}
@@ -23,6 +61,7 @@
 <title>generalization map</title>
 </head>
 <body>
+<<<<<<< HEAD
 <div id="header" style="width: 100%; height: 6%; background-color: #f8f8f8;">
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 </div>
@@ -45,15 +84,54 @@
 				</div>
 			</div>
 		</div>
+=======
+	<div id="wrap">
+		<div id="builderInfo" style="width: 100%; height: 3%; background-color: #e3e3e3;">
+			<div class="btn-group" role="group" style="float: right;">
+	  			<button type="button" class="btn btn-default" onclick="gitbuilder.ui.showQAPage()">검수</button>
+	  			<button type="button" class="btn btn-default" onclick="gitbuilder.ui.showGenPage()">일반화</button>
+			</div>
+		</div>
+		<div id="builderHeader" style="width: 100%; height: 5%; background-color: #e9e9e9">
+
+		<div class="col-md-8" role="toolbar" aria-label="...">
+			<button class="btn btn-default" onclick="gitbuilder.ui.NewSHPWindow()">SHP</button>
+			<button class="btn btn-default" onclick="gitbuilder.ui.NewVectorWindow()">Vector</button>
+			<button class="btn btn-default">GeoServer</button>
+			<button class="btn btn-default">Editing</button>
+			<button class="btn btn-default">Validation</button>
+			<button class="btn btn-default" onclick="gitbuilder.ui.NewGeoserverWindow()">Add GeoServer</button>
+			<button class="btn btn-default">Error Report</button>
+			<button class="btn btn-default">Save</button>
+		</div>
+
+		<div class="col-md-4" role="toolbar" aria-label="...">
+			<div class="col-md-10">
+				<input class="form-control" type="text">
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-default">Search</button>
+			</div>
+		</div>
+
+	</div>
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		<div id="bodyDiv" style="width: 100%;height: 100%;">
 				<div class="cntGeneralWarp">
 						<table class="tbDetail" style="border: 1px solid #eee; table-layout:fixed;">
 							<thead>
 								<tr>
+<<<<<<< HEAD
 									<th style="padding: 10px 10px 10px 10px; text-align :center" scope="col"
 										align="center" colspan="2" >Before Generalization</th>
 									<th style="padding: 10px 10px 10px 10px; text-align :center" scope="col"
 										align="center" colspan="2">After Generalization</th>
+=======
+									<th style="padding: 10px 10px 10px 10px;" scope="col"
+										align="center" colspan="2">일반화전</th>
+									<th style="padding: 10px 10px 10px 10px;" scope="col"
+										align="center" colspan="2">일반화후</th>
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 								</tr>
 							</thead>
 							<tbody id="mapBody">

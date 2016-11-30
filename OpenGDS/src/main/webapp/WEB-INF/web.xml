@@ -56,7 +56,11 @@
 	    <servlet-name>appServlet</servlet-name>
 	    <url-pattern>*.ajax</url-pattern>
   	</servlet-mapping>
+<<<<<<< HEAD
 <session-config> 
     <session-timeout>0</session-timeout> 
 </session-config>
+=======
+
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 </web-app>

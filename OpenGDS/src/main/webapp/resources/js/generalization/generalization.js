@@ -1,12 +1,15 @@
 $(document).ready(function() {
     setGenBodyDivSize();
     setSeparateMap();
+<<<<<<< HEAD
     gitbuilder.ui.NewGenLayerManageWindow('A');
 //    $('#genLayerManageWindow').modal('hide');
     gitbuilder.ui.NewGeneralizationWindow('A');
     gitbuilder.ui.NewGeneralizationResultWindow('A');
     gitbuilder.ui.NewTopologyTableWindow('A');
 //    $('#generalizationWindow').modal('hide');
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 });
 
 var map1;
@@ -65,6 +68,7 @@ function setSeparateMap() {
 	});
 }
 
+<<<<<<< HEAD
 var layerAddList = new Array();
 var chklayer = new Array();
 function geoGenLayerAdd(){
@@ -357,3 +361,7 @@ function generalizationRunCallback(result){
 	
 	view.fit(source.getExtent(), map2.getSize());
 }
+=======
+
+
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c

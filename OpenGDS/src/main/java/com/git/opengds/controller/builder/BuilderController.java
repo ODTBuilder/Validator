@@ -17,7 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+<<<<<<< HEAD
 import com.git.opengds.operation.service.OperatorService;
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 import com.git.opengds.service.builder.ValidatorService;
 import com.vividsolutions.jts.io.ParseException;
 
@@ -30,8 +33,12 @@ public class BuilderController {
 	private static final Logger logger = LoggerFactory.getLogger(BuilderController.class);
 
 	@Autowired
+<<<<<<< HEAD
 	//ValidatorService validatorService;
 	OperatorService operatorService;
+=======
+	ValidatorService validatorService;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -48,10 +55,16 @@ public class BuilderController {
 		JSONParser parser = new JSONParser();
 		try {
 
+<<<<<<< HEAD
 			Object obj = parser.parse(new FileReader("d:\\test1.txt"));
 			JSONObject jsonObject = (JSONObject) obj;
 		//	validatorService.autoValidation(jsonObject);
 			operatorService.autoOperation(jsonObject);
+=======
+			Object obj = parser.parse(new FileReader("c:\\test.txt"));
+			JSONObject jsonObject = (JSONObject) obj;
+			validatorService.autoValidation(jsonObject);
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

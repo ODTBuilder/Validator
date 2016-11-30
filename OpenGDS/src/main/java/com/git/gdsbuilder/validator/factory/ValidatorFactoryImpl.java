@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+<<<<<<< HEAD
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.SchemaException;
@@ -19,6 +20,11 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.crs.CRSAuthorityFactory;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
+=======
+import org.geotools.feature.SchemaException;
+import org.json.simple.JSONArray;
+import org.opengis.feature.simple.SimpleFeature;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 import com.git.gdsbuilder.convertor.DataConvertor;
 import com.git.gdsbuilder.type.result.DetailsValidatorReport;
@@ -27,6 +33,7 @@ import com.git.gdsbuilder.type.validatorOption.ConBreak;
 import com.git.gdsbuilder.type.validatorOption.ConIntersected;
 import com.git.gdsbuilder.type.validatorOption.ConOverDegree;
 import com.git.gdsbuilder.type.validatorOption.EntityDuplicated;
+<<<<<<< HEAD
 import com.git.gdsbuilder.type.validatorOption.OutBoundary;
 import com.git.gdsbuilder.type.validatorOption.PointDuplicated;
 import com.git.gdsbuilder.type.validatorOption.SelfEntity;
@@ -36,13 +43,22 @@ import com.git.gdsbuilder.type.validatorOption.UselessPoint;
 import com.git.gdsbuilder.type.validatorOption.Z_ValueAmbiguous;
 import com.vividsolutions.jts.algorithm.Angle;
 import com.vividsolutions.jts.algorithm.CentroidPoint;
+=======
+import com.git.gdsbuilder.type.validatorOption.PointDuplicated;
+import com.git.gdsbuilder.type.validatorOption.SmallArea;
+import com.git.gdsbuilder.type.validatorOption.SmallLength;
+import com.vividsolutions.jts.algorithm.Angle;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 public class ValidatorFactoryImpl implements ValidatorFactory {
+<<<<<<< HEAD
 	
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	// 허용범위이하 길이 오류
 	@Override
 	public Map<String, Object> smallLength(SimpleFeature simpleFeature, double defaultLength) throws SchemaException {
@@ -85,13 +101,21 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 	public Map<String, Object> smallArea(SimpleFeature simpleFeature, double defaultArea) throws SchemaException {
 
 		Geometry geometry = (Geometry) simpleFeature.getDefaultGeometry();
+<<<<<<< HEAD
+=======
+
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		double area = geometry.getArea();
 		if (area < defaultArea) {
 			DataConvertor convertService = new DataConvertor();
 			String errFeatureID = simpleFeature.getID();
 
 			// SimpleFeature
+<<<<<<< HEAD
 			SimpleFeature returnfeature = convertService.createErrFeature(errFeatureID, geometry.getInteriorPoint(), "SmallArea");
+=======
+			SimpleFeature returnfeature = convertService.createErrFeature(errFeatureID, geometry, "SmallArea");
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 			// DetailReport
 			DetailsValidatorReport detailsReport = new DetailsValidatorReport(SmallArea.Type.SMALLAREA.errType(), SmallArea.Type.SMALLAREA.errName(),
@@ -119,6 +143,7 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 		Geometry geometryJ = (Geometry) simpleFeatureJ.getDefaultGeometry();
 
 		if (geometryI.equals(geometryJ)) {
+<<<<<<< HEAD
 			double geomIA = geometryI.getArea();
 			double geomJA = geometryJ.getArea();
 			if (geomIA == geomJA) {
@@ -161,10 +186,48 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 
 		Vector<SimpleFeature> simpleFeatures = new Vector<SimpleFeature>();
 		List<DetailsValidatorReport> detailsReports = new ArrayList<DetailsValidatorReport>();
+=======
+			DataConvertor convertService = new DataConvertor();
+			SimpleFeature returnfeatureI = convertService.createErrFeature(simpleFeatureI.getID(), geometryI.getInteriorPoint(), "EntityDuplicated");
+			SimpleFeature returnfeatureJ = convertService.createErrFeature(simpleFeatureJ.getID(), geometryJ.getInteriorPoint(), "EntityDuplicated");
+
+			// SimpleFeatures
+			simpleFeatures.add(returnfeatureI);
+			simpleFeatures.add(returnfeatureJ);
+
+			// DetailReport simpleFeatureI, simpleFeatureJ
+			DetailsValidatorReport detailsReportI = new DetailsValidatorReport(EntityDuplicated.Type.ENTITYDUPLICATED.errType(),
+					EntityDuplicated.Type.ENTITYDUPLICATED.errName(), simpleFeatureI.getID(), geometryI.getInteriorPoint().getCoordinate().x, geometryI
+							.getInteriorPoint().getCoordinate().y);
+			detailsReports.add(detailsReportI);
+
+			DetailsValidatorReport detailsReportJ = new DetailsValidatorReport(EntityDuplicated.Type.ENTITYDUPLICATED.errType(),
+					EntityDuplicated.Type.ENTITYDUPLICATED.errName(), simpleFeatureJ.getID(), geometryJ.getInteriorPoint().getCoordinate().x, geometryJ
+							.getInteriorPoint().getCoordinate().y);
+			detailsReports.add(detailsReportJ);
+
+			// createReturnMap
+			Map<String, Object> returnMap = new LinkedHashMap<String, Object>();
+			returnMap.put("simpleFeatures", simpleFeatures);
+			returnMap.put("detailsReports", detailsReports);
+
+			return returnMap;
+		} else {
+			return null;
+		}
+	}
+
+	// 단독 존재 오류 - 포인트
+	@Override
+	public Vector<SimpleFeature> selfEntity4Point(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException {
+
+		Vector<SimpleFeature> simpleFeatures = new Vector<SimpleFeature>();
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 		Geometry geometryI = (Geometry) simpleFeatureI.getDefaultGeometry();
 		Geometry geometryJ = (Geometry) simpleFeatureJ.getDefaultGeometry();
 
+<<<<<<< HEAD
 		String geomIType = geometryI.getGeometryType();
 		String geomJType = geometryJ.getGeometryType();
 
@@ -227,10 +290,33 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 
 		Vector<SimpleFeature> simpleFeatures = new Vector<SimpleFeature>();
 		List<DetailsValidatorReport> detailsReports = new ArrayList<DetailsValidatorReport>();
+=======
+		if (geometryI.equals(geometryJ)) {
+			DataConvertor convertService = new DataConvertor();
+			SimpleFeature returnfeatureI = convertService.createErrFeature(simpleFeatureI.getID(), geometryI.getInteriorPoint(), "SelfEntity");
+			SimpleFeature returnfeatureJ = convertService.createErrFeature(simpleFeatureJ.getID(), geometryJ.getInteriorPoint(), "SelfEntity");
+
+			simpleFeatures.add(returnfeatureI);
+			simpleFeatures.add(returnfeatureJ);
+
+			return simpleFeatures;
+		} else {
+			return null;
+		}
+	}
+
+	// 단독 존재 오류 - 폴리곤
+	@Override
+	public Vector<SimpleFeature> selfEntity4Polygon(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException {
+
+		Vector<SimpleFeature> simFeatures = new Vector<SimpleFeature>();
+		DataConvertor convertService = new DataConvertor();
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 		Geometry geometryI = (Geometry) simpleFeatureI.getDefaultGeometry();
 		Geometry geometryJ = (Geometry) simpleFeatureJ.getDefaultGeometry();
 
+<<<<<<< HEAD
 		String geomIType = geometryI.getGeometryType();
 		Geometry returnGeom = null;
 		if (geomIType.equals("Point") || geomIType.equals("MultiPoint")) {
@@ -260,11 +346,31 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 			returnMap.put("detailsReports", detailsReports);
 
 			return returnMap;
+=======
+		if (!geometryI.equals(geometryJ)) {
+
+			if (geometryI.overlaps(geometryJ) || geometryI.within(geometryJ) || geometryI.contains(geometryJ)) {
+
+				try {
+					SimpleFeature returnfeatureI = convertService.createErrFeature(simpleFeatureI.getID(), geometryI.getInteriorPoint(), "SelfEntity");
+					SimpleFeature returnfeatureJ = convertService.createErrFeature(simpleFeatureJ.getID(), geometryJ.getInteriorPoint(), "SelfEntity");
+					simFeatures.add(returnfeatureI);
+					simFeatures.add(returnfeatureJ);
+
+					return simFeatures;
+				} catch (Exception e) {
+					return null;
+				}
+			} else {
+				return null;
+			}
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		} else {
 			return null;
 		}
 	}
 
+<<<<<<< HEAD
 	private Geometry selfEntityPoint(Geometry geometryI, Geometry geometryJ) {
 
 		String typeJ = geometryJ.getGeometryType();
@@ -329,6 +435,53 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 			}
 		}
 		return returnGeom;
+=======
+	// 단독존재오류 - 라인
+	@Override
+	public Vector<SimpleFeature> selfEntity4Line(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException {
+
+		Vector<SimpleFeature> simFeatures = new Vector<SimpleFeature>();
+
+		Geometry geometryI = (Geometry) simpleFeatureI.getDefaultGeometry();
+		Geometry geometryJ = (Geometry) simpleFeatureJ.getDefaultGeometry();
+
+		if (geometryI.crosses(geometryJ)) {
+			Geometry intersectionGeom = geometryI.intersection(geometryJ);
+			Coordinate[] interCoor = intersectionGeom.getCoordinates();
+
+			Coordinate[] geomeICoor = geometryI.getCoordinates();
+			Coordinate[] geomeJCoor = geometryJ.getCoordinates();
+
+			int intersectCount = 0;
+			for (int b = 0; b < interCoor.length; b++) {
+				for (int a = 0; a < geomeICoor.length; a++) {
+					if (interCoor[b].equals2D(geomeICoor[a])) {
+						intersectCount++;
+					}
+				}
+				for (int a = 0; a < geomeJCoor.length; a++) {
+					if (interCoor[b].equals2D(geomeJCoor[a])) {
+						intersectCount++;
+					}
+				}
+			}
+
+			DataConvertor convertService = new DataConvertor();
+			if (intersectCount == 0 || intersectCount % 2 != 0) {
+				for (int i = 0; i < intersectionGeom.getNumGeometries(); i++) {
+
+					SimpleFeature returnfeatureI = convertService.createErrFeature(simpleFeatureI.getID(), intersectionGeom.getGeometryN(i), "SelfEntity");
+					SimpleFeature returnfeatureJ = convertService.createErrFeature(simpleFeatureJ.getID(), intersectionGeom.getGeometryN(i), "SelfEntity");
+
+					simFeatures.add(returnfeatureI);
+					simFeatures.add(returnfeatureJ);
+				}
+			}
+		} else {
+			return null;
+		}
+		return simFeatures;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	}
 
 	// 중복점 오류
@@ -377,7 +530,11 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 		Geometry geometryJ = (Geometry) simpleFeatureJ.getDefaultGeometry();
 
 		if (geometryI.intersects(geometryJ)) {
+<<<<<<< HEAD
 			Geometry returnGeom = geometryI.intersection(geometryJ);
+=======
+			Geometry returnGeom = geometryJ.intersection(geometryJ);
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			DataConvertor convertService = new DataConvertor();
 			for (int i = 0; i < returnGeom.getNumGeometries(); i++) {
 
@@ -400,7 +557,11 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 			}
 			// createReturnMap
 			Map<String, Object> returnMap = new LinkedHashMap<String, Object>();
+<<<<<<< HEAD
 			returnMap.put("simpleFeatures", simFeatures);
+=======
+			returnMap.put("SimpleFeatures", simFeatures);
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			returnMap.put("detailsReports", detailsReports);
 
 			return returnMap;
@@ -456,11 +617,16 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 
 	// 등고선 끊김 오류
 	@Override
+<<<<<<< HEAD
 	public Map<String, Object> conBreak(SimpleFeature simpleFeature, SimpleFeatureCollection aop) throws SchemaException {
+=======
+	public Map<String, Object> conBreak(SimpleFeature simpleFeature) throws SchemaException {
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 		Vector<SimpleFeature> simFeatures = new Vector<SimpleFeature>();
 		List<DetailsValidatorReport> detailsReports = new ArrayList<DetailsValidatorReport>();
 		Geometry geometry = (Geometry) simpleFeature.getDefaultGeometry();
+<<<<<<< HEAD
 
 		Coordinate[] coordinates = geometry.getCoordinates();
 		Coordinate start = coordinates[0];
@@ -492,6 +658,30 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 						}
 					}
 				}
+=======
+		Coordinate[] coordinates = geometry.getCoordinates();
+
+		Coordinate start = coordinates[0];
+		Coordinate end = coordinates[coordinates.length - 1];
+
+		if (start.equals2D(end)) {
+		} else {
+			Coordinate[] temp = new Coordinate[] { start, end };
+			DataConvertor convertService = new DataConvertor();
+			String errFeatureID = simpleFeature.getID();
+
+			for (int i = 0; i < temp.length; i++) {
+				GeometryFactory geometryFactory = new GeometryFactory();
+				Geometry returnGeom = geometryFactory.createPoint(temp[i]);
+
+				// SimpleFeature
+				SimpleFeature returnfeature = convertService.createErrFeature(errFeatureID, returnGeom, "ConBreak");
+				simFeatures.add(returnfeature);
+				// DetailReport
+				DetailsValidatorReport detailsReport = new DetailsValidatorReport(ConBreak.Type.CONBREAK.errType(), ConBreak.Type.CONBREAK.errName(),
+						errFeatureID, returnGeom.getCoordinate().x, returnGeom.getCoordinate().y);
+				detailsReports.add(detailsReport);
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			}
 		}
 		if (simFeatures.size() != 0) {
@@ -506,11 +696,19 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 	}
 
 	// 속성 오류
+<<<<<<< HEAD
 	@SuppressWarnings("rawtypes")
 	public Map<String, Object> attributeFix(SimpleFeature simpleFeature, JSONArray notNullAtt) throws SchemaException {
 		boolean isError = false;
 		if (notNullAtt != null) {
 			Iterator iterator = notNullAtt.iterator();
+=======
+	public Map<String, Object> attributeFix(SimpleFeature simpleFeature, JSONArray attributes) throws SchemaException {
+
+		boolean isError = false;
+		if (attributes != null) {
+			Iterator iterator = attributes.iterator();
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			if (simpleFeature.getAttributeCount() > 1) {
 				while (iterator.hasNext()) {
 					String attribute = (String) iterator.next();
@@ -551,6 +749,7 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 		} else {
 			return null;
 		}
+<<<<<<< HEAD
 
 	}
 
@@ -721,4 +920,8 @@ public class ValidatorFactoryImpl implements ValidatorFactory {
 
 		return returnMap;
 	}
+=======
+	}
+
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }

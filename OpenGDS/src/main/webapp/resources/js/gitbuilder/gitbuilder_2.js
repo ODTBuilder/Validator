@@ -10,6 +10,7 @@ var gitbuilder;
 if (!gitbuilder) {
 	gitbuilder = {};
 }
+<<<<<<< HEAD
 if (!gitbuilder.validation) {
 	gitbuilder.validation = {};
 
@@ -74,6 +75,8 @@ if (!gitbuilder.validation) {
 	gitbuilder.validation.option.UselessPoint = {}
 
 }
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 if (!gitbuilder.variable) {
 
 	// 변수객체
@@ -82,9 +85,12 @@ if (!gitbuilder.variable) {
 	// 커서 위치
 	gitbuilder.variable.crsrPosition = [];
 
+<<<<<<< HEAD
 	// 커서 위치(좌표)
 	gitbuilder.variable.crsrCoordinate = {};
 
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	// 프로젝트 객체
 	gitbuilder.variable.prjGroup = {};
 
@@ -100,6 +106,7 @@ if (!gitbuilder.variable) {
 	// 오픈 레이어스 컨트롤 배열
 	gitbuilder.variable.ctrl = [];
 
+<<<<<<< HEAD
 	// 오픈 레이어스 인터랙션 객체
 	gitbuilder.variable.intrctn = {
 		draw : undefined,
@@ -160,6 +167,13 @@ if (!gitbuilder.variable) {
 
 	// 선택한 에러피처
 	gitbuilder.variable.errorFeatures = new ol.Collection();
+=======
+	// 오픈 레이어스 인터랙션 배열
+	gitbuilder.variable.intrctn = [];
+
+	// 선택한 레이어 배열
+	gitbuilder.variable.selectedLayers = [];
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 	// DOM id
 	// layerList: 레이어 리스트
@@ -172,6 +186,7 @@ if (!gitbuilder.variable) {
 	// lineInput: 라인 인풋 라디오버튼 아이디
 	// polyInput: 폴리곤 인풋 라디오버튼 아이디
 	// layerName: 레이어 이름 인풋 텍스트
+<<<<<<< HEAD
 	// strokeColor: 선색
 	// strokeWidth: 선너비 인풋
 	// fillColor: 면색
@@ -181,6 +196,8 @@ if (!gitbuilder.variable) {
 	// attrList: 속성 리스트 테이블 바디
 	// removeFeatureWindow: 피처 삭제 창
 	// validatingWindow: 검수 설정 창
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	gitbuilder.variable.elementid = {};
 
 	// input name
@@ -193,9 +210,12 @@ if (!gitbuilder.variable) {
 	// 에러 리포트
 	gitbuilder.variable.errReport = {};
 
+<<<<<<< HEAD
 	// 현재 편집중
 	gitbuilder.variable.editingOpen = false;
 
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }
 if (!gitbuilder.method) {
 	gitbuilder.method = {};
@@ -261,6 +281,7 @@ if (!gitbuilder.method) {
 	 */
 	gitbuilder.method.map.setBuilderMap = function setBuilderMap(map) {
 		gitbuilder.variable.map = map;
+<<<<<<< HEAD
 
 		map.on('singleclick', function(evt) {
 			gitbuilder.variable.crsrCoordinate = evt.coordinate;
@@ -292,6 +313,8 @@ if (!gitbuilder.method) {
 //		}
 
 
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	}
 	// ==========================================================================================================
 	/**
@@ -337,6 +360,7 @@ if (!gitbuilder.method) {
 		for (var i = 0; i < addedLayers.length; i++) {
 
 			var layerKeysStr = "";
+<<<<<<< HEAD
 			layerKeysStr += "<li layerid='" + addedLayers[i].get("id") + "' class='GitBuilder-LayerList-Item'>";
 			layerKeysStr += "<div>";
 
@@ -383,10 +407,63 @@ if (!gitbuilder.method) {
 		$(".glyphicon-eye-close").hide();
 		$(".GitBuilder-LayerList-Function").hide();
 		$("#" + layerListId).sortable("refresh").addClass("layerSelectable").selectable("refresh").find("li").addClass("ui-corner-all").prepend(
+=======
+			layerKeysStr += "<li layerid='" + addedLayers[i].get("id") + "' class='GitBuilder-LayerList-Item'><p class='ListedLayer'>"
+					+ addedLayers[i].get("name"); /*
+													 * + "</p><button
+													 * class='layerPropBtn'>Properties</button></li>";
+													 */
+
+			$("#" + layerListId).prepend(layerKeysStr);
+
+		}
+		$(".ListedLayer").css("display", "inline-block").css("width", 160).css("height", 16).css("text-overflow", "ellipsis");
+
+		$("#" + layerListId).sortable({
+			handle : ".GitBuilder-LayerList-Item-Handle",
+			stop : function(event, ui) {
+				// 선택한 li의 배열
+				var layerLiArr = $("#" + layerListId + " li").toArray();
+				// 배열을 뒤집는다
+				layerLiArr.reverse();
+				// 모든 레이어 획득
+				var layers = gitbuilder.method.map.getBuilderMap().getLayers();
+				// 모든 레이어를 배열로 획득
+				var addedLayers = layers.getArray();
+
+				for (var i = 0; i < layerLiArr.length; i++) {
+					// 레이어 아이디와 같은 레이어를 검색
+					for (var j = 0; j < addedLayers.length; j++) {
+						// li의 아이디가 레이어의 아이디와 같다면
+						if (addedLayers[j].get("id") === $(layerLiArr[i]).attr("layerid")) {
+							if (addedLayers[j] instanceof ol.layer.Group) {
+								addedLayers[j].setZIndex(i);
+								var layers = addedLayers[j].getLayers().getArray();
+								for (var k = 0; k < layers.length; k++) {
+									layers[k].setZIndex(i);
+								}
+							} else {
+								// li의 인덱스를 레이어의 인덱스로 설정
+								addedLayers[j].setZIndex(i);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}).addClass("layerSelectable").selectable({
+			filter : "li",
+			cancel : ".GitBuilder-LayerList-Item-Handle, .layerPropBtn",
+			stop : function(event, ui) {
+
+			}
+		}).find("li").addClass("ui-corner-all").prepend(
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 				"<span class='GitBuilder-LayerList-Item-Handle'><span class='glyphicon glyphicon-sort' aria-hidden='true'></span></span>");
 	}
 	// ==========================================================================================================
 	/**
+<<<<<<< HEAD
 	 * @description 레이어 삭제
 	 * @param {String}
 	 *            레이어 아이디
@@ -402,6 +479,8 @@ if (!gitbuilder.method) {
 	}
 	// ==========================================================================================================
 	/**
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	 * @description 지도와 목록에 레이어를 추가
 	 * @param {ol.layer.Base}
 	 *            createdLayer - 추가할 레이어
@@ -443,6 +522,7 @@ if (!gitbuilder.method) {
 	}
 	// ==========================================================================================================
 	/**
+<<<<<<< HEAD
 	 * @description 유일한 피처 아이디를 생성
 	 * @param {ol.layer.Vector ||
 	 *            ol.layer.Image} 피처를 생성할 레이어
@@ -492,6 +572,8 @@ if (!gitbuilder.method) {
 	}
 	// ==========================================================================================================
 	/**
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	 * @description 레이어에 부가 속성을 부여
 	 * @param {object}
 	 *            레이어에 부여될 속성
@@ -523,6 +605,7 @@ if (!gitbuilder.method) {
 			obj.layer.set("attribute", obj.attrType);
 		}
 	}
+<<<<<<< HEAD
 	// ==========================================================================================================
 	/**
 	 * @description 레이어 영역으로 확대
@@ -5052,4 +5135,882 @@ if (!gitbuilder.ui) {
 		$('#' + gitbuilder.variable.elementid.crsWindow).modal('show');
 	}
 
+=======
+}
+
+if (!gitbuilder.ui) {
+	// ==========================================================================================================
+	gitbuilder.ui = {};
+	gitbuilder.ui.button = {};
+	gitbuilder.ui.window = {};
+
+	// ==========================================================================================================
+	/**
+	 * @description 레이어 리스트를 설정
+	 * @param {ol.control[]}
+	 *            control - 컨트롤 배열
+	 */
+	gitbuilder.ui.LayerList = function setLayerList(target) {
+		var layerListId = "layerList";
+		var count = 0;
+		while (gitbuilder.method.isDuplicatedId(layerListId)) {
+			layerListId += count;
+		}
+
+		gitbuilder.variable.elementid.layerList = layerListId;
+		// div.css("overflow", "hidden");
+		var list = $('<ul id="' + layerListId + '" class=".GitBuilder-LayerList"></ul>');
+		$("#" + target).append(list);
+
+		$("#" + layerListId).sortable({
+			handle : ".GitBuilder-LayerList-Item-Handle",
+			stop : function(event, ui) {
+				// 선택한 li의 배열
+				var layerLiArr = $("#" + layerListId + " li").toArray();
+				// 배열을 뒤집는다
+				layerLiArr.reverse();
+				// 모든 레이어 획득
+				var layers = gitbuilder.method.map.getBuilderMap().getLayers();
+				// 모든 레이어를 배열로 획득
+				var addedLayers = layers.getArray();
+
+				for (var i = 0; i < layerLiArr.length; i++) {
+					// 레이어 아이디와 같은 레이어를 검색
+					for (var j = 0; j < addedLayers.length; j++) {
+						// li의 아이디가 레이어의 아이디와 같다면
+						if (addedLayers[j].get("id") === $(layerLiArr[i]).attr("layerId")) {
+							if (addedLayers[j] instanceof ol.layer.Group) {
+								addedLayers[j].setZIndex(i);
+								var layers = addedLayers[j].getLayers().getArray();
+								for (var k = 0; k < layers.length; k++) {
+									layers[k].setZIndex(i);
+								}
+							} else {
+								// li의 인덱스를 레이어의 인덱스로 설정
+								addedLayers[j].setZIndex(i);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}).addClass("layerSelectable").selectable({
+			filter : "li",
+			cancel : ".GitBuilder-LayerList-Item-Handle, .layerPropBtn",
+			stop : function(event, ui) {
+
+				// // ul 객체를 저장
+				// var p1 = $(this);
+				//
+				// // 선택한 li들의 객체배열을 획득
+				// var selected = $(".layerSelectable .ui-selected");
+				//
+				// // 모든 레이어 획득
+				// var allLayers =
+				// gitbuilder.method.getBuilderMap().getLayers().getArray();
+				//
+				// // // 모든 레이어를 비선택으로 설정
+				// // for (var i = 0; i < allLayers.length; i++) {
+				// // allLayers[i].set("selected", 0);
+				// // }
+				//
+				// // 각각의 li마다
+				// selected.each(function() {
+				// // li의 부모를 획득
+				// var p2 = $(this).parent();
+				// // 같은 부모의 자식이라면
+				// if (p1.get(0) === p2.get(0)) {
+				// // selectable에서 선택한 아이디를 가진 레이어 객체획득
+				// var selectedLayer = getLayerById($(this).attr("id"));
+				// // 선택여부를 1로 설정
+				// selectedLayer.set("selected", 1);
+				// } else {
+				// // 아니라면 메시지 출력
+				// console.log("it isn't a descendant");
+				// }
+				// });
+				// // 선택한 레이어 객체들 획득
+				// var selected = getSelectedLayers();
+				//
+				// // 선택한 레이어가 2개 이상이면
+				// if (selected.length > 1) {
+				// // 레이어 이름 배열로 초기화
+				// var layerNames = [];
+				// // 선택된 레이어들의 이름을 배열에 추가
+				// for (var i = 0; i < selected.length; i++) {
+				// layerNames.push(selected[i].get("name"));
+				// }
+				// // 레이어 이름들을 다이얼로그에 출력
+				// $("#drawTool").dialog("option", "title", "Tool - " +
+				// layerNames);
+				// // 다중레이어 선택으로 도구모음을 연다
+				// openToolBox("multiplex");
+				//
+				// $("#featureList").empty();
+				//
+				// // 선택한 레이어가 1개라면
+				// } else if (selected.length === 1) {
+				//
+				// var layer = selected[0];
+				// if (layer.get("editable") === false) {
+				// disabledTool();
+				// } else {
+				// enabledTool();
+				// }
+				//
+				// var view = gitbuilder.method.getBuilderMap().getView();
+				//
+				// if (layer instanceof ol.layer.Image) {
+				// view.fit(layer.getExtent(),
+				// gitbuilder.method.getBuilderMap().getSize());
+				// } else if (layer instanceof ol.layer.Vector) {
+				// var source = layer.getSource();
+				// var features = source.getFeatures();
+				// if (features.length > 0) {
+				// view.fit(source.getExtent(),
+				// gitbuilder.method.getBuilderMap().getSize());
+				// }
+				// } else if (layer instanceof ol.layer.Group) {
+				// var layers = layer.getLayers().getArray();
+				// for (var i = 0; i < layers.length; i++) {
+				// if (layers[i] instanceof ol.layer.Tile) {
+				// view.fit(layers[i].getExtent(),
+				// gitbuilder.method.getBuilderMap().getSize());
+				// }
+				// }
+				// }
+				// // 레이어 이름을 저장
+				// var layerNames = selected[0].get("name");
+				//
+				// // 선택한 레이어가 베이스맵이 아니라면
+				// if (selected[0].get("type") === "point" ||
+				// selected[0].get("type") === "linestring"
+				// || selected[0].get("type") === "polygon" ||
+				// selected[0].get("type") === "multipoint"
+				// || selected[0].get("type") === "multilinestring" ||
+				// selected[0].get("type") === "multipolygon") {
+				//
+				// // 레이어 이름 출력
+				// $("#drawTool").dialog("option", "title", "Tool - " +
+				// layerNames);
+				// // 레이어 타입에 따른 도구모음을 연다
+				// openToolBox(selected[0].get("type"));
+				// if (selected[0].get("cat") === 2) {
+				// openToolBox("error");
+				// }
+				// var layers = getSelectedLayers();
+				// if (layers.length === 1 && layers[0] instanceof
+				// ol.layer.Vector) {
+				// $("#featureList").empty();
+				// var features = layers[0].getSource().getFeatures();
+				// for (var i = 0; i < features.length; i++) {
+				// var str = '<li class="ui-widget-content" id="' +
+				// features[i].getId() + '" style="padding: 3px;">'
+				// + features[i].getId() + '</li>';
+				// $("#featureList").append(str);
+				// }
+				//
+				// $("#featureList").selectable({
+				// start : function(event, ui) {
+				// selectedFeatures = new ol.Collection();
+				// },
+				// selected : function(event, ui) {
+				//
+				// var id = ui.selected.id;
+				// var feature = getFeatureById(id);
+				// selectedFeatures.push(feature);
+				//
+				// },
+				// stop : function(event, ui) {
+				//
+				// var view = gitbuilder.method.getBuilderMap().getView();
+				// var source = new ol.source.Vector();
+				// source.addFeatures(selectedFeatures.getArray());
+				// view.fit(source.getExtent(),
+				// gitbuilder.method.getBuilderMap().getSize());
+				//
+				// removeMyInteraction(gitbuilder.method.getBuilderMap());
+				//
+				// if (selectedFeatures.getLength() > 0) {
+				//
+				// popFeatureDialog(selectedFeatures.getArray());
+				// $("#selectPopUp").dialog("option", "position", {
+				// my : "right top",
+				// at : "right-310px top",
+				// of : $("#map")
+				// });
+				//
+				// var selectLayers = getSelectedLayers();
+				// if (selectedFeatures.getLength() > 0 && selectLayers.length >
+				// 1) {
+				// $("#dlet").button("disable");
+				// }
+				//
+				// if (selectedFeatures.getLength() === 1) {
+				// var layers = getSelectedLayers();
+				// if (layers.length === 1) {
+				// if (layers[0].get("cat") === 2) {
+				// $("#cpy").button("disable");
+				// $("#attr").button("disable");
+				// $("#dlet").button("enable");
+				// $("#mdfy").button("enable");
+				// $("#move").button("enable");
+				// } else {
+				// $("#cpy").button("enable");
+				// $("#attr").button("enable");
+				// $("#dlet").button("enable");
+				// $("#mdfy").button("enable");
+				// $("#move").button("enable");
+				// }
+				// }
+				//
+				// var feature = selectedFeatures.item(0);
+				// var str = getSimpleProperties(feature);
+				// $("#viewAttr").empty();
+				// $("#viewAttr").append(str);
+				//
+				// var keys = feature.getKeys();
+				// var features1 = selected[0].getSource().getFeatures();
+				// var keys = features1[0].getKeys();
+				// var flag = true;
+				// if (selectLayers.length === 1) {
+				// if (selectLayers[0].get("cat") === 2) {
+				// flag = false;
+				// }
+				// } else {
+				//
+				// }
+				// if (flag) {
+				//
+				// var featureId = feature.getId();
+				// var layerId = featureId.substring(0, featureId.indexOf("."));
+				// // console.log(layerId);
+				// layerId = layerId.trim();
+				// var layer = getLayerById(layerId);
+				// var layers = [ layer ];
+				// var collFeatures = new ol.Collection();
+				// var theFeature = getFeatureById2(layerId, featureId);
+				// collFeatures.push(theFeature);
+				// updateSelectInteraction2(layers, collFeatures,
+				// gitbuilder.method.getBuilderMap());
+				//
+				// $("#deleteConfirmFeature").dialog({
+				// autoOpen : false,
+				// modal : true,
+				// buttons : {
+				// "확인" : function() {
+				// removeSelectedFeature(layer, collFeatures);
+				// $(this).dialog("close");
+				// },
+				// "취소" : function() {
+				// $(this).dialog("close");
+				// }
+				// }
+				// });
+				//
+				// } else if (!flag) {
+				// var featureId = feature.get("errfeatureID");
+				// // var
+				// // featureId
+				// // =
+				// // "layer1.1";
+				// var layerId = featureId.substring(0, featureId.indexOf("."));
+				// // console.log(layerId);
+				// layerId = layerId.trim();
+				// var layer = getLayerById(layerId);
+				// var layers = [ layer ];
+				// var collFeatures = new ol.Collection();
+				// var theFeature = getFeatureById2(layerId, featureId);
+				// collFeatures.push(theFeature);
+				// // updateSelectInteraction2(null,
+				// // null,
+				// // map);
+				// updateSelectInteraction2(layers, collFeatures,
+				// gitbuilder.method.getBuilderMap());
+				//
+				// $("#deleteConfirmFeature").dialog({
+				// autoOpen : false,
+				// modal : true,
+				// buttons : {
+				// "확인" : function() {
+				// removeSelectedFeature(layer, collFeatures);
+				// $(this).dialog("close");
+				// },
+				// "취소" : function() {
+				// $(this).dialog("close");
+				// }
+				// }
+				// });
+				//
+				// }
+				//
+				// } else if (selectedFeatures.getLength() > 1) {
+				//
+				// // //////////////////////////////
+				// var flag = true;
+				// if (selectLayers.length === 1) {
+				// if (selectLayers[0].get("cat") === 2) {
+				// flag = false;
+				// }
+				// } else {
+				//
+				// }
+				// if (flag) {
+				//
+				// var collFeatures = new ol.Collection();
+				// var layers;
+				//
+				// for (var i = 0; i < selectedFeatures.getLength(); i++) {
+				// var featureId = selectedFeatures.item(i).getId();
+				// var layerId = featureId.substring(0, featureId.indexOf("."));
+				// // console.log(layerId);
+				// layerId = layerId.trim();
+				// var layer = getLayerById(layerId);
+				// layers = [ layer ];
+				// var theFeature = getFeatureById2(layerId, featureId);
+				// collFeatures.push(theFeature);
+				// }
+				//
+				// updateSelectInteraction2(layers, collFeatures,
+				// gitbuilder.method.getBuilderMap());
+				//
+				// $("#deleteConfirmFeature").dialog({
+				// autoOpen : false,
+				// modal : true,
+				// buttons : {
+				// "확인" : function() {
+				// removeSelectedFeature(layer, collFeatures);
+				// $(this).dialog("close");
+				// },
+				// "취소" : function() {
+				// $(this).dialog("close");
+				// }
+				// }
+				// });
+				//
+				// } else if (!flag) {
+				//
+				// var collFeatures = new ol.Collection();
+				// var layers;
+				//
+				// for (var i = 0; i < selectedFeatures.getLength(); i++) {
+				// var featureId = selectedFeatures.item(i).get("errfeatureID");
+				// var layerId = featureId.substring(0, featureId.indexOf("."));
+				// // console.log(layerId);
+				// layerId = layerId.trim();
+				// var layer = getLayerById(layerId);
+				// layers = [ layer ];
+				// var theFeature = getFeatureById2(layerId, featureId);
+				// collFeatures.push(theFeature);
+				// }
+				//
+				// updateSelectInteraction2(layers, collFeatures,
+				// gitbuilder.method.getBuilderMap());
+				//
+				// $("#deleteConfirmFeature").dialog({
+				// autoOpen : false,
+				// modal : true,
+				// buttons : {
+				// "확인" : function() {
+				// removeSelectedFeature(layer, collFeatures);
+				// $(this).dialog("close");
+				// },
+				// "취소" : function() {
+				// $(this).dialog("close");
+				// }
+				// }
+				// });
+				//
+				// }
+				//
+				// // /////////////////////////////
+				//
+				// var layers = getSelectedLayers();
+				// if (layers.length === 1) {
+				// if (layers[0].get("cat") === 2) {
+				// $("#cpy").button("disable");
+				// $("#attr").button("disable");
+				// $("#dlet").button("disable");
+				// $("#mdfy").button("disable");
+				// $("#move").button("disable");
+				// } else {
+				// $("#cpy").button("enable");
+				// $("#attr").button("disable");
+				// $("#dlet").button("enable");
+				// $("#mdfy").button("enable");
+				// $("#move").button("enable");
+				// }
+				// }
+				// }
+				//
+				// $("#selectPopUp").dialog("open");
+				// }
+				// }
+				// });
+				//
+				// }
+				// } else {
+				// $("#drawTool").dialog("close");
+				// }
+				//
+				// } else {
+				// // 도구모음창을 닫는다
+				// $("#drawTool").dialog("close");
+				// }
+				// // 편집도구모음창을 닫는다
+				// $("#selectPopUp").dialog("close");
+				// // 인터랙션을 삭제한다
+				// removeMyInteraction(gitbuilder.method.getBuilderMap());
+			}
+		}).find("li").addClass("ui-corner-all").prepend(
+				"<span class='GitBuilder-LayerList-Item-Handle'><span class='glyphicon glyphicon-sort' aria-hidden='true'></span></span>");
+	}
+	// ==========================================================================================================
+	/**
+	 * @description 새로운 SHP 레이어를 생성
+	 */
+	gitbuilder.ui.NewSHPWindow = function NewSHPWindow() {
+
+		if (!gitbuilder.variable.elementid.shpWindow) {
+			var shpLayerWindowId = "shpWindow";
+			var count = 0;
+			while (gitbuilder.method.isDuplicatedId(shpLayerWindowId)) {
+				shpLayerWindowId += count;
+			}
+			gitbuilder.variable.elementid.shpWindow = shpLayerWindowId;
+
+			var upload1 = "shpfile";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(upload1)) {
+				upload1 += count;
+			}
+			gitbuilder.variable.elementid.shpInput = upload1;
+
+			var upload2 = "shxfile";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(upload2)) {
+				upload2 += count;
+			}
+			gitbuilder.variable.elementid.shxInput = upload2;
+
+			var upload3 = "dbffile";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(upload3)) {
+				upload3 += count;
+			}
+			gitbuilder.variable.elementid.dbfInput = upload3;
+
+			var shpWin = "<div class='modal fade' id='" + shpLayerWindowId + "' tabindex='-1' role='dialog'>";
+			shpWin += '<div class="modal-dialog">';
+			shpWin += '<div class="modal-content">';
+			shpWin += '<div class="modal-header">';
+			shpWin += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			shpWin += '<h4 class="modal-title">SHP Upload</h4>';
+			shpWin += '</div>';
+			shpWin += '<div class="modal-body">';
+
+			shpWin += '<div class="form-group">';
+
+			shpWin += '<label for="exampleInputFile1">SHP File Upload</label>';
+			shpWin += '<input type="file" id="' + upload1 + '">';
+			shpWin += '<p class="help-block">Upload your SHP file</p>';
+
+			shpWin += '<label for="exampleInputFile2">SHX File Upload</label>';
+			shpWin += '<input type="file" id="' + upload2 + '">';
+			shpWin += '<p class="help-block">Upload your SHX file</p>';
+
+			shpWin += '<label for="exampleInputFile3">DBF File Upload</label>';
+			shpWin += '<input type="file" id="' + upload3 + '">';
+			shpWin += '<p class="help-block">Upload your DBF file</p>';
+
+			shpWin += '</div>';
+
+			shpWin += '</div>';
+			shpWin += '<div class="modal-footer">';
+			shpWin += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+			shpWin += '<button type="button" class="btn btn-primary">Upload</button>';
+			shpWin += '</div>';
+			shpWin += '</div>';
+			shpWin += '</div>';
+			shpWin += '</div>';
+
+			$("body").append(shpWin);
+		}
+
+		$('#' + gitbuilder.variable.elementid.shpWindow).modal('show');
+	}
+	// ==========================================================================================================
+	/**
+	 * @description 새로운 벡터 레이어를 생성
+	 */
+	gitbuilder.ui.NewVectorWindow = function NewVectorWindow() {
+		if (!gitbuilder.variable.elementid.vectorWindow) {
+			var vectorLayerWindowId = "vectorWindow";
+			var count = 0;
+			while (gitbuilder.method.isDuplicatedId(vectorLayerWindowId)) {
+				vectorLayerWindowId += count;
+			}
+			gitbuilder.variable.elementid.vectorWindow = vectorLayerWindowId;
+
+			var pointId = "ptType";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(pointId)) {
+				pointId += count;
+			}
+			gitbuilder.variable.elementid.pointInput = pointId;
+
+			var lineId = "lsType";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(lineId)) {
+				lineId += count;
+			}
+			gitbuilder.variable.elementid.lineInput = lineId;
+
+			var polygonId = "pgType";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(polygonId)) {
+				polygonId += count;
+			}
+			gitbuilder.variable.elementid.polyInput = polygonId;
+
+			var layerType = "lType";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedName(layerType)) {
+				layerType += count;
+			}
+			gitbuilder.variable.elementid.layerType = layerType;
+
+			var layerNameId = "layerName";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(layerNameId)) {
+				layerNameId += count;
+			}
+			gitbuilder.variable.elementid.layerName = layerNameId;
+
+			var vector = "<div class='modal fade' id='" + vectorLayerWindowId + "' tabindex='-1' role='dialog'>";
+			vector += '<div class="modal-dialog">';
+			vector += '<div class="modal-content">';
+			vector += '<div class="modal-header">';
+			vector += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			vector += '<h4 class="modal-title">Vector</h4>';
+			vector += '</div>';
+			vector += '<div class="modal-body">';
+
+			vector += '<form class="form-horizontal">';
+
+			vector += '<div class="form-group">';
+
+			vector += '<label class="col-md-2 control-label">Type</label>';
+
+			vector += '<div class="col-md-3">';
+			vector += '<label class="radio-inline">';
+			vector += '<input type="radio" name="' + layerType + '" id="' + pointId + '" value="point"> Point';
+			vector += '</label>';
+			vector += '</div>';
+			vector += '<div class="col-md-3">';
+			vector += '<label class="radio-inline">';
+			vector += '<input type="radio" name="' + layerType + '" id="' + lineId + '" value="linestring"> LineString';
+			vector += '</label>';
+			vector += '</div>';
+			vector += '<div class="col-md-3">';
+			vector += '<label class="radio-inline">';
+			vector += '<input type="radio" name="' + layerType + '" id="' + polygonId + '" value="polygon"> Polygon';
+			vector += '</label>';
+			vector += '</div>';
+			vector += '<div class="col-md-1">';
+			vector += '</div>';
+			vector += '</div>';
+
+			vector += '<div class="form-group">';
+			vector += '<label for="' + layerNameId + '" class="col-md-2 control-label">Name</label>';
+			vector += '<div class="col-md-9">';
+			vector += '<input type="text" class="form-control" placeholder="Layer name" id="' + layerNameId + '">';
+			vector += '</div>';
+			vector += '</div>';
+
+			vector += '<div class="form-group">';
+			vector += '<label class="col-md-2 control-label">Stroke</label>';
+			vector += '<div class="col-md-2">';
+			vector += '<input type="text"	id="strk" />';
+			vector += '</div>';
+			vector += '<label class="col-md-2 control-label">Width</label>';
+			vector += '<div class="col-md-2">';
+			vector += '<input type="number" min="0" class="form-control"	id="width" />';
+			vector += '</div>';
+			vector += '</div>';
+			
+			vector += '<div class="form-group">';
+			vector += '<label class="col-md-2 control-label">Fill</label>';
+			vector += '<div class="col-md-2">';
+			vector += '<input type="text"	id="fll" />';
+			vector += '</div>';
+			vector += '<label class="col-md-2 control-label">Radius</label>';
+			vector += '<div class="col-md-2">';
+			vector += '<input type="number" min="0" class="form-control"	id="radius" />';
+			vector += '</div>';
+			vector += '</div>';
+
+			vector += '</form>';
+
+			vector += '</div>';
+			vector += '<div class="modal-footer">';
+			vector += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+			vector += '<button type="button" class="btn btn-primary">Create</button>';
+			vector += '</div>';
+			vector += '</div>';
+			vector += '</div>';
+			vector += '</div>';
+
+			$("body").append(vector);
+
+			$("#strk")
+					.spectrum(
+							{
+								showAlpha : true,
+								showInput : true,
+								preferredFormat : "rgb",
+								showPalette : true,
+								palette : [
+										[ "rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)", "rgb(183, 183, 183)",
+												"rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)",
+												"rgb(255, 255, 255)" ],
+										[ "rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+												"rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)" ],
+										[ "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)",
+												"rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)",
+												"rgb(217, 210, 233)", "rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)",
+												"rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)",
+												"rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+												"rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)",
+												"rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)",
+												"rgb(142, 124, 195)", "rgb(194, 123, 160)", "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)",
+												"rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)",
+												"rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)", "rgb(133, 32, 12)", "rgb(153, 0, 0)",
+												"rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)", "rgb(19, 79, 92)", "rgb(17, 85, 204)",
+												"rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)", "rgb(91, 15, 0)", "rgb(102, 0, 0)",
+												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
+												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
+							});
+
+			$("#fll")
+					.spectrum(
+							{
+								showAlpha : true,
+								showInput : true,
+								preferredFormat : "rgb",
+								showPalette : true,
+								palette : [
+										[ "rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)", "rgb(183, 183, 183)",
+												"rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)",
+												"rgb(255, 255, 255)" ],
+										[ "rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+												"rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)" ],
+										[ "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)",
+												"rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)",
+												"rgb(217, 210, 233)", "rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)",
+												"rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)",
+												"rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+												"rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)",
+												"rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)",
+												"rgb(142, 124, 195)", "rgb(194, 123, 160)", "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)",
+												"rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)",
+												"rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)", "rgb(133, 32, 12)", "rgb(153, 0, 0)",
+												"rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)", "rgb(19, 79, 92)", "rgb(17, 85, 204)",
+												"rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)", "rgb(91, 15, 0)", "rgb(102, 0, 0)",
+												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
+												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
+							});
+		}
+
+		$('#' + gitbuilder.variable.elementid.vectorWindow).modal('show');
+	}
+	// ==========================================================================================================
+	// ==========================================================================================================
+	// ==========================================================================================================
+	// ==========================================================================================================
+	// ==========================================================================================================
+	// ==========================================================================================================
+	// ==========================================================================================================
+	/*코딩시작*/
+
+	/**
+	 * @description 검수, 일반화 페이지 이동
+	 */
+	gitbuilder.ui.showQAPage = function showQAPage(){
+	    var params = {
+		};
+		getToUrl(CONTEXT + "/temp.do", params, "_self");
+	}
+	
+	gitbuilder.ui.showGenPage = function showGenPage(){
+	    var params = {
+		};
+		getToUrl(CONTEXT + "/generalization/generalization.do", params, "_self");
+	}
+	
+	/**
+	 * @description GeoServer 추가
+	 */
+	gitbuilder.ui.NewAddGeoserverWindow = function NewAddGeoserverWindow(){
+	    if (!gitbuilder.variable.elementid.geoserverWindow) {
+		var geoserverWindowId = "geoserverWindow";
+		var addServerDialogId = "addServerDialog";
+		gitbuilder.variable.elementid.geoserverWindow = geoserverWindowId;
+		
+		var geoserver = "<div class='modal fade' id='" + geoserverWindowId + "' tabindex='-1' role='dialog'>";
+		geoserver += '<div class="modal-dialog">';
+		geoserver += '<div class="modal-content">';
+		geoserver += '<div class="modal-header">';
+		geoserver += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		geoserver += '<h4 class="modal-title">지오서버 관리</h4>';
+		geoserver += '</div>';
+		geoserver += '<div class="modal-body">';
+		geoserver += '<button type="button" style="margin: 5px 0px 5px 0px;" class="btn btn-primary btn-lg btn-block" data-toggle="modal" href="#'+addServerDialogId+'"">서버추가</button>';
+		geoserver += '<div class="tbList">';
+		geoserver += '<table class="table table-hover table-bordered">';
+		geoserver += '<thead>';
+		geoserver += '<tr>';
+		geoserver += '<th><strong>선택</strong></th>';
+		geoserver += '<th><strong>서버명</strong></th>';
+		geoserver += '<th><strong>상세정보</strong></th>';
+		geoserver += '</tr>';
+		geoserver += '</thead>';
+		geoserver += '<tbody id="addGeoTableBody">';
+		geoserver += '</tbody>';
+		geoserver += '</table>';
+		geoserver += '</div>';
+		geoserver += '</div>';
+		geoserver += '<div class="modal-footer">';
+		geoserver += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+		geoserver += '<button type="button" class="btn btn-primary">Create</button>';
+		geoserver += '</div>';
+		geoserver += '</div>';
+		geoserver += '</div>';
+		geoserver += '</div>';
+
+		$("body").append(geoserver);
+		
+		var serverDiaContent = "<div class='modal fade' id='"+addServerDialogId+"' tabindex='-1' data-focus-on='input:first' role='dialog'>";
+		serverDiaContent += '<div class="modal-dialog">';
+		serverDiaContent += '<div class="modal-content">';
+		serverDiaContent += '<div class="modal-header">';
+		serverDiaContent += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		serverDiaContent += '<h4 class="modal-title">서버추가</h4>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="modal-body form-horizontal">';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">서버명</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="text" class="form-control" id="serverName" placeholder="서버명">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">URL</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="text" class="form-control" id="serverURL" placeholder="URL">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">아이디</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="text" class="form-control" id="serverID" placeholder="아이디">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">비밀번호</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="password" class="form-control" id="serverPW" placeholder="비밀번호">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="modal-footer">';
+		serverDiaContent += '<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>';
+		serverDiaContent += '<button type="button" class="btn btn-primary">추가</button>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		
+		$("body").append(serverDiaContent);
+		
+	    }
+	    $('#' + gitbuilder.variable.elementid.geoserverWindow).modal('show');
+	}
+	
+	gitbuilder.ui.AddServerDialog = function AddServerDialog(){
+	  /*  var title = "서버추가";
+	    var dialogContent = "test";
+	    var dlg = new BootstrapDialog({
+	        title: title,
+	        message: dialogContent,
+	        draggable: true,
+	        onshown: function(dialog) {
+	            var tier = $('.bootstrap-dialog').length - 1;
+	            dialog.$modal.prev(".modal-backdrop")
+	                .css("z-index", 1030 + tier * 30);
+	            dialog.$modal
+	                .css("z-index", 1040 + tier * 30);
+	        },
+	        buttons: [{
+	            label: 'OK',
+	            cssClass: 'btn-primary',
+	            action: function (dialog) {
+	                if (callback !== "") { callback(); }
+	                dialog.close();
+	            }
+	        },{
+	            label: 'Close',
+	            cssClass: 'btn',
+	            action: function (dialog) {
+	                dialog.close();
+	            }
+	        }]
+	    }).open();*/
+	    /*if (!gitbuilder.variable.elementid.addServerDialog) {
+		var addServerDialogId = "addServerDialog";
+		gitbuilder.variable.elementid.addServerDialog = addServerDialogId;
+		
+		var serverDiaContent = "<div class='modal fade' id='" + addServerDialogId + "' tabindex='-1' role='dialog'>";
+		serverDiaContent += '<div class="modal-dialog ">';
+		serverDiaContent += '<div class="modal-content">';
+		serverDiaContent += '<div class="modal-header">';
+		serverDiaContent += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		serverDiaContent += '<h4 class="modal-title">서버추가</h4>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="modal-body form-horizontal">';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">서버명</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="text" class="form-control" id="serverName" placeholder="서버명">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">URL</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="text" class="form-control" id="serverURL" placeholder="URL">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">아이디</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="text" class="form-control" id="serverID" placeholder="아이디">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="form-group">';
+		serverDiaContent += '<label class="col-sm-2 control-label">비밀번호</label>';
+		serverDiaContent += '<div class="col-sm-10">';
+		serverDiaContent += '<input type="text" class="form-control" id="serverPW" placeholder="비밀번호">';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '<div class="modal-footer">';
+		serverDiaContent += '<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>';
+		serverDiaContent += '<button type="button" class="btn btn-primary">추가</button>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		serverDiaContent += '</div>';
+		
+		$("body").append(serverDiaContent);
+	    }*/
+	}
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }

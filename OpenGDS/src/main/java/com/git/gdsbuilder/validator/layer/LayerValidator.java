@@ -1,6 +1,7 @@
 package com.git.gdsbuilder.validator.layer;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.concurrent.ExecutionException;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -8,10 +9,15 @@ import org.geotools.feature.SchemaException;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.operation.TransformException;
+=======
+
+import org.geotools.feature.SchemaException;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 import com.git.gdsbuilder.type.layer.ErrorLayer;
 import com.git.gdsbuilder.type.layer.ValidatorLayer;
 
+<<<<<<< HEAD
 /**
  * 다중 레이어의 검수를 수행한다.
  * 
@@ -33,5 +39,10 @@ public interface LayerValidator {
 	 * @throws Exception
 	 */
 	public ErrorLayer validateLayers(List<ValidatorLayer> qaLayers, SimpleFeatureCollection aop) throws Exception;
+=======
+public interface LayerValidator {
+
+	public ErrorLayer validateLayers(List<ValidatorLayer> qaLayers) throws SchemaException;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 }

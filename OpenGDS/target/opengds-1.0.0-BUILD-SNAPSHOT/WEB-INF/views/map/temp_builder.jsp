@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@ page contentType="text/html; charset=UTF-8"%>
 <jsp:include page="/WEB-INF/views/common/common.jsp" />
 <html>
@@ -41,11 +42,111 @@
 				</div>
 			</div>
 
+=======
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html>
+<head>
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery/jquery-2.2.2.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/resources/js/ol3/ol-debug.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/ol3/ol.css">
+
+<script src="${pageContext.request.contextPath}/resources/js/jqueryui/jquery-ui.min.js"></script>
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/jqueryui/jquery-ui.min.css"> --%>
+
+<script src="${pageContext.request.contextPath}/resources/js/spectrum/spectrum.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/spectrum/spectrum.css">
+
+<script src="${pageContext.request.contextPath}/resources/js/gitbuilder/gitbuilder_2.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/gitbuilder/gitbuilder_2.css">
+
+<%-- <script src="${pageContext.request.contextPath}/resources/js/gserver/gserver.js"></script> --%>
+
+<%-- 부트스트랩 --%>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/bootstrap/css/bootstrap.min.css">
+
+<style>
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+	em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+	b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+	table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+	details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+	output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup,
+	menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+</style>
+
+<title>Builder test</title>
+</head>
+<body>
+	<div id="builderInfo" style="width: 100%; height: 3%; background-color: #e3e3e3;"></div>
+	<div id="builderHeader" style="width: 100%; height: 5%; background-color: #e9e9e9">
+
+		<div class="col-md-8" role="toolbar" aria-label="...">
+			<button class="btn btn-default" onclick="gitbuilder.ui.NewSHPWindow()">SHP</button>
+			<button class="btn btn-default" onclick="gitbuilder.ui.NewVectorWindow()">Vector</button>
+			<button class="btn btn-default">GeoServer</button>
+			<button class="btn btn-default">Editing</button>
+			<button class="btn btn-default">Validation</button>
+			<button class="btn btn-default">Add GeoServer</button>
+			<button class="btn btn-default">Error Report</button>
+			<button class="btn btn-default">Save</button>
+		</div>
+
+		<div class="col-md-4" role="toolbar" aria-label="...">
+			<div class="col-md-10">
+				<input class="form-control" type="text">
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-default">Search</button>
+			</div>
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		</div>
 
 	</div>
 
 	<div>
+<<<<<<< HEAD
 		<div id="builderLayer" style="float: left; width: 13%; height: 88%; background-color: #f8f8f8;"></div>
 		<div id="builderMap" style="float: left; width: 87%; height: 88%; background-color: #e9e9e9;"></div>
 		<form action="javascript:gitbuilder.command.CheckCommand()">
@@ -63,6 +164,12 @@
 		</div>
 	</div>
 	
+=======
+		<div id="builderLayer" style="float: left; width: 13%; height: 92%; background-color: #f1f1f1;"></div>
+		<div id="builderMap" style="float: left; width: 87%; height: 92%; background-color: #cccccc;"></div>
+	</div>
+
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	<script type="text/javascript">
 		var mapMethod = gitbuilder.method.map;
 		var ui = gitbuilder.ui;
@@ -70,7 +177,11 @@
 			center : ol.proj.transform([ 71.433333, 51.166667 ], 'EPSG:4326', 'EPSG:3857'),
 			zoom : 4,
 			minZoom : 2,
+<<<<<<< HEAD
 			maxZoom : 20,
+=======
+			maxZoom : 19,
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			projection : 'EPSG:3857'
 		}));
 
@@ -95,6 +206,27 @@
 
 		ui.LayerList("builderLayer");
 
+<<<<<<< HEAD
+=======
+		var osm = new ol.layer.Tile({
+			source : new ol.source.OSM()
+		});
+
+		var obj1 = {
+			layer : osm,
+			name : "osm_",
+			id : gitbuilder.method.layer.createLayerId(),
+			type : "tile",
+			cat : 1,
+			edit : false,
+			attrType : null
+		};
+
+		gitbuilder.method.layer.setLayerProperties(obj1);
+
+		gitbuilder.method.layer.addLayerOnList(osm);
+
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		var bing = new ol.layer.Tile({
 			preload : Infinity,
 			source : new ol.source.BingMaps({
@@ -118,6 +250,7 @@
 
 		gitbuilder.method.layer.setLayerProperties(obj2);
 
+<<<<<<< HEAD
 		gitbuilder.method.layer.addLayerOnList(bing);
 
 		var osm = new ol.layer.Tile({
@@ -207,6 +340,11 @@
 				}
 			});
 		};
+=======
+		gitbuilder.method.layer.addLayerOnList(bing)
+
+		gitbuilder.method.layer.updateLayerList();
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	</script>
 
 </body>

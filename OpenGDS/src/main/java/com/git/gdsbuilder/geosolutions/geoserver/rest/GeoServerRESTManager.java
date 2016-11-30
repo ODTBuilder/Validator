@@ -31,7 +31,10 @@ import com.git.gdsbuilder.geosolutions.geoserver.rest.manager.GeoServerRESTAbstr
 import com.git.gdsbuilder.geosolutions.geoserver.rest.manager.GeoServerRESTStoreManager;
 import com.git.gdsbuilder.geosolutions.geoserver.rest.manager.GeoServerRESTStructuredGridCoverageReaderManager;
 import com.git.gdsbuilder.geosolutions.geoserver.rest.manager.GeoServerRESTStyleManager;
+<<<<<<< HEAD
 import com.git.gdsbuilder.type.validatorOption.EntityDuplicated;
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 /**
  * <i>The</i> single entry point to all of geoserver-manager functionality.
@@ -77,7 +80,10 @@ public class GeoServerRESTManager extends GeoServerRESTAbstractManager {
         structuredGridCoverageReader = new GeoServerRESTStructuredGridCoverageReaderManager(restURL, username, password);
         storeManager = new GeoServerRESTStoreManager(restURL, gsuser, gspass);
         styleManager = new GeoServerRESTStyleManager(restURL, gsuser, gspass);
+<<<<<<< HEAD
         
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
     }
 
     public GeoServerRESTPublisher getPublisher() {

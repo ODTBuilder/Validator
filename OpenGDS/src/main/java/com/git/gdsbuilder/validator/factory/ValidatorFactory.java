@@ -1,6 +1,7 @@
 package com.git.gdsbuilder.validator.factory;
 
 import java.util.Map;
+<<<<<<< HEAD
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.SchemaException;
@@ -9,6 +10,13 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.operation.TransformException;
+=======
+import java.util.Vector;
+
+import org.geotools.feature.SchemaException;
+import org.json.simple.JSONArray;
+import org.opengis.feature.simple.SimpleFeature;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 public interface ValidatorFactory {
 	/**
@@ -78,7 +86,41 @@ public interface ValidatorFactory {
 	 * @return Vector<SimpleFeature>
 	 * @throws SchemaException
 	 */
+<<<<<<< HEAD
 	Map<String, Object> selfEntity(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException;
+=======
+	Vector<SimpleFeature> selfEntity4Line(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException;
+
+	/**
+	 * 검수 종류 중 Polygon 또는 MultiPolygon 타입 SimpleFeature의 “단독 존재 오류 (Self
+	 * Entity)” 검수 결과를 반환한다.
+	 * 
+	 * @author dayeon.oh
+	 * @data 2016.02
+	 * @param simpleFeatureI
+	 *            검수를 수행할 SimpleFeature
+	 * @param simpleFeatureJ
+	 *            검수를 수행할 SimpleFeature
+	 * @return Vector<SimpleFeature>
+	 * @throws SchemaException
+	 */
+	Vector<SimpleFeature> selfEntity4Polygon(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException;
+
+	/**
+	 * 검수 종류 중 Point 또는 MultiPoint 타입 SimpleFeature의 “단독 존재 오류 (Self Entity)” 검수
+	 * 결과를 반환한다.
+	 * 
+	 * @author dayeon.oh
+	 * @data 2016.02
+	 * @param simpleFeatureI
+	 *            검수를 수행할 SimpleFeature
+	 * @param simpleFeatureJ
+	 *            검수를 수행할 SimpleFeature
+	 * @return Vector<SimpleFeature>
+	 * @throws SchemaException
+	 */
+	Vector<SimpleFeature> selfEntity4Point(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 	/**
 	 * 검수 종류 중 LineString 또는 MultiLineString 타입 SimpleFeature의 “등고선 교차 오류(Con
@@ -121,7 +163,11 @@ public interface ValidatorFactory {
 	 * @return Vector<SimpleFeature>
 	 * @throws SchemaException
 	 */
+<<<<<<< HEAD
 	Map<String, Object> conBreak(SimpleFeature simpleFeature, SimpleFeatureCollection aop) throws SchemaException;
+=======
+	Map<String, Object> conBreak(SimpleFeature simpleFeature) throws SchemaException;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 	/**
 	 * 검수 종류 중 “필수 속성 오류(Attribute Fix)” 검수 결과를 반환한다.
@@ -135,6 +181,7 @@ public interface ValidatorFactory {
 	 * @return Vector<SimpleFeature>
 	 * @throws SchemaException
 	 */
+<<<<<<< HEAD
 	Map<String, Object> attributeFix(SimpleFeature simpleFeature, JSONArray notNullAtt) throws SchemaException;
 
 	Map<String, Object> selfEntityMTL(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException;
@@ -144,5 +191,8 @@ public interface ValidatorFactory {
 	Map<String, Object> outBoundary(SimpleFeature simpleFeatureI, SimpleFeature simpleFeatureJ) throws SchemaException;
 
 	Map<String, Object> uselessPoint(SimpleFeature simpleFeature) throws SchemaException, NoSuchAuthorityCodeException, FactoryException, TransformException ;
+=======
+	Map<String, Object> attributeFix(SimpleFeature simpleFeature, JSONArray attributes) throws SchemaException;
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 }

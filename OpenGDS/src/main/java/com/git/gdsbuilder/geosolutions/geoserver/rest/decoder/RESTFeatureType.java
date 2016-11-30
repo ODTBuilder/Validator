@@ -32,7 +32,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.jdom.Element;
+<<<<<<< HEAD
 import org.json.simple.JSONObject;
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 import com.git.gdsbuilder.geosolutions.geoserver.rest.decoder.utils.JDOMBuilder;
 import com.git.gdsbuilder.geosolutions.geoserver.rest.decoder.utils.JDOMListIterator;
@@ -298,6 +301,7 @@ public class RESTFeatureType extends RESTResource {
         }
         return attrsList;
     }
+<<<<<<< HEAD
     
     /**
 	 *
@@ -361,4 +365,6 @@ public class RESTFeatureType extends RESTResource {
 	public String getSRS() {
 	    	return rootElem.getChildText("srs");
 	}
+=======
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }

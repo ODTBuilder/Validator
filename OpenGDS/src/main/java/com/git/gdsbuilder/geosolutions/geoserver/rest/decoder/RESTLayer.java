@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
   *  GeoServer-Manager - Simple Manager Library for GeoServer
+=======
+ *  GeoServer-Manager - Simple Manager Library for GeoServer
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
  *  
  *  Copyright (C) 2007,2011 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
@@ -251,7 +255,11 @@ public class RESTLayer {
 		List<GSIdentifierInfoEncoder> idList = null;
 
 		final Element idRoot = layerElem.getChild("identifiers");
+<<<<<<< HEAD
 		if (idRoot != null) { 
+=======
+		if (idRoot != null) {
+>>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			final List<Element> identifiers = idRoot.getChildren();
 			if (identifiers != null) {
 				idList = new ArrayList<GSIdentifierInfoEncoder>(
