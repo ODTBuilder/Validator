@@ -1,0 +1,20 @@
+.hoicon {
+	opacity: 0.9;
+}
+
+.hoicon:hover {
+	opacity: 0.6;
+	cursor: pointer;
+}
+
+.rotationing {
+	opacity: 0.6;
+}
+
+#autocomplete {
+	position: absolute;
+    padding: 5px;
+    bottom: 0;
+    width: 100%;
+    display: none;
+}
