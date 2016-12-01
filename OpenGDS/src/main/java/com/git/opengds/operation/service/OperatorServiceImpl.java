@@ -53,7 +53,7 @@ public class OperatorServiceImpl implements OperatorService {
 			object.put(operationOption, layer);
 		}
 		
-		Layer layer1 = (Layer) object.get("operandLayerA");
+		Layer layer1 = (Layer) object.get("operandLayerA"); // 연산할 레이어
 		Layer layer2 = (Layer) object.get("operandLayerB");
 		
 		SimpleFeatureCollection simpleFeatureCollection1 = (SimpleFeatureCollection) layer1.getSimpleFeatureCollection();
