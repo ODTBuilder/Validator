@@ -21,7 +21,7 @@ public class OperatorServiceImpl implements OperatorService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject autoOperation(JSONObject featureJSON) throws SchemaException {
-		System.out.println("연산전 : " + featureJSON.toString());
+		System.out.println("연산전 : " + featureJSON.toString()); //
 		System.out.println();
 		
 		DataConvertor convertor = new DataConvertor();
