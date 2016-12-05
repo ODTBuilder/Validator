@@ -23,27 +23,7 @@ public class ValidatorController {
 	public JSONObject geoserverAddLoadAjax(HttpServletRequest request,
 			@RequestBody String geo) throws Exception {
 
-		System.out
-				.println("들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당들어왔당");
-//		// for (int j = 0; j < 100000; j++) {
-//		// System.out.println(j);
-//		// }
-//
-//		try {
-//			Thread.sleep(20000);
-//		} catch (Exception e) {
-//		}
-
-		// }
-		// try {
 	
-		return validatorService.autoValidation(geo);
-		// } catch (Exception e) {
-		// System.out.println("터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐터짐");
-		// Thread.sleep(20000);
-		// return null;
-		// }
-
-		// return null;
+	return validatorService.autoValidation(geo);
 	}
 }
