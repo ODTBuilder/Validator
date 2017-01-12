@@ -17,6 +17,12 @@ OpenGeoDT 팀
 
 연구 책임 : 국토연구원 <link>http://www.krihs.re.kr/
 
+
+동작환경
+----
+1. Java - OpenJDK 1.8.0.111 64bit
+2. Tomcat - Tomcat7.0.72 64bit
+
 사용 라이브러리
 =====
 
@@ -30,6 +36,7 @@ OpenGeoDT 팀
 8. Openlayers3 3.13.0 (FreeBSD) www.openlayers.org
 9. Spectrum 1.8.0 (MIT) http://numeraljs.com/
 10. Bootstrap v3.3.2 (MIT) http://getbootstrap.com
+11. JSTS (EPL) http://bjornharrtell.github.io/jsts/
 
 OpenGDS / Validator (Geospatial Information Validator)
 =======
@@ -61,6 +68,7 @@ Libraries
 8. Openlayers3 3.13.0 (FreeBSD) www.openlayers.org
 9. Spectrum 1.8.0 (MIT) http://numeraljs.com/
 10. Bootstrap v3.3.2 (MIT) http://getbootstrap.com
+11. JSTS (EPL) http://bjornharrtell.github.io/jsts/
 
 Mail
 ====
