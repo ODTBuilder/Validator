@@ -100,15 +100,8 @@
 <body>
 	<div style="width: 100%; height: 10%; background-color: #e3e3e3;">header</div>
 	<div>
-<<<<<<< HEAD
 		<div style="float: left; width: 15%; height: 90%; background-color: #cccccc;">layer</div>
 		<div style="float: left; width: 85%; height: 90%; background-color: #f1f1f1;">map</div>
-=======
-		<div
-			style="float: left; width: 15%; height: 90%; background-color: #cccccc;">layer</div>
-		<div
-			style="float: left; width: 85%; height: 90%; background-color: #f1f1f1;">map</div>
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	</div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.git.opengds.generalization.controller;
 
-<<<<<<< HEAD
 import javax.servlet.http.HttpServletRequest;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -36,25 +35,12 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author SG.Lee
  * @Date 2016.09.05
  * */
-=======
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-/**
- * Handles requests for the application home page.
- */
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 @Controller
 @RequestMapping("/generalization")
 public class GeneralizationController {
 
 	private static final Logger logger = LoggerFactory.getLogger(GeneralizationController.class);
 
-<<<<<<< HEAD
 	
 	DataConvertor convertor = new DataConvertor(); // 데이터 변환 객체 생성
 	
@@ -67,13 +53,10 @@ public class GeneralizationController {
 	 * @Date 2016.09.05
 	 * @param Model
 	 * */
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	@RequestMapping(value = "/generalization.do", method = RequestMethod.GET)
 	public String tempPage(Model model) {
 		logger.info("Opened page is {}.", "temp");
 		
-<<<<<<< HEAD
 		return "map/generalizationMap"; //페이지 호출
 	}
 	
@@ -103,16 +86,11 @@ public class GeneralizationController {
 	@RequestMapping(value = "/generalization.ajax")
 	@ResponseBody
 	public JSONObject generalizationAjax(HttpServletRequest request, @RequestBody JSONObject json){
-		
 		JSONObject genAftJSON = new JSONObject(); //일반화 결과 반환 JSON 생성
 		
 		JSONObject layerJson = convertor.stringToJSON(json.toString()); //Client에서 넘어온 String json -> Java JSONObect 변환
-		
 		genAftJSON = generalizationService.generalizationRequest(layerJson); //일반화 요청
 		
 		return genAftJSON;
-=======
-		return "map/generalizationMap";
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	}
 }

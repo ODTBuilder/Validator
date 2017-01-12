@@ -4,10 +4,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-<<<<<<< HEAD
-=======
-import java.util.LinkedList;
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 import java.util.List;
 
 import org.geotools.data.DataUtilities;
@@ -55,17 +51,12 @@ public class DataConvertor {
 	@SuppressWarnings("unchecked")
 	private JSONObject buildFeatureCollection(SimpleFeatureCollection featureCollection) {
 
-<<<<<<< HEAD
 		JSONArray features = new JSONArray();
-=======
-		List<JSONObject> features = new LinkedList<JSONObject>();
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		JSONObject obj = new JSONObject();
 		obj.put("type", "FeatureCollection");
 		obj.put("features", features);
 		SimpleFeatureIterator simpleFeatureIterator = featureCollection.features();
 
-<<<<<<< HEAD
 		// int i = 0;
 		while (simpleFeatureIterator.hasNext()) {
 			SimpleFeature simpleFeature = simpleFeatureIterator.next();
@@ -74,16 +65,6 @@ public class DataConvertor {
 			 * if (i == 0) { obj.put("propertyType",
 			 * buildPropertiesType(simpleFeature)); i++; }
 			 */
-=======
-		int i = 0;
-		while (simpleFeatureIterator.hasNext()) {
-			SimpleFeature simpleFeature = simpleFeatureIterator.next();
-			features.add(buildFeature(simpleFeature));
-			if (i == 0) {
-				obj.put("propertyType", buildPropertiesType(simpleFeature));
-				i++;
-			}
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		}
 		return obj;
 	}
@@ -158,12 +139,8 @@ public class DataConvertor {
 		DefaultFeatureCollection defaultFeatureCollection = new DefaultFeatureCollection();
 
 		JSONArray features = (JSONArray) geo.get("features");
-<<<<<<< HEAD
 		int featureSize = features.size();
 		for (int i = 0; i < featureSize; i++) {
-=======
-		for (int i = 0; i < features.size(); i++) {
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			JSONObject feature = (JSONObject) features.get(i);
 			if (feature.get("properties") != null) {
 				defaultFeatureCollection.add(buildFeature(feature, attribute));
@@ -178,11 +155,7 @@ public class DataConvertor {
 	private SimpleFeature buildFeature(JSONObject feature, JSONObject attribute) throws SchemaException {
 
 		JSONObject property = (JSONObject) feature.get("properties");
-<<<<<<< HEAD
 		String featureID = feature.get("id").toString();
-=======
-		String featureID = (String) feature.get("id");
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		Geometry geometry = buildGeometry(feature);
 
 		String geometryType = geometry.getGeometryType();
@@ -199,15 +172,10 @@ public class DataConvertor {
 		String temp = "";
 		Iterator iterator = attribute.keySet().iterator();
 		while (iterator.hasNext()) {
-<<<<<<< HEAD
-=======
-
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			String key = (String) iterator.next();
 			Object value = property.get(key);
 			String valueType = (String) attribute.get(key);
 
-<<<<<<< HEAD
 			if (valueType.equals("Long")) {
 				valueType = "String";
 				objects[j] = value.toString();
@@ -220,14 +188,6 @@ public class DataConvertor {
 			}
 		}
 		simpleFeatureType = DataUtilities.createType(featureID.toString(), "the_geom:" + geometryType + "," + temp.substring(0, temp.length() - 1));
-=======
-			objects[j] = value;
-			temp += key + ":" + valueType + ",";
-			j++;
-		}
-
-		simpleFeatureType = DataUtilities.createType(featureID, "the_geom:" + geometryType + "," + temp.substring(0, temp.length() - 1));
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		simpleFeature = SimpleFeatureBuilder.build(simpleFeatureType, objects, featureID);
 
 		return simpleFeature;
@@ -254,12 +214,8 @@ public class DataConvertor {
 		DefaultFeatureCollection defaultFeatureCollection = new DefaultFeatureCollection();
 
 		JSONArray features = (JSONArray) geo.get("features");
-<<<<<<< HEAD
 		int featuresSize = features.size();
 		for (int i = 0; i < featuresSize; i++) {
-=======
-		for (int i = 0; i < features.size(); i++) {
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			JSONObject feature = (JSONObject) features.get(i);
 			defaultFeatureCollection.add(buildFeature(feature));
 		}
@@ -270,22 +226,10 @@ public class DataConvertor {
 
 		String featureID = (String) feature.get("id");
 		Geometry geometry = buildGeometry(feature);
-<<<<<<< HEAD
 		String geometryType = geometry.getGeometryType();
 
 		SimpleFeatureType simpleFeatureType = simpleFeatureType = DataUtilities.createType(featureID, "the_geom:" + geometryType);
 		SimpleFeature simpleFeature = simpleFeature = SimpleFeatureBuilder.build(simpleFeatureType, new Object[] { geometry }, featureID);
-=======
-
-		String geometryType = geometry.getGeometryType();
-
-		SimpleFeatureType simpleFeatureType = null;
-		SimpleFeature simpleFeature = null;
-
-		simpleFeatureType = DataUtilities.createType(featureID, "the_geom:" + geometryType);
-		simpleFeature = SimpleFeatureBuilder.build(simpleFeatureType, new Object[] { geometry }, featureID);
-
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		return simpleFeature;
 
 	}
@@ -313,12 +257,8 @@ public class DataConvertor {
 			Coordinate[] coordinateArray;
 			coordinateArray = new Coordinate[outerCoordinates.size()];
 
-<<<<<<< HEAD
 			int outerCoordSize = outerCoordinates.size();
 			for (int k = 0; k < outerCoordSize; k++) {
-=======
-			for (int k = 0; k < outerCoordinates.size(); k++) {
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 				JSONArray innerCoordinates = (JSONArray) outerCoordinates.get(k);
 				Double x = (Double) innerCoordinates.get(0);
 				Double y = (Double) innerCoordinates.get(1);
@@ -337,7 +277,6 @@ public class DataConvertor {
 			LinearRing holes[] = null;
 			Polygon polygon = null;
 
-<<<<<<< HEAD
 			int outerCoordSize = outerCoordinates.size();
 			for (int k = 0; k < outerCoordSize; k++) {
 				JSONArray innerCoordinates = (JSONArray) outerCoordinates.get(k);
@@ -345,16 +284,6 @@ public class DataConvertor {
 				int innerCoorSize = innerCoordinates.size();
 				for (int r = 0; r < innerCoorSize; r++) {
 					JSONArray innerCoor = (JSONArray) innerCoordinates.get(r);
-=======
-			for (int k = 0; k < outerCoordinates.size(); k++) {
-
-				JSONArray innerCoordinates = (JSONArray) outerCoordinates.get(k);
-				coordinateArray = new Coordinate[innerCoordinates.size()];
-
-				for (int r = 0; r < innerCoordinates.size(); r++) {
-					JSONArray innerCoor = (JSONArray) innerCoordinates.get(r);
-
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 					Double x = (Double) innerCoor.get(0);
 					Double y = (Double) innerCoor.get(1);
 					coordinateArray[r] = new Coordinate(x, y);
@@ -370,21 +299,12 @@ public class DataConvertor {
 			JSONArray outerCoordinates = (JSONArray) jsonGeometry.get("coordinates");
 			Coordinate[] coordinateArray;
 			coordinateArray = new Coordinate[outerCoordinates.size()];
-<<<<<<< HEAD
 			int outerCoordSize = outerCoordinates.size();
 			for (int k = 0; k < outerCoordSize; k++) {
 				// Geometry
 				JSONArray innerCoordinates = (JSONArray) outerCoordinates.get(k);
 				Double x = (Double) innerCoordinates.get(0);
 				Double y = (Double) innerCoordinates.get(1);
-=======
-
-			for (int k = 0; k < outerCoordinates.size(); k++) {
-				// Geometry
-				JSONArray coordinates = (JSONArray) jsonGeometry.get("coordinates");
-				Double x = (Double) coordinates.get(0);
-				Double y = (Double) coordinates.get(1);
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 				coordinateArray[k] = new Coordinate(x, y);
 			}
 			MultiPoint multiPoint = geometryFactory.createMultiPoint(coordinateArray);
@@ -397,7 +317,6 @@ public class DataConvertor {
 			Coordinate[] coordinateArray;
 			LineString lineStrings[] = new LineString[outerCoordinates.size()];
 
-<<<<<<< HEAD
 			int outerCoordSize = outerCoordinates.size();
 			for (int k = 0; k < outerCoordSize; k++) {
 				JSONArray innerCoordinates = (JSONArray) outerCoordinates.get(k);
@@ -405,12 +324,6 @@ public class DataConvertor {
 
 				int innerCoorSize = innerCoordinates.size();
 				for (int r = 0; r < innerCoorSize; r++) {
-=======
-			for (int k = 0; k < outerCoordinates.size(); k++) {
-				JSONArray innerCoordinates = (JSONArray) outerCoordinates.get(k);
-				coordinateArray = new Coordinate[innerCoordinates.size()];
-				for (int r = 0; r < innerCoordinates.size(); r++) {
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 					JSONArray innerCoor = (JSONArray) innerCoordinates.get(r);
 					Double x = (Double) innerCoor.get(0);
 					Double y = (Double) innerCoor.get(1);
@@ -430,7 +343,6 @@ public class DataConvertor {
 			LinearRing holes[] = null;
 			Polygon[] polygons = new Polygon[firstOuter.size()];
 
-<<<<<<< HEAD
 			int firstOutSize = firstOuter.size();
 			for (int a = 0; a < firstOutSize; a++) {
 				JSONArray firstInnerCoor = (JSONArray) firstOuter.get(a);
@@ -442,14 +354,6 @@ public class DataConvertor {
 
 					int secondInnerSize = secondInnerCoor.size();
 					for (int r = 0; r < secondInnerSize; r++) {
-=======
-			for (int a = 0; a < firstOuter.size(); a++) {
-				JSONArray firstInnerCoor = (JSONArray) firstOuter.get(a);
-				for (int k = 0; k < firstInnerCoor.size(); k++) {
-					JSONArray secondInnerCoor = (JSONArray) firstInnerCoor.get(k);
-					coordinateArray = new Coordinate[secondInnerCoor.size()];
-					for (int r = 0; r < secondInnerCoor.size(); r++) {
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 						JSONArray thirdInnerCoor = (JSONArray) secondInnerCoor.get(r);
 
 						Double x = (Double) thirdInnerCoor.get(0);
@@ -476,30 +380,15 @@ public class DataConvertor {
 	 *            오류가 있는 SimpleFeature의 ID
 	 * @param centroid
 	 *            오류가 있는 SimpleFeature의 중심점
-<<<<<<< HEAD
 	 * @param errName
-=======
-	 * @param errType
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	 *            오류 종류
 	 * @return JSONObject
 	 * @throws SchemaException
 	 */
-<<<<<<< HEAD
 	public SimpleFeature createErrSimpleFeature(String errfeatureID, Geometry centroid, String errName, String errType) throws SchemaException {
 
 		SimpleFeatureType simpleFeatureType = DataUtilities.createType(errfeatureID, "the_geom:Point,featureID:String,errorName:String,errorType:String");
-		SimpleFeature simpleFeature = SimpleFeatureBuilder.build(simpleFeatureType, new Object[] { centroid, errfeatureID, errName, errType }, errfeatureID
-				+ "_err");
-=======
-	public SimpleFeature createErrFeature(String errfeatureID, Geometry centroid, String errType) throws SchemaException {
-
-		SimpleFeatureType simpleFeatureType = null;
-		SimpleFeature simpleFeature = null;
-
-		simpleFeatureType = DataUtilities.createType("", "the_geom:Point,errfeatureID:String,errType:String");
-		simpleFeature = SimpleFeatureBuilder.build(simpleFeatureType, new Object[] { centroid, errfeatureID, errType }, null);
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
+		SimpleFeature simpleFeature = SimpleFeatureBuilder.build(simpleFeatureType, new Object[] { centroid, errfeatureID, errName, errType }, null);
 
 		return simpleFeature;
 	}
@@ -514,15 +403,8 @@ public class DataConvertor {
 	 * @return JSONObject
 	 */
 	public JSONObject stringToJSON(String jsonString) {
-<<<<<<< HEAD
 
 		// System.out.println(jsonString);
-=======
-		
-		System.out.println(jsonString);
-		
-		
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 		JSONParser parser = new JSONParser();
 		StringReader in = new StringReader(jsonString);
@@ -549,12 +431,8 @@ public class DataConvertor {
 
 		org.json.JSONArray array = new org.json.JSONArray(jsonString);
 
-<<<<<<< HEAD
 		int arraySize = array.length();
 		for (int i = 0; i < arraySize; i++) {
-=======
-		for (int i = 0; i < array.length(); i++) {
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			org.json.JSONObject object = new org.json.JSONObject();
 			object = (org.json.JSONObject) array.get(i);
 			jsonObjects.add(object);

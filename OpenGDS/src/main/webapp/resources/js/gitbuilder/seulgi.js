@@ -8,14 +8,20 @@
 	gitbuilder.ui.showQAPage = function showQAPage(){
 	    var params = {
 		};
-		getToUrl(CONTEXT + "/temp.do", params, "_self");
+		getToUrl(CONTEXT + "/temp.do", params, "_blank");
 	}
 	
 	gitbuilder.ui.showGenPage = function showGenPage(){
 	    var params = {
 		};
-		getToUrl(CONTEXT + "/generalization/generalization.do", params, "_self");
+		getToUrl(CONTEXT + "/generalization/generalization.do", params, "_blank");
 	}
+	
+	
+	/**
+	 * @description topologyTable 변수 선언
+	 */
+	gitbuilder.variable.topologyTable = undefined;
 	
 	/**
 	 * @description GeoServer 추가
@@ -365,7 +371,7 @@
 	/**
 	 * @description TopologyTable 추가
 	 */
-	gitbuilder.ui.NewTopologyTableWindow = function NewTopologyTableWindow(flag){
+	/*gitbuilder.ui.NewTopologyTableWindow = function NewTopologyTableWindow(flag){
 	    if (!gitbuilder.variable.elementid.topologyTableWindow) {
 		gitbuilder.variable.elementid.topologyTableWindow = 'topologyTableWindow';
 		var topologyTableWindowId = "topologyTableWindow";
@@ -404,5 +410,75 @@
 	    if(flag!="A"){
 	    $('#' + gitbuilder.variable.elementid.topologyTableWindow).modal('show');
 	    }
+	}*/
+	
+	
+	gitbuilder.ui.NewTopologyTableWindow = function NewTopologyTableWindow(flag){
+	    if (!gitbuilder.variable.elementid.topologyTableWindow) {
+		gitbuilder.variable.elementid.topologyTableWindow = 'topologyTableWindow';
+		var topologyTableWindowId = "topologyTableWindow";
+		var topologyTable = "<div class='modal fade' id='" + topologyTableWindowId + "' tabindex='-1' role='dialog'>";
+		topologyTable += '<div class="modal-dialog" style="width: 1000px;">';
+		topologyTable += '<div class="modal-content">';
+		topologyTable += '<div class="modal-header">';
+		topologyTable += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		topologyTable += '<h4 class="modal-title">TopologyTable</h4>';
+		topologyTable += '</div>';
+		topologyTable += '<div class="modal-body">';
+		topologyTable += '<div class="tbList">';
+		topologyTable += '<table id="topologyTable" class="display">';
+		topologyTable += '<thead>';
+		topologyTable += '</thead>';
+		topologyTable += '<tbody>';
+		topologyTable += '</tbody>';
+		topologyTable += '</table>';
+		topologyTable += '</div>';
+		topologyTable += '</div>';
+		topologyTable += '<div class="modal-footer">';
+		topologyTable += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+		topologyTable += '</div>';
+		topologyTable += '</div>';
+		topologyTable += '</div>';
+		topologyTable += '</div>';
+		$("body").append(topologyTable);
+		
+		$('#topologyTable').DataTable({
+			"autoWidth" : false,
+			data : gitbuilder.variable.topologyTable,
+			"columnDefs" : [ {
+				"title" : "Object ID",
+				"width" : "15%",
+				"targets" : 0
+			}, {
+				"title" : "First Point",
+				"width" : "40%",
+				"targets" : 1
+			}, {
+				"title" : "Last Point",
+				"width" : "40%",
+				"targets" : 2
+			}, {
+				"title" : "Length(km)/area(m2)",
+				"width" : "10%",
+				"targets" : 3
+			} ],
+			"columns" : [ {
+				"data" : "objID"
+			}, {
+				"data" : "firstObjs"
+			}, {
+				"data" : "lastObjs"
+			}, {
+				"data" : "alValue"
+			} ]
+		});
+		
+	    }
+	    if(flag!="A"){
+		$('#' + gitbuilder.variable.elementid.topologyTableWindow).modal('show');
+	    }
 	}
+	
+	
+	
 	

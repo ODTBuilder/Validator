@@ -18,15 +18,16 @@ import com.git.gdsbuilder.validator.factory.GeometryValidatorImpl;
 public class SelfEntityValidator implements Callable<ErrorLayer> {
 
 	private SimpleFeatureCollection validatorSfc;
+//	private HttpServletRequest request;
 
 	public SelfEntityValidator(SimpleFeatureCollection validatorSfc) {
 		this.validatorSfc = validatorSfc;
+		//this.request = request;
 	}
 
 	@Override
 	public ErrorLayer call() throws Exception {
 
-		ErrorLayer errLayer = new ErrorLayer();
 		DefaultFeatureCollection errSFC = new DefaultFeatureCollection();
 		List<DetailsValidatorResult> dtReports = new ArrayList<DetailsValidatorResult>();
 
@@ -55,6 +56,7 @@ public class SelfEntityValidator implements Callable<ErrorLayer> {
 			}
 		}
 		if (errSFC.size() > 0 && dtReports.size() > 0) {
+			ErrorLayer errLayer = new ErrorLayer(errSFC, dtReports);
 			errLayer.setErrFeatureCollection(errSFC);
 			errLayer.setDetailsValidatorReport(dtReports);
 			return errLayer;

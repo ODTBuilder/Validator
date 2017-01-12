@@ -4,10 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-<<<<<<< HEAD
 	
 		
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		
 </beans>

@@ -76,9 +76,11 @@ public class DTGeoLayer {
 			boolean flag = reader.existGeoserver(); // Geoserver 존재여부확인
 			if(flag){
 				RESTLayer layer = reader.getLayer(layerName);
-				RESTFeatureType featureType = reader.getFeatureType(layer);
-				RESTDataStore dataStore = reader.getDatastore(featureType);
-				createLayer(dataStore, featureType);
+				if(layer.getType() == RESTLayer.Type.VECTOR){
+					RESTFeatureType featureType = reader.getFeatureType(layer);
+					RESTDataStore dataStore = reader.getDatastore(featureType);
+					createLayer(dataStore, featureType);
+				}
 				return this;
 			}
 			else

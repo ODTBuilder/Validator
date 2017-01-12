@@ -21,7 +21,7 @@ public class OperatorServiceImpl implements OperatorService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject autoOperation(JSONObject featureJSON) throws SchemaException {
-		System.out.println("연산전 : " + featureJSON.toString()); //
+		System.out.println("연산전 : " + featureJSON.toString());
 		System.out.println();
 		
 		DataConvertor convertor = new DataConvertor();
@@ -53,7 +53,7 @@ public class OperatorServiceImpl implements OperatorService {
 			object.put(operationOption, layer);
 		}
 		
-		Layer layer1 = (Layer) object.get("operandLayerA"); // 연산할 레이어
+		Layer layer1 = (Layer) object.get("operandLayerA");
 		Layer layer2 = (Layer) object.get("operandLayerB");
 		
 		SimpleFeatureCollection simpleFeatureCollection1 = (SimpleFeatureCollection) layer1.getSimpleFeatureCollection();

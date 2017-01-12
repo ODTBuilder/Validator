@@ -19,10 +19,12 @@ public class SmallAreaValidator implements Callable<ErrorLayer> {
 
 	private SimpleFeatureCollection validatorSfc;
 	private double inputArea;
+//	private HttpServletRequest request;
 
 	public SmallAreaValidator(SimpleFeatureCollection validatorSfc, double inputArea) {
 		this.validatorSfc = validatorSfc;
 		this.inputArea = inputArea;
+	//	this.request = request;
 	}
 
 	@Override

@@ -34,6 +34,8 @@
 <link rel="stylesheet" href="${ctx}/resources/css/font-awesome.css">
 <link rel="stylesheet" href="${ctx}/resources/css/build.css">
 <%-- <link rel="stylesheet" href="${ctx}/resources/js/dist/css/bootstrap-select.min.css"> --%>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/js/datatables/css/jquery.dataTables.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/fontawesome/css/font-awesome.min.css"/>
 
 <script src="${ctx}/resources/js/jquery/jquery-2.2.2.min.js"></script>
 
@@ -48,8 +50,12 @@
 
 <script src="${ctx}/resources/js/spectrum/spectrum.js"></script>
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/datatables/js/jquery.dataTables.min.js"></script>
+
 <script src="${ctx}/resources/js/gitbuilder/gitbuilder_2.js"></script>
 <script src="${ctx}/resources/js/gitbuilder/hochul.js"></script>
+<script src="${ctx}/resources/js/gitbuilder/interaction.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/gitbuilder/commandline.js"></script>
 <script src="${ctx}/resources/js/gitbuilder/seulgi.js"></script>
 
 
@@ -75,7 +81,7 @@ var CONTEXT = "${pageContext.request.contextPath}";
 </script>
 
 <link rel="stylesheet" href="${ctx}/resources/js/jqgrid/css/jquery-ui.theme.min.css">
-<link rel="stylesheet" href="${ctx}/resources/js/jqgrid/css/ui.jqgrid.min.css">
-<script src="${ctx}/resources/js/jqgrid/js/i18n/grid.locale-de.min.js"></script>
-<script src="${ctx}/resources/js/jqgrid/js/jquery.jqgrid.min.js"></script>
+<%-- <link rel="stylesheet" href="${ctx}/resources/js/jqgrid/css/ui.jqgrid.min.css"> --%>
+<%-- <script src="${ctx}/resources/js/jqgrid/js/i18n/grid.locale-de.min.js"></script> --%>
+<%-- <script src="${ctx}/resources/js/jqgrid/js/jquery.jqgrid.min.js"></script> --%>
 

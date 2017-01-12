@@ -124,14 +124,14 @@ public class ISOValidatorField {
 
 		double accuracy = 1.0 - (this.numOfErrItem / this.numOfItem);
 
-		return Double.parseDouble(String.format("%.2f", accuracy));
+		return Double.parseDouble(String.format("%.3f", accuracy));
 	}
 
 	private double weightedValue() {
 
-		double weightedValue = this.accuracyValue * this.weight;
+		double weightedValue = this.accuracyValue * (this.weight / 100);
 
-		return Double.parseDouble(String.format("%.2f", weightedValue));
+		return Double.parseDouble(String.format("%.3f", weightedValue));
 	}
 
 	public void createISOField(SimpleFeatureCollection errFeatureCollection) {

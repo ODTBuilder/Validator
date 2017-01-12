@@ -10,7 +10,6 @@ var gitbuilder;
 if (!gitbuilder) {
 	gitbuilder = {};
 }
-<<<<<<< HEAD
 if (!gitbuilder.validation) {
 	gitbuilder.validation = {};
 
@@ -75,8 +74,6 @@ if (!gitbuilder.validation) {
 	gitbuilder.validation.option.UselessPoint = {}
 
 }
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 if (!gitbuilder.variable) {
 
 	// 변수객체
@@ -85,12 +82,9 @@ if (!gitbuilder.variable) {
 	// 커서 위치
 	gitbuilder.variable.crsrPosition = [];
 
-<<<<<<< HEAD
 	// 커서 위치(좌표)
 	gitbuilder.variable.crsrCoordinate = {};
 
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	// 프로젝트 객체
 	gitbuilder.variable.prjGroup = {};
 
@@ -106,7 +100,6 @@ if (!gitbuilder.variable) {
 	// 오픈 레이어스 컨트롤 배열
 	gitbuilder.variable.ctrl = [];
 
-<<<<<<< HEAD
 	// 오픈 레이어스 인터랙션 객체
 	gitbuilder.variable.intrctn = {
 		draw : undefined,
@@ -116,6 +109,8 @@ if (!gitbuilder.variable) {
 		translate : undefined,
 		snap : undefined,
 		validationArea : undefined,
+		multiTransform : undefined,
+		measureTip : undefined
 	};
 
 	// 피처 속성 오버레이 객체
@@ -145,7 +140,7 @@ if (!gitbuilder.variable) {
 	gitbuilder.variable.validationLayer = {};
 
 	// 검수영역 레이어
-	gitbuilder.variable.validationArea = {};
+	gitbuilder.variable.validationArea = undefined;
 
 	// 현재 선택한 검수옵션
 	gitbuilder.variable.validationOption = {};
@@ -156,24 +151,8 @@ if (!gitbuilder.variable) {
 	// 선택한 피쳐 배열
 	gitbuilder.variable.selectedFeatures = new ol.Collection();
 
-	// 선택한 피쳐 =김호철=
-	gitbuilder.variable.selectedFeature = new ol.Feature();
-
-	// 선택한 피쳐 Geometry =김호철=
-	gitbuilder.variable.selectedGeometry = {};
-
-	// 선택한 피쳐 중점 =김호철=
-	gitbuilder.variable.flatInteriorPoint = [];
-
 	// 선택한 에러피처
 	gitbuilder.variable.errorFeatures = new ol.Collection();
-=======
-	// 오픈 레이어스 인터랙션 배열
-	gitbuilder.variable.intrctn = [];
-
-	// 선택한 레이어 배열
-	gitbuilder.variable.selectedLayers = [];
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 
 	// DOM id
 	// layerList: 레이어 리스트
@@ -186,7 +165,6 @@ if (!gitbuilder.variable) {
 	// lineInput: 라인 인풋 라디오버튼 아이디
 	// polyInput: 폴리곤 인풋 라디오버튼 아이디
 	// layerName: 레이어 이름 인풋 텍스트
-<<<<<<< HEAD
 	// strokeColor: 선색
 	// strokeWidth: 선너비 인풋
 	// fillColor: 면색
@@ -196,8 +174,6 @@ if (!gitbuilder.variable) {
 	// attrList: 속성 리스트 테이블 바디
 	// removeFeatureWindow: 피처 삭제 창
 	// validatingWindow: 검수 설정 창
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	gitbuilder.variable.elementid = {};
 
 	// input name
@@ -208,14 +184,14 @@ if (!gitbuilder.variable) {
 	gitbuilder.variable.menuname = {};
 
 	// 에러 리포트
-	gitbuilder.variable.errReport = {};
+	gitbuilder.variable.errReport = undefined;
 
-<<<<<<< HEAD
+	// iso 리포트
+	gitbuilder.variable.isoReport = undefined;
+
 	// 현재 편집중
 	gitbuilder.variable.editingOpen = false;
 
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }
 if (!gitbuilder.method) {
 	gitbuilder.method = {};
@@ -281,83 +257,31 @@ if (!gitbuilder.method) {
 	 */
 	gitbuilder.method.map.setBuilderMap = function setBuilderMap(map) {
 		gitbuilder.variable.map = map;
-<<<<<<< HEAD
 
 		map.on('singleclick', function(evt) {
 			gitbuilder.variable.crsrCoordinate = evt.coordinate;
 			gitbuilder.ui.CloseAttributeTable();
 		});
 
-		map.on('click', function(evt) {
-			gitbuilder.variable.selectedFeatures.clear();
-			if (document.getElementsByClassName('hoicon').length !== 0) {
-				// feature 편집 mbr을 삭제한다 -김호철-
-				gitbuilder.ui.RemoveEditToolTip();
-			}
-		});
-
-		map.on('pointerdrag', function(evt) {
-
-		});
-
-		map.on('pointermove', function(evt) {
-			if (evt.dragging) {
-				return;
-			}
-
-			if (gitbuilder.variable.intrctn.draw !== undefined) {
-				var coordinate = gitbuilder.variable.map.getEventCoordinate(evt.originalEvent);
-				gitbuilder.ui.SetCursorPositionInfo(coordinate);
-			}
-
-			if (gitbuilder.variable.selectedFeatures.getLength() === 1 && gitbuilder.variable.intrctn.select !== undefined) {
-				if (gitbuilder.variable.intrctn.select.get('rotate') === true) {
-					var elementTitle = document.getElementsByClassName('hoicon')[0].getAttribute('title');
-					var prev = gitbuilder.variable.crsrPosition;
-					var current = gitbuilder.variable.map.getEventCoordinate(evt.originalEvent);
-					var rad = gitbuilder.method.RotateAlgorithm(prev, current);
-
-					// shift키 누른채로 mouse move시 rotate 회전 속도가 절반으로 줄어듬
-					if (evt.originalEvent.shiftKey === true) {
-						gitbuilder.variable.selectedGeometry.rotate(rad / 2, gitbuilder.variable.flatInteriorPoint);
-					} else {
-						gitbuilder.variable.selectedGeometry.rotate(rad, gitbuilder.variable.flatInteriorPoint);
-					}
-					// 클릭한 버튼의 아이콘이 마우스를 따라 오도록함
-					gitbuilder.ui.SetIconPosition(elementTitle, current);
-					gitbuilder.variable.crsrPosition = current;
-				}
-
-				if (gitbuilder.variable.intrctn.select.get('scale') === true) {
-					var cursorPoint = gitbuilder.variable.map.getEventCoordinate(evt.originalEvent);
-					var elementTitle = document.getElementsByClassName('hoicon')[0].getAttribute('title');
-					var extent = gitbuilder.variable.selectedGeometry.getExtent();
-					var magni = gitbuilder.method.ScaleAlgorithm([ extent[2], extent[3] ], cursorPoint);
-					var center = gitbuilder.variable.flatInteriorPoint;
-
-					if (magni[0] > magni[1]) {
-						gitbuilder.variable.selectedGeometry.scale(magni[0], magni[0], center);
-					} else {
-						gitbuilder.variable.selectedGeometry.scale(magni[1], magni[1], center);
-					}
-					gitbuilder.ui.SetIconPosition(elementTitle, cursorPoint);
-					gitbuilder.variable.crsrPosition = cursorPoint;
-				}
-			}
-		});
+		// map.on('click', function(evt) {
+		// gitbuilder.variable.selectedFeatures.clear();
+		// });
 
 		map.on('postcompose', function(evt) {
-			if (gitbuilder.variable.selectedFeatures.getLength() === 1) {
-				if (gitbuilder.variable.map.getOverlayById('editTip0') !== null) {
-					gitbuilder.ui.DrawNbr(evt);
+			gitbuilder.variable.map.getInteractions().forEach(function(interaction) {
+				if (interaction instanceof gitbuilder.interaction.MultiTransform) {
+					if (interaction.getFeatures().getLength()) {
+						interaction.drawMbr(evt);
+					}
 				}
-			}
+			});
 		});
 
 		// command 입력창 생성
-		gitbuilder.command.ui.AutoComplete();
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
+		// if (gitbuilder.command) {
+		// gitbuilder.command.autoComplete();
+		// }
+
 	}
 	// ==========================================================================================================
 	/**
@@ -403,7 +327,6 @@ if (!gitbuilder.method) {
 		for (var i = 0; i < addedLayers.length; i++) {
 
 			var layerKeysStr = "";
-<<<<<<< HEAD
 			layerKeysStr += "<li layerid='" + addedLayers[i].get("id") + "' class='GitBuilder-LayerList-Item'>";
 			layerKeysStr += "<div>";
 
@@ -450,63 +373,10 @@ if (!gitbuilder.method) {
 		$(".glyphicon-eye-close").hide();
 		$(".GitBuilder-LayerList-Function").hide();
 		$("#" + layerListId).sortable("refresh").addClass("layerSelectable").selectable("refresh").find("li").addClass("ui-corner-all").prepend(
-=======
-			layerKeysStr += "<li layerid='" + addedLayers[i].get("id") + "' class='GitBuilder-LayerList-Item'><p class='ListedLayer'>"
-					+ addedLayers[i].get("name"); /*
-													 * + "</p><button
-													 * class='layerPropBtn'>Properties</button></li>";
-													 */
-
-			$("#" + layerListId).prepend(layerKeysStr);
-
-		}
-		$(".ListedLayer").css("display", "inline-block").css("width", 160).css("height", 16).css("text-overflow", "ellipsis");
-
-		$("#" + layerListId).sortable({
-			handle : ".GitBuilder-LayerList-Item-Handle",
-			stop : function(event, ui) {
-				// 선택한 li의 배열
-				var layerLiArr = $("#" + layerListId + " li").toArray();
-				// 배열을 뒤집는다
-				layerLiArr.reverse();
-				// 모든 레이어 획득
-				var layers = gitbuilder.method.map.getBuilderMap().getLayers();
-				// 모든 레이어를 배열로 획득
-				var addedLayers = layers.getArray();
-
-				for (var i = 0; i < layerLiArr.length; i++) {
-					// 레이어 아이디와 같은 레이어를 검색
-					for (var j = 0; j < addedLayers.length; j++) {
-						// li의 아이디가 레이어의 아이디와 같다면
-						if (addedLayers[j].get("id") === $(layerLiArr[i]).attr("layerid")) {
-							if (addedLayers[j] instanceof ol.layer.Group) {
-								addedLayers[j].setZIndex(i);
-								var layers = addedLayers[j].getLayers().getArray();
-								for (var k = 0; k < layers.length; k++) {
-									layers[k].setZIndex(i);
-								}
-							} else {
-								// li의 인덱스를 레이어의 인덱스로 설정
-								addedLayers[j].setZIndex(i);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}).addClass("layerSelectable").selectable({
-			filter : "li",
-			cancel : ".GitBuilder-LayerList-Item-Handle, .layerPropBtn",
-			stop : function(event, ui) {
-
-			}
-		}).find("li").addClass("ui-corner-all").prepend(
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 				"<span class='GitBuilder-LayerList-Item-Handle'><span class='glyphicon glyphicon-sort' aria-hidden='true'></span></span>");
 	}
 	// ==========================================================================================================
 	/**
-<<<<<<< HEAD
 	 * @description 레이어 삭제
 	 * @param {String}
 	 *            레이어 아이디
@@ -522,8 +392,6 @@ if (!gitbuilder.method) {
 	}
 	// ==========================================================================================================
 	/**
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	 * @description 지도와 목록에 레이어를 추가
 	 * @param {ol.layer.Base}
 	 *            createdLayer - 추가할 레이어
@@ -565,7 +433,6 @@ if (!gitbuilder.method) {
 	}
 	// ==========================================================================================================
 	/**
-<<<<<<< HEAD
 	 * @description 유일한 피처 아이디를 생성
 	 * @param {ol.layer.Vector ||
 	 *            ol.layer.Image} 피처를 생성할 레이어
@@ -615,8 +482,6 @@ if (!gitbuilder.method) {
 	}
 	// ==========================================================================================================
 	/**
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	 * @description 레이어에 부가 속성을 부여
 	 * @param {object}
 	 *            레이어에 부여될 속성
@@ -648,7 +513,6 @@ if (!gitbuilder.method) {
 			obj.layer.set("attribute", obj.attrType);
 		}
 	}
-<<<<<<< HEAD
 	// ==========================================================================================================
 	/**
 	 * @description 레이어 영역으로 확대
@@ -933,9 +797,6 @@ if (!gitbuilder.method) {
 
 		gitbuilder.method.layer.addLayerOnList(layer);
 
-		// undo를 위한 data set -김호철-
-		gitbuilder.command.SetUndoData('layerHide', layer, null);
-
 		$('#' + gitbuilder.variable.elementid.vectorWindow).modal('hide');
 
 	}
@@ -1047,10 +908,6 @@ if (!gitbuilder.method) {
 		gitbuilder.method.edit.RemoveAllBuilderInteraction();
 
 		gitbuilder.ui.CloseAttributeTable();
-		// feature 편집 mbr을 삭제한다 -김호철-
-		gitbuilder.ui.RemoveEditToolTip();
-		// cursor position 정보 ui 생성 -김호철-
-		gitbuilder.ui.CursorPositionInfo();
 
 		var layers = gitbuilder.variable.selectedLayers;
 		if (layers.getLength() !== 1) {
@@ -1095,6 +952,10 @@ if (!gitbuilder.method) {
 			});
 			draw.set("name", "draw");
 
+			var measure = new gitbuilder.interaction.MeasureTip();
+			gitbuilder.variable.intrctn.measureTip = measure;
+			gitbuilder.variable.map.addInteraction(measure);
+
 			draw.on('drawstart', function(e) {
 				var feature = e.feature;
 				// console.log(feature);
@@ -1103,6 +964,8 @@ if (!gitbuilder.method) {
 				point.setCoordinates(geom.getFirstCoordinate(), "XY");
 				var featureAfter = new ol.Feature();
 				featureAfter.setGeometry(point);
+
+				measure.drawStart(e);
 
 				gitbuilder.variable.intrctn.snap.addFeature(featureAfter);
 				console.log("added point");
@@ -1127,8 +990,7 @@ if (!gitbuilder.method) {
 					gitbuilder.ui.OutputAttributeWindow(feature, selectedLayer.get("attribute"));
 				}
 
-				// undo를 위한 data set -김호철-
-				gitbuilder.command.SetUndoData('featureHide', selectedLayer, feature);
+				measure.drawEnd(e);
 
 				gitbuilder.variable.intrctn.snap.addFeature(feature);
 			});
@@ -1171,6 +1033,7 @@ if (!gitbuilder.method) {
 
 		} else if (value === null || value === undefined) {
 			console.error("There is no type");
+			영어
 			return;
 		}
 	}
@@ -1178,9 +1041,24 @@ if (!gitbuilder.method) {
 	/**
 	 * @description 빌더에서 추가한 인터랙션을 삭제한다.
 	 */
-	gitbuilder.method.edit.RemoveAllBuilderInteraction = function RemoveAllBuilderInteraction() {
+	gitbuilder.method.edit.RemoveAllBuilderInteraction = function RemoveAllBuilderInteraction(exceptInteraction) {
 		var intrctn = gitbuilder.variable.intrctn;
+		var except;
+		if (exceptInteraction instanceof Array) {
+			except = exceptInteraction;
+		} else {
+			except = [ exceptInteraction ];
+		}
 
+		var isExcept = function(inter) {
+			var bool = false;
+			for (var i = 0; i < except.length; i++) {
+				if (except[i] && inter === except[i]) {
+					bool = true;
+				}
+			}
+			return bool;
+		}
 		// gitbuilder.variable.intrctn = {
 		// draw : undefined,
 		// dragBox : undefined,
@@ -1194,8 +1072,10 @@ if (!gitbuilder.method) {
 		var key = Object.keys(intrctn);
 		for (var i = 0; i < key.length; i++) {
 			// console.log(intrctn[key[i]]);
-			gitbuilder.variable.map.removeInteraction(intrctn[key[i]]);
-			intrctn[key[i]] = undefined;
+			if (!isExcept(key[i])) {
+				gitbuilder.variable.map.removeInteraction(intrctn[key[i]]);
+				intrctn[key[i]] = undefined;
+			}
 		}
 		// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.draw);
 		// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.dragBox);
@@ -1240,9 +1120,6 @@ if (!gitbuilder.method) {
 	 */
 	gitbuilder.method.edit.SelectFeature = function SelectFeature(features) {
 		gitbuilder.method.edit.RemoveAllBuilderInteraction();
-
-		// feature 편집 mbr을 삭제한다 -김호철-
-		gitbuilder.ui.RemoveEditToolTip();
 
 		var layers = gitbuilder.variable.selectedLayers;
 		if (layers.getLength() !== 1) {
@@ -1303,6 +1180,10 @@ if (!gitbuilder.method) {
 			wrapX : false
 		});
 
+		var measureTip = new gitbuilder.interaction.MeasureTip({
+			features : select.getFeatures()
+		});
+
 		select.set("name", "select");
 		gitbuilder.variable.selectedFeatures = select.getFeatures();
 
@@ -1344,6 +1225,8 @@ if (!gitbuilder.method) {
 
 		gitbuilder.variable.intrctn.select = select;
 		gitbuilder.variable.map.addInteraction(select);
+		gitbuilder.variable.intrctn.measureTip = measureTip;
+		gitbuilder.variable.map.addInteraction(measureTip);
 
 		var dragBox = new ol.interaction.DragBox({
 			condition : ol.events.condition.platformModifierKeyOnly
@@ -1468,19 +1351,30 @@ if (!gitbuilder.method) {
 			var source = area.getSource();
 			var features = source.getFeatures();
 			if (area.get("type") !== "MultiLineString") {
-				console.error("not multipolygon");
-				return;
+				console.error("not multilinestring");
+				return false;
 			}
 			if (features.length > 1) {
 				console.error("too many features");
-				return;
+				alertPopup("Warning", "Validation area layer has too many features.");
+				// alert("Total weight can not exceed 100%.");
+				$(".GitBuilder-Button-Validation").prop("disabled", true);
+				return false;
 			} else if (features.length === 0) {
 				console.error("no features");
-				return;
+				alertPopup("Warning", "Validation area layer has no features.");
+				// alert("Total weight can not exceed 100%.");
+				$(".GitBuilder-Button-Validation").prop("disabled", true);
+				return false;
 			}
+			$(".GitBuilder-Button-Validation").prop("disabled", false);
 			var geom = features[0].getGeometry();
 			var coord = geom.getCoordinates();
 
+			if (coord[0][0][0] !== coord[0][(coord[0].length - 1)][0] && coord[0][0][1] !== coord[0][(coord[0].length - 1)][1]) {
+				alertPopup("Warning", "First point and last point are not connected.");
+				return false;
+			}
 			var extent = features[0].getGeometry().getExtent();
 			var geomA = features[0].getGeometry();
 			var coordinate = new Array(new Array(coord));
@@ -1586,7 +1480,7 @@ if (!gitbuilder.method) {
 		};
 
 		gitbuilder.variable.validationObj.extent = JSON.stringify(polyExtent);
-
+		return true;
 		// console.log(gitbuilder.variable.validationObj);
 
 	}
@@ -1692,15 +1586,14 @@ if (!gitbuilder.method) {
 		if (gitbuilder.variable.intrctn.select === undefined || gitbuilder.variable.intrctn.select === null) {
 			gitbuilder.method.edit.RemoveAllBuilderInteraction();
 		} else if (gitbuilder.variable.intrctn.select instanceof ol.interaction.Select) {
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.draw);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.dragBox);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.modify);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.translate);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.snap);
+			gitbuilder.method.edit.RemoveAllBuilderInteraction('select');
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.draw);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.dragBox);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.modify);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.translate);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.snap);
 		}
 		gitbuilder.ui.CloseAttributeTable();
-		// feature 편집 mbr을 삭제한다 -김호철-
-		gitbuilder.ui.RemoveEditToolTip();
 
 		var layers = gitbuilder.variable.selectedLayers;
 		if (layers.getLength() !== 1) {
@@ -1814,16 +1707,6 @@ if (!gitbuilder.method) {
 
 			gitbuilder.variable.intrctn.translate = translate;
 			gitbuilder.variable.map.addInteraction(gitbuilder.variable.intrctn.translate);
-
-			// 객체 이동시 undo data set -김호철-
-			translate.on('translatestart', function(evt) {
-				var features = evt.features;
-				var featureArr = [];
-				for (var i = 0; i < features.getLength(); ++i) {
-					featureArr.push(features.item(i));
-				}
-				gitbuilder.command.SetUndoData('edit', null, featureArr)
-			});
 		}
 	}
 	// ==========================================================================================================
@@ -1834,16 +1717,14 @@ if (!gitbuilder.method) {
 		if (gitbuilder.variable.intrctn.select === undefined || gitbuilder.variable.intrctn.select === null) {
 			gitbuilder.method.edit.RemoveAllBuilderInteraction();
 		} else if (gitbuilder.variable.intrctn.select instanceof ol.interaction.Select) {
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.draw);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.dragBox);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.modify);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.translate);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.snap);
+			gitbuilder.method.edit.RemoveAllBuilderInteraction('select');
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.draw);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.dragBox);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.modify);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.translate);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.snap);
 		}
 		gitbuilder.ui.CloseAttributeTable();
-
-		// feature 편집 mbr을 삭제한다 -김호철-
-		gitbuilder.ui.RemoveEditToolTip();
 
 		var layers = gitbuilder.variable.selectedLayers;
 		if (layers.getLength() !== 1) {
@@ -1958,16 +1839,6 @@ if (!gitbuilder.method) {
 
 			gitbuilder.variable.intrctn.modify = modify;
 			gitbuilder.variable.map.addInteraction(modify);
-
-			// 객체 수정시 undo data set -김호철-
-			modify.on('modifystart', function(evt) {
-				var features = evt.features;
-				var featureArr = [];
-				for (var i = 0; i < features.getLength(); ++i) {
-					featureArr.push(features.item(i));
-				}
-				gitbuilder.command.SetUndoData('edit', null, featureArr);
-			});
 		}
 
 		var featureCollection = new ol.Collection();
@@ -2002,15 +1873,14 @@ if (!gitbuilder.method) {
 		if (gitbuilder.variable.intrctn.select === undefined || gitbuilder.variable.intrctn.select === null) {
 			gitbuilder.method.edit.RemoveAllBuilderInteraction();
 		} else if (gitbuilder.variable.intrctn.select instanceof ol.interaction.Select) {
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.draw);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.dragBox);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.modify);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.translate);
-			gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.snap);
+			gitbuilder.method.edit.RemoveAllBuilderInteraction('select');
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.draw);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.dragBox);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.modify);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.translate);
+			// gitbuilder.variable.map.removeInteraction(gitbuilder.variable.intrctn.snap);
 		}
 		gitbuilder.ui.CloseAttributeTable();
-		// feature 편집 mbr을 삭제한다 -김호철-
-		gitbuilder.ui.RemoveEditToolTip();
 
 		var layers = gitbuilder.variable.selectedLayers;
 		if (layers.getLength() !== 1) {
@@ -2172,8 +2042,6 @@ if (!gitbuilder.method) {
 		var selectedFeatures = gitbuilder.variable.selectedFeatures;
 		if (selectedLayer instanceof ol.layer.Vector
 				|| (selectedLayer instanceof ol.layer.Image && selectedLayer.getSource() instanceof ol.source.ImageVector)) {
-			// feature 삭제에 대한 redo data set -김호철-
-			gitbuilder.command.SetUndoData('featureCreate', selectedLayer, selectedFeatures.getArray());
 
 			if (selectedLayer instanceof ol.layer.Vector) {
 				var source = selectedLayer.getSource();
@@ -2189,8 +2057,6 @@ if (!gitbuilder.method) {
 
 			selectedFeatures.clear();
 			gitbuilder.ui.CloseAttributeTable();
-			// feature 편집 mbr을 삭제한다 -김호철-
-			gitbuilder.ui.RemoveEditToolTip();
 			gitbuilder.ui.EditingWindow();
 		} else {
 			console.error("This layer is not a vector layer.");
@@ -2340,7 +2206,7 @@ if (!gitbuilder.method) {
 			'html' : true
 		});
 		$(element).popover('show');
-
+		gitbuilder.ui.OpenEditingWindow();
 	}
 	// ==========================================================================================================
 	gitbuilder.method.operation = {};
@@ -2494,15 +2360,84 @@ if (!gitbuilder.method) {
 	gitbuilder.method.validation = {};
 	// ==========================================================================================================
 	/**
+	 * @description 검수객체 옵션 유효성 검사(가중치)
+	 * @param {Object}
+	 *            검수객체
+	 * @returns {Boolean} 오류유무
+	 */
+	gitbuilder.method.validation.isNotProperWeight = function isNotProperWeight(obj) {
+		var layers = obj.layers;
+		var layerNames = Object.keys(layers);
+		var isNotValid = true;
+		var weight = 0;
+		for (var i = 0; i < layerNames.length; i++) {
+			weight += parseFloat(layers[layerNames[i]].weight);
+		}
+		if (weight.toFixed(2) === parseFloat(100).toFixed(2)) {
+			isNotValid = false;
+		}
+		return isNotValid;
+	}
+	// ==========================================================================================================
+	/**
+	 * @description 검수객체 옵션 유효성 검사(옵션)
+	 * @param {Object}
+	 *            검수객체
+	 * @returns {Boolean} 오류유무
+	 */
+	gitbuilder.method.validation.isNoValidationOption = function isNoValidationOption(obj) {
+		var layers = obj.layers;
+		var layerNames = Object.keys(layers);
+		var isNoOpt = true;
+		for (var i = 0; i < layerNames.length; i++) {
+			var keys = Object.keys(layers[layerNames[i]].qaOption);
+			if (keys.length > 0) {
+				isNoOpt = false;
+				break;
+			}
+		}
+		return isNoOpt;
+	}
+	// ==========================================================================================================
+	/**
 	 * @description 서버에 검수를 요청
 	 * @param {String}
 	 *            요청주소
 	 * @returns {Object} 검수결과
 	 */
 	gitbuilder.method.validation.RequestValidation = function RequestValidation() {
+		var obj = gitbuilder.variable.validationObj;
+		if (!obj.extent || Object.keys(obj.layers).length === 0) {
+			alertPopup("Warning", "Validation area and validation layers must be setted.");
+			console.error("No validation area, layers");
+			return;
+		}
+
+		if (gitbuilder.method.validation.isNotProperWeight(obj)) {
+			alertPopup("Warning", "Total weight must be 100%");
+			console.error("Total weight must be 100");
+			return;
+		}
+
+		if (gitbuilder.method.validation.isNoValidationOption(obj)) {
+			alertPopup("Warning", "All layers have no options.");
+			console.error("All layers have no options.");
+			return;
+		}
+
+		var layerNames = Object.keys(obj.layers);
+
+		// for (var i = 0; i < layerNames.length; i++) {
+		// var qaOpt = Object.keys(obj.layers[layerNames[i]].qaOption);
+		// if (qaOpt.length === 0) {
+		// alertPopup("Warning", "Validation option must be setted.");
+		// console.error("No validation option");
+		// return;
+		// }
+		// }
+
 		$('#' + gitbuilder.variable.elementid.validatingWindow).modal('hide');
 		gitbuilder.method.edit.RemoveAllBuilderInteraction();
-		var obj = gitbuilder.variable.validationObj;
 		console.log(JSON.stringify(obj));
 		var serverUrl = gitbuilder.method.getContextPath() + '/validator/validate.ajax';
 
@@ -2521,15 +2456,18 @@ if (!gitbuilder.method) {
 			traditional : true,
 			success : function(data, textStatus, jqXHR) {
 				// gitbuilder.variable.errReport
-				// console.log(JSON.stringify(data.DetailsReport));
+				console.log(data);
 				loadImageHide();
 
 				if (!data.Error) {
 					alertPopup("Message", "No error detected");
 					return;
 				}
+
+				gitbuilder.variable.isoReport = data.ISOReport;
 				gitbuilder.variable.errReport = data.DetailsReport;
-				// console.log(JSON.stringify(data.ErrorLayer));
+
+				// console.log(gitbuilder.variable.errReport);
 				var format = new ol.format.GeoJSON().readFeatures(JSON.stringify(data.ErrorLayer));
 
 				var source = new ol.source.Vector({
@@ -2569,10 +2507,24 @@ if (!gitbuilder.method) {
 				};
 				gitbuilder.method.layer.setLayerProperties(obj);
 
+				var layers = gitbuilder.method.map.getBuilderMap().getLayers();
+				for (var i = 0; i < layers.getLength(); i++) {
+					if (layers.item(i).get("id") === "Validation Result") {
+						gitbuilder.variable.map.removeLayer(layers.item(i));
+						gitbuilder.variable.selectedLayers.clear();
+						gitbuilder.method.layer.updateLayerList();
+						if ($("#" + gitbuilder.variable.elementid.navigatingWindow + " :visible").length > 0) {
+							gitbuilder.ui.OutputErrorFeatureFromStart(layer, (0));
+						}
+						break;
+					}
+				}
+
 				gitbuilder.method.layer.addLayerOnList(layer);
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				console.log(textStatus)
+				console.log(textStatus);
+				loadImageHide();
 			}
 		});
 
@@ -2753,9 +2705,6 @@ if (!gitbuilder.ui) {
 
 				gitbuilder.method.edit.RemoveAllBuilderInteraction();
 
-				// feature 편집 mbr을 삭제한다 -김호철-
-				gitbuilder.ui.RemoveEditToolTip();
-
 				// gitbuilder.ui.CloseEditingWindow();
 				if (gitbuilder.variable.editingOpen == true) {
 					gitbuilder.ui.OpenEditingWindow();
@@ -2786,6 +2735,18 @@ if (!gitbuilder.ui) {
 			console.log($(this).attr("layerid"));
 			var layer = gitbuilder.method.layer.getLayerById($(this).attr("layerid"));
 			gitbuilder.method.layer.zoomToLayerExtent(layer);
+		});
+
+		$(document).on("click", ".GitBuilder-LayerList-Function-Setting", function() {
+			console.log($(this).attr("layerid"));
+			var layer = gitbuilder.method.layer.getLayerById($(this).attr("layerid"));
+			gitbuilder.ui.LayerStyleWindow(layer);
+		});
+
+		$(document).on("click", ".GitBuilder-LayerList-Function-Field", function() {
+			console.log($(this).attr("layerid"));
+			var layer = gitbuilder.method.layer.getLayerById($(this).attr("layerid"));
+			gitbuilder.ui.LayerAttributeWindow(layer);
 		});
 
 		$(document).on("click", ".GitBuilder-LayerList-Function-Remove", function() {
@@ -2841,15 +2802,7 @@ if (!gitbuilder.ui) {
 
 			shpWin += '<label for="exampleInputFile1">SHP File Upload</label>';
 			shpWin += '<input type="file" id="' + upload1 + '">';
-			shpWin += '<p class="help-block">Upload your SHP file</p>';
-
-			shpWin += '<label for="exampleInputFile2">SHX File Upload</label>';
-			shpWin += '<input type="file" id="' + upload2 + '">';
-			shpWin += '<p class="help-block">Upload your SHX file</p>';
-
-			shpWin += '<label for="exampleInputFile3">DBF File Upload</label>';
-			shpWin += '<input type="file" id="' + upload3 + '">';
-			shpWin += '<p class="help-block">Upload your DBF file</p>';
+			shpWin += '<p class="help-block">Upload your SHP,DBF,SHX file(The files should be compressed in a ZIP format)</p>';
 
 			shpWin += '</div>';
 
@@ -2866,12 +2819,17 @@ if (!gitbuilder.ui) {
 		}
 
 		$('#' + gitbuilder.variable.elementid.shpWindow).modal('show');
-	} // ==========================================================================================================
+	}
+	// ==========================================================================================================
 	/**
 	 * @description 레이어 스타일 창 출력
 	 */
 	gitbuilder.ui.LayerStyleWindow = function LayerStyleWindow(layer) {
-		if (!gitbuilder.variable.elementid.removeFeatureWindow) {
+		if (!(layer instanceof ol.layer.Vector)) {
+			console.error("not ol.layer.Vector");
+			return;
+		}
+		if (!gitbuilder.variable.elementid.styleWindow) {
 			var styleWindowId = "styleWindow";
 			var count = 0;
 			while (gitbuilder.method.isDuplicatedId(styleWindowId)) {
@@ -2914,38 +2872,115 @@ if (!gitbuilder.ui) {
 			}
 			gitbuilder.variable.elementid.settingArea = settingArea;
 
+			var buttonArea = "buttonArea";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(buttonArea)) {
+				buttonArea += count;
+			}
+			gitbuilder.variable.elementid.buttonArea = buttonArea;
+
+			var lineWidth = "lineWidth";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(lineWidth)) {
+				lineWidth += count;
+			}
+			gitbuilder.variable.elementid.lineWidth = lineWidth;
+
+			var circleRadius = "circleRadius";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(circleRadius)) {
+				circleRadius += count;
+			}
+			gitbuilder.variable.elementid.circleRadius = circleRadius;
+
 			var modal = "";
 			modal += '<div id="' + styleWindowId
 					+ '" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Layer Style" aria-hidden="true">';
 			modal += '<div class="modal-dialog">';
 			modal += '<div class="modal-content">';
+			modal += '<div class="modal-header">';
+			modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			modal += '<h4 class="modal-title">Layer Style</h4>';
+			modal += '</div>';
 			modal += '<div class="modal-body">';
 
 			modal += '<div id="' + gitbuilder.variable.elementid.settingArea + '">';
-
-			var type = layer.get("type");
-			if (type === "Point" || type === "MultiPoint") {
-				modal += '<input type="text"	id="' + gitbuilder.variable.elementid.strokeColor + '" />';
-				modal += '<input type="text"	id="' + gitbuilder.variable.elementid.fillColor + '" />';
-			} else if (type === "LineString" || type === "MultiLineString") {
-				modal += '<input type="text"	id="' + gitbuilder.variable.elementid.strokeColor + '" />';
-			} else if (type === "Polygon" || type === "MultiPolygon") {
-				modal += '<input type="text"	id="' + gitbuilder.variable.elementid.strokeColor + '" />';
-				modal += '<input type="text"	id="' + gitbuilder.variable.elementid.fillColor + '" />';
-			}
-
 			modal += '</div>';
 
 			modal += '</div>';
-			modal += '<div class="modal-footer">';
-			modal += ' <button type="button" class="btn btn-default" data-dismiss="modal">Cancek</button>';
-			modal += '<button type="button" class="btn btn-primary" onclick="" data-dismiss="modal">OK</button>';
+			modal += '<div class="modal-footer" id="' + gitbuilder.variable.elementid.buttonArea + '">';
+			modal += ' <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>';
+			modal += '<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>';
 			modal += ' </div>';
 			modal += '</div>';
 			modal += '</div>';
 			modal += '</div>';
 
 			$("body").append(modal);
+		}
+
+		var type = layer.get("type");
+		if (type === "Point" || type === "MultiPoint") {
+			var palette = '';
+			palette += '<div class="row">';
+
+			palette += '<div class="col-md-6">';
+
+			palette += '<table class="table table-hover">';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Line Color';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="text"	id="' + gitbuilder.variable.elementid.strokeColor + '" />';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Face Color';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="text"	id="' + gitbuilder.variable.elementid.fillColor + '" />';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Line Width';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="number" id="' + gitbuilder.variable.elementid.lineWidth
+					+ '" min="1" step="0.1" style="width:50px; height:30px;"/>';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Radius';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="number" id="' + gitbuilder.variable.elementid.circleRadius
+					+ '" min="1" step="0.1" style="width:50px; height:30px;"/>';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '</table>';
+
+			palette += '</div>';
+
+			palette += '<div class="col-md-6">';
+
+			palette += '</div>';
+
+			palette += '</div>';
+
+			$("#" + gitbuilder.variable.elementid.strokeColor).spectrum("destroy");
+			$("#" + gitbuilder.variable.elementid.fillColor).spectrum("destroy");
+
+			$("#" + gitbuilder.variable.elementid.settingArea).empty();
+			$("#" + gitbuilder.variable.elementid.settingArea).append(palette);
 
 			$("#" + gitbuilder.variable.elementid.strokeColor)
 					.spectrum(
@@ -2975,7 +3010,6 @@ if (!gitbuilder.ui) {
 												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
 												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
 							});
-
 			$("#" + gitbuilder.variable.elementid.fillColor)
 					.spectrum(
 							{
@@ -3005,10 +3039,422 @@ if (!gitbuilder.ui) {
 												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
 							});
 
+			var style = layer.getStyle().getImage();
+
+			$("#" + gitbuilder.variable.elementid.lineWidth).val(style.getStroke().getWidth());
+			$("#" + gitbuilder.variable.elementid.circleRadius).val(style.getRadius());
+
+			$("#" + gitbuilder.variable.elementid.strokeColor).spectrum("set", style.getStroke().getColor());
+			$("#" + gitbuilder.variable.elementid.fillColor).spectrum("set", style.getFill().getColor());
+
+		} else if (type === "LineString" || type === "MultiLineString") {
+			var palette = '';
+			palette += '<div class="row">';
+
+			palette += '<div class="col-md-6">';
+
+			palette += '<table class="table table-hover">';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Line Color';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="text"	id="' + gitbuilder.variable.elementid.strokeColor + '" />';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Line Width';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="number" id="' + gitbuilder.variable.elementid.lineWidth
+					+ '" min="1" step="0.1" style="width:50px; height:30px;"/>';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '</table>';
+
+			palette += '</div>';
+
+			palette += '<div class="col-md-6">';
+
+			palette += '</div>';
+
+			palette += '</div>';
+
+			$("#" + gitbuilder.variable.elementid.strokeColor).spectrum("destroy");
+			$("#" + gitbuilder.variable.elementid.fillColor).spectrum("destroy");
+
+			$("#" + gitbuilder.variable.elementid.settingArea).empty();
+			$("#" + gitbuilder.variable.elementid.settingArea).append(palette);
+
+			$("#" + gitbuilder.variable.elementid.strokeColor)
+					.spectrum(
+							{
+								showAlpha : true,
+								showInput : true,
+								preferredFormat : "rgb",
+								showPalette : true,
+								palette : [
+										[ "rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)", "rgb(183, 183, 183)",
+												"rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)",
+												"rgb(255, 255, 255)" ],
+										[ "rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+												"rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)" ],
+										[ "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)",
+												"rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)",
+												"rgb(217, 210, 233)", "rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)",
+												"rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)",
+												"rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+												"rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)",
+												"rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)",
+												"rgb(142, 124, 195)", "rgb(194, 123, 160)", "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)",
+												"rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)",
+												"rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)", "rgb(133, 32, 12)", "rgb(153, 0, 0)",
+												"rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)", "rgb(19, 79, 92)", "rgb(17, 85, 204)",
+												"rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)", "rgb(91, 15, 0)", "rgb(102, 0, 0)",
+												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
+												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
+							});
+			var style = layer.getStyle();
+			$("#" + gitbuilder.variable.elementid.strokeColor).spectrum("set", style.getStroke().getColor());
+			$("#" + gitbuilder.variable.elementid.lineWidth).val(style.getStroke().getWidth());
+
+		} else if (type === "Polygon" || type === "MultiPolygon") {
+			var palette = '';
+			palette += '<div class="row">';
+
+			palette += '<div class="col-md-6">';
+
+			palette += '<table class="table table-hover">';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Line Color';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="text"	id="' + gitbuilder.variable.elementid.strokeColor + '" />';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Face Color';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="text"	id="' + gitbuilder.variable.elementid.fillColor + '" />';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '<tr>';
+			palette += '<td>';
+			palette += 'Line Width';
+			palette += '</td>';
+			palette += '<td>';
+			palette += '<input type="number" id="' + gitbuilder.variable.elementid.lineWidth
+					+ '" min="1" step="0.1" style="width:50px; height:30px;"/>';
+			palette += '</td>';
+			palette += '</tr>';
+
+			palette += '</table>';
+
+			palette += '</div>';
+
+			palette += '<div class="col-md-6">';
+
+			palette += '</div>';
+
+			palette += '</div>';
+
+			$("#" + gitbuilder.variable.elementid.strokeColor).spectrum("destroy");
+			$("#" + gitbuilder.variable.elementid.fillColor).spectrum("destroy");
+
+			$("#" + gitbuilder.variable.elementid.settingArea).empty();
+			$("#" + gitbuilder.variable.elementid.settingArea).append(palette);
+
+			$("#" + gitbuilder.variable.elementid.strokeColor)
+					.spectrum(
+							{
+								showAlpha : true,
+								showInput : true,
+								preferredFormat : "rgb",
+								showPalette : true,
+								palette : [
+										[ "rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)", "rgb(183, 183, 183)",
+												"rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)",
+												"rgb(255, 255, 255)" ],
+										[ "rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+												"rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)" ],
+										[ "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)",
+												"rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)",
+												"rgb(217, 210, 233)", "rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)",
+												"rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)",
+												"rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+												"rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)",
+												"rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)",
+												"rgb(142, 124, 195)", "rgb(194, 123, 160)", "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)",
+												"rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)",
+												"rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)", "rgb(133, 32, 12)", "rgb(153, 0, 0)",
+												"rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)", "rgb(19, 79, 92)", "rgb(17, 85, 204)",
+												"rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)", "rgb(91, 15, 0)", "rgb(102, 0, 0)",
+												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
+												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
+							});
+			$("#" + gitbuilder.variable.elementid.fillColor)
+					.spectrum(
+							{
+								showAlpha : true,
+								showInput : true,
+								preferredFormat : "rgb",
+								showPalette : true,
+								palette : [
+										[ "rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)", "rgb(183, 183, 183)",
+												"rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)",
+												"rgb(255, 255, 255)" ],
+										[ "rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+												"rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)" ],
+										[ "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)",
+												"rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)",
+												"rgb(217, 210, 233)", "rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)",
+												"rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)",
+												"rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+												"rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)",
+												"rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)",
+												"rgb(142, 124, 195)", "rgb(194, 123, 160)", "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)",
+												"rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)",
+												"rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)", "rgb(133, 32, 12)", "rgb(153, 0, 0)",
+												"rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)", "rgb(19, 79, 92)", "rgb(17, 85, 204)",
+												"rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)", "rgb(91, 15, 0)", "rgb(102, 0, 0)",
+												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
+												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
+							});
+			var style = layer.getStyle();
+			$("#" + gitbuilder.variable.elementid.strokeColor).spectrum("set", style.getStroke().getColor());
+			$("#" + gitbuilder.variable.elementid.fillColor).spectrum("set", style.getFill().getColor());
+			$("#" + gitbuilder.variable.elementid.lineWidth).val(style.getStroke().getWidth());
+
 		}
 
+		$("#" + gitbuilder.variable.elementid.buttonArea).empty();
+		var buttons = '';
+		buttons += '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>';
+		buttons += '<button type="button" class="btn btn-primary GitBuilder-Style-Apply" data-dismiss="modal">OK</button>';
+		$("#" + gitbuilder.variable.elementid.buttonArea).append(buttons);
+
+		$(document).off("click", ".GitBuilder-Style-Apply");
+
+		$(document).on("click", ".GitBuilder-Style-Apply", function() {
+			var theLayer = layer;
+			var style = theLayer.getStyle();
+			var type = theLayer.get("type");
+			if (type === "Point" || type === "MultiPoint") {
+				var image = style.getImage();
+				if (image instanceof ol.style.Circle) {
+
+					var fill = new ol.style.Fill({
+						color : $("#" + gitbuilder.variable.elementid.fillColor).spectrum("get").toRgbString()
+					});
+
+					var stroke = new ol.style.Stroke({
+						color : $("#" + gitbuilder.variable.elementid.strokeColor).spectrum("get").toRgbString(),
+						width : parseFloat($("#" + gitbuilder.variable.elementid.lineWidth).val())
+					});
+
+					var text = new ol.style.Text({});
+					var style = new ol.style.Style({
+						image : new ol.style.Circle({
+							fill : fill,
+							stroke : stroke,
+							radius : parseFloat($("#" + gitbuilder.variable.elementid.circleRadius).val())
+						}),
+						text : text
+					});
+
+					theLayer.setStyle(style);
+				}
+			} else if (type === "LineString" || type === "MultiLineString") {
+
+				var stroke = new ol.style.Stroke({
+					color : $("#" + gitbuilder.variable.elementid.strokeColor).spectrum("get").toRgbString(),
+					width : parseFloat($("#" + gitbuilder.variable.elementid.lineWidth).val())
+				});
+
+				var text = new ol.style.Text({});
+				var style = new ol.style.Style({
+					stroke : stroke,
+					text : text
+				});
+
+				theLayer.setStyle(style);
+
+			} else if (type === "Polygon" || type === "MultiPolygon") {
+				var fill = new ol.style.Fill({
+					color : $("#" + gitbuilder.variable.elementid.fillColor).spectrum("get").toRgbString()
+				});
+
+				var stroke = new ol.style.Stroke({
+					color : $("#" + gitbuilder.variable.elementid.strokeColor).spectrum("get").toRgbString(),
+					width : parseFloat($("#" + gitbuilder.variable.elementid.lineWidth).val())
+				});
+
+				var text = new ol.style.Text({});
+				var style = new ol.style.Style({
+					fill : fill,
+					stroke : stroke,
+					text : text
+				});
+
+				theLayer.setStyle(style);
+			}
+			gitbuilder.variable.map.renderSync();
+			gitbuilder.method.layer.updateLayerList();
+		});
 		$('#' + gitbuilder.variable.elementid.styleWindow).modal('show');
 	}
+	// ==========================================================================================================
+	/**
+	 * @description 애트리뷰트 창 출력
+	 */
+	gitbuilder.ui.LayerAttributeWindow = function LayerAttributeWindow(layer) {
+		if (!(layer instanceof ol.layer.Vector)) {
+			console.error("not ol.layer.Vector");
+			return;
+		}
+		if (!gitbuilder.variable.elementid.layerAttributeWindow) {
+			var layerAttributeWindow = "layerAttributeWindow";
+			var count = 0;
+			while (gitbuilder.method.isDuplicatedId(layerAttributeWindow)) {
+				layerAttributeWindow += count;
+			}
+			gitbuilder.variable.elementid.layerAttributeWindow = layerAttributeWindow;
+
+			var attributeTable = "attributeTable";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(attributeTable)) {
+				attributeTable += count;
+			}
+			gitbuilder.variable.elementid.attributeTable = attributeTable;
+
+			var layerAttributeName = "layerAttributeName";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(layerAttributeName)) {
+				layerAttributeName += count;
+			}
+			gitbuilder.variable.elementid.layerAttributeName = layerAttributeName;
+
+			var layerAttributeType = "layerAttributeType";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(layerAttributeType)) {
+				layerAttributeType += count;
+			}
+			gitbuilder.variable.elementid.layerAttributeType = layerAttributeType;
+
+			var modal = "";
+			modal += '<div id="' + gitbuilder.variable.elementid.layerAttributeWindow
+					+ '" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Layer Style" aria-hidden="true">';
+			modal += '<div class="modal-dialog">';
+			modal += '<div class="modal-content">';
+			modal += '<div class="modal-header">';
+			modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			modal += '<h4 class="modal-title">Attribute table</h4>';
+			modal += '</div>';
+			modal += '<div class="modal-body">';
+
+			modal += '<div class="panel panel-default">';
+			modal += '<div class="panel-heading">New Attribute</div>';
+			modal += '<div class="panel-body">';
+
+			modal += '<div class="form-group">';
+			modal += '<label class="col-md-2 control-label">Name</label>';
+			modal += '<div class="col-md-10">';
+			modal += '<input type="text" class="form-control" id="' + gitbuilder.variable.elementid.layerAttributeName + '">';
+			modal += '</div>';
+			modal += '</div>';
+
+			modal += '<div class="form-group">';
+			modal += '<label class="col-md-2 control-label">Type</label>';
+			modal += '<div class="col-md-10">';
+			modal += '<select class="form-control" id="' + gitbuilder.variable.elementid.layerAttributeType + '">';
+			modal += '<option value="String">String</option>';
+			modal += '<option value="Integer">Integer</option>';
+			modal += '<option value="Double">Double</option>';
+			modal += '<option value="Date">Date</option>';
+			modal += '</select>';
+			modal += '</div>';
+			modal += '</div>';
+
+			modal += '<div class="form-group">';
+			modal += '<div class="col-md-5">';
+			modal += '</div>';
+			modal += '<div class="col-md-2">';
+			modal += '<button type="button" class="btn btn-default GitBuilder-Add-Attribute" >Add</button>';
+			modal += '</div>';
+			modal += '<div class="col-md-5">';
+			modal += '</div>';
+			modal += '</div>';
+
+			modal += '</div>';
+			modal += '</div>';
+
+			modal += '<div class="panel panel-default">';
+			modal += '<div class="panel-heading">Attribute List</div>';
+			modal += '<div class="panel-body">';
+			modal += '<table class="table table-bordered table-hover table-condensed">';
+			modal += '<thead><tr><td><p class="text-center">Name</p></td><td><p class="text-center">Type</p></td><td><p class="text-center">Delete</p></td></tr></thead>';
+			modal += '<tbody id="' + gitbuilder.variable.elementid.attributeTable + '">';
+			// modal += '<tr><td><p class="text-center">1</p></td><td><p
+			// class="text-center">id</p></td><td><p
+			// class="text-center">Integer</p></td><td><p
+			// class="text-center"><button type="button" class="btn btn-default
+			// btn-xs DeleteAttr">Delete</button></p></td></tr>';
+			modal += '</tbody>';
+			modal += '</table>';
+			modal += '</div>';
+			modal += '</div>';
+
+			modal += '</div>';
+			modal += '<div class="modal-footer">';
+			// modal += '<div class="modal-footer" id="' +
+			// gitbuilder.variable.elementid.buttonArea + '">';
+			modal += '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>';
+			modal += '<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>';
+			modal += ' </div>';
+			modal += '</div>';
+			modal += '</div>';
+			modal += '</div>';
+
+			$("body").append(modal);
+		}
+		$('#' + gitbuilder.variable.elementid.attributeTable).empty();
+
+		var attr = Object.keys(layer.get('attribute'));
+		var table = '';
+		for (var i = 0; i < attr.length; i++) {
+			table += '<tr><td><p class="text-center">'
+					+ attr[i]
+					+ '</p></td><td><p class="text-center">'
+					+ layer.get('attribute')[attr[i]]
+					+ '</p></td><td><p class="text-center"><button type="button" class="btn btn-default btn-xs DeleteAttr">Delete</button></p></td></tr>';
+		}
+		$('#' + gitbuilder.variable.elementid.attributeTable).append(table);
+		$('#' + gitbuilder.variable.elementid.layerAttributeWindow).modal('show');
+
+		$(document).off("click", ".DeleteAttr");
+
+		$(document).on("click", ".DeleteAttr", function() {
+			var rowIdx = $(this).parent().parent().parent().index();
+			gitbuilder.ui.removeLayerAttributeFromTable(rowIdx);
+		});
+
+		$(document).off("click", ".GitBuilder-Add-Attribute");
+
+		$(document).on("click", ".GitBuilder-Add-Attribute", function() {
+			gitbuilder.ui.addLayerAttributeIntoTable();
+		});
+
+	};
 	// ==========================================================================================================
 	/**
 	 * @description 새로운 벡터 레이어를 생성
@@ -3184,11 +3630,6 @@ if (!gitbuilder.ui) {
 
 			$("body").append(vector);
 
-			$(document).on("click", ".DeleteAttr", function() {
-				var rowIdx = $(this).parent().parent().parent().index();
-				gitbuilder.ui.RemoveAttributeFromTable(rowIdx);
-			});
-
 		} else {
 			$("#" + gitbuilder.variable.elementid.layerName).val("");
 			$("#" + gitbuilder.variable.elementid.attrName).val("");
@@ -3200,6 +3641,13 @@ if (!gitbuilder.ui) {
 			// attrList: 속성 리스트 테이블 바디
 			$("#" + gitbuilder.variable.elementid.attrList).append(vector);
 		}
+
+		$(document).off("click", ".DeleteAttr");
+
+		$(document).on("click", ".DeleteAttr", function() {
+			var rowIdx = $(this).parent().parent().parent().index();
+			gitbuilder.ui.RemoveAttributeFromTable(rowIdx);
+		});
 
 		$('#' + gitbuilder.variable.elementid.vectorWindow).modal('show');
 	}
@@ -3287,7 +3735,16 @@ if (!gitbuilder.ui) {
 			gitbuilder.ui.OutputErrorFeatureFromStart(layer, 0);
 			$("#" + gitbuilder.variable.elementid.navigatingWindow).hide();
 		} else {
+			var layers = gitbuilder.method.layer.getErrorLayer();
+			var layer;
 
+			if (layers.getLength() === 1) {
+				layer = layers.item(0);
+			}
+
+			var errLayer = gitbuilder.variable.navigatingFeature[layer.get("id")];
+
+			gitbuilder.ui.OutputErrorFeatureFromStart(layer, (0));
 		}
 		if ($("#" + gitbuilder.variable.elementid.navigatingWindow + " :visible").length > 0) {
 			gitbuilder.ui.CloseNavigatorWindow();
@@ -3498,17 +3955,17 @@ if (!gitbuilder.ui) {
 		// var ufid = $(this).attr("ufid");
 		// gitbuilder.method.edit.LinkToErrorFeature(ufid);
 		// console.log("error feature link");
-		// });		
+		// });
 
 		$('[data-toggle="tooltip"]').tooltip();
-		
+
 		if ($("#" + gitbuilder.variable.elementid.editingWindow + " :visible").length > 0) {
 			gitbuilder.ui.CloseEditingWindow();
 		} else {
 			gitbuilder.ui.OpenEditingWindow();
 		}
-		
-		console.log("editing");		
+
+		console.log("editing");
 
 	}
 	// ==========================================================================================================
@@ -3516,7 +3973,7 @@ if (!gitbuilder.ui) {
 	 * @description 편집도구창을 연다.
 	 */
 	gitbuilder.ui.OpenEditingWindow = function OpenEditingWindow() {
-//		gitbuilder.ui.EditingWindow();
+		// gitbuilder.ui.EditingWindow();
 		if (gitbuilder.variable.selectedLayers.getLength() === 1) {
 			var layer = gitbuilder.variable.selectedLayers.item(0);
 			if (layer instanceof ol.layer.Vector || (layer instanceof ol.layer.Image && layer.getSource() instanceof ol.source.ImageVector)) {
@@ -3594,6 +4051,34 @@ if (!gitbuilder.ui) {
 	}
 	// ==========================================================================================================
 	/**
+	 * @description 레이어 애트리뷰트 입력
+	 */
+	gitbuilder.ui.addLayerAttributeIntoTable = function addLayerAttributeIntoTable() {
+		var keyName = $("#" + gitbuilder.variable.elementid.layerAttributeName).val();
+		var keyType = $("#" + gitbuilder.variable.elementid.layerAttributeType).val();
+		var trLength = $("#" + gitbuilder.variable.elementid.attributeTable).children().length + 1;
+		var vector = '<tr><td><p class="text-center">' + keyName + '</p></td><td><p class="text-center">' + keyType
+				+ '</p></td><td><p class="text-center"><button type="button" class="btn btn-default btn-xs DeleteAttr">Delete</button></p></td></tr>';
+		// attrName: 속성명 텍스트인풋
+		// attrType: 속성 데이터 타입 실렉트
+		// attrList: 속성 리스트 테이블 바디
+		var trs = $("#" + gitbuilder.variable.elementid.attributeTable).children();
+		var isExist = false;
+		for (var i = 0; i < trs.length; i++) {
+			var tds = $(trs[i]).children();
+			console.log(tds[0]);
+			if (keyName === $(tds[0]).text()) {
+				isExist = true;
+				break;
+			}
+		}
+		if (!isExist) {
+			$("#" + gitbuilder.variable.elementid.attributeTable).append(vector);
+		}
+
+	}
+	// ==========================================================================================================
+	/**
 	 * @description 애트리뷰트 삭제
 	 */
 	gitbuilder.ui.RemoveAttributeFromTable = function RemoveAttributeFromTable(idx) {
@@ -3603,19 +4088,62 @@ if (!gitbuilder.ui) {
 	}
 	// ==========================================================================================================
 	/**
+	 * @description 레이어 애트리뷰트 삭제
+	 */
+	gitbuilder.ui.removeLayerAttributeFromTable = function removeLayerAttributeFromTable(idx) {
+		console.log(idx);
+		console.log("#" + gitbuilder.variable.elementid.attributeTable + " tr");
+		$("#" + gitbuilder.variable.elementid.attributeTable + " tr").eq(idx).remove();
+	}
+	// ==========================================================================================================
+	/**
 	 * @description 검수 설정 창
 	 */
 	gitbuilder.ui.ValidationOptionWindow = function ValidationOptionWindow() {
 
-		// feature 편집 mbr을 삭제한다 -김호철-
-		gitbuilder.ui.RemoveEditToolTip();
+		if (!gitbuilder.variable.validationObj) {
+			gitbuilder.variable.validationObj = {
+				extent : undefined,
+				layers : {}
+			}
+		}
+		var layerIds = Object.keys(gitbuilder.variable.validationObj.layers);
+		for (var i = 0; i < layerIds.length; i++) {
+			var isExist = false;
+			for (var j = 0; j < gitbuilder.variable.map.getLayers().getLength(); j++) {
+				if (layerIds[i] === gitbuilder.variable.map.getLayers().item(j).get('id')) {
+					isExist = true;
+					break;
+				}
+			}
+			var name;
+			if (!isExist) {
+				name = layerIds[i];
+				delete gitbuilder.variable.validationObj.layers[layerIds[i]];
 
-		// 검수 실행 전 숨겨져있는 layer와 feature들을 삭제 -김호철-
-		gitbuilder.variable.undoRedo.resetRedos();
+				var layerIds2 = Object.keys(gitbuilder.variable.validationObj.layers);
+				for (var k = 0; k < layerIds2.length; k++) {
+					var optNames = Object.keys(gitbuilder.variable.validationObj.layers[layerIds2[k]].qaOption);
+					for (var l = 0; l < optNames.length; l++) {
+						if (optNames[l] === "SelfEntity" || optNames[l] === "OutBoundary") {
+							var relation = gitbuilder.variable.validationObj.layers[layerIds2[k]].qaOption[optNames[l]];
+							if (relation.length > 0) {
+								for (var m = 0; m < relation.length; m++) {
+									if (relation[m] === name) {
+										var arr = gitbuilder.variable.validationObj.layers[layerIds2[k]].qaOption[optNames[l]];
+										var idx = arr.indexOf(name);
+										arr.splice(idx, 1);
+										// delete
+										// gitbuilder.variable.validationObj.layers[layerIds2[k]].qaOption[optNames[l]][name];
+									}
+								}
+							}
+						}
+					}
+				}
 
-		gitbuilder.variable.validationObj = {
-			extent : undefined,
-			layers : {}
+			}
+
 		}
 
 		if (!gitbuilder.variable.elementid.validatingWindow && !gitbuilder.variable.elementid.validationLayerList) {
@@ -3669,8 +4197,7 @@ if (!gitbuilder.ui) {
 			gitbuilder.variable.elementid.validationAreaLayer = varea;
 
 			var modal = "";
-			modal += '<div id="' + validatingWindow
-					+ '" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">';
+			modal += '<div id="' + validatingWindow + '" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">';
 			modal += '<div class="modal-dialog modal-lg">';
 
 			modal += '<div class="modal-content">';
@@ -3686,7 +4213,7 @@ if (!gitbuilder.ui) {
 			modal += '<div class="col-md-4">';
 			modal += '<div class="panel panel-default">';
 			modal += '<div class="panel-heading">Layer List</div>';
-			modal += '<div class="panel-body">';
+			modal += '<div class="panel-body" style="min-height:130px;max-height:300px;overflow-y:auto;">';
 			modal += '<div style="margin:6px;">Validation Area</div>';
 			modal += '<div id="' + gitbuilder.variable.elementid.validationAreaLayer + '">';
 			modal += gitbuilder.ui.OutputVectorLayersSelect();
@@ -3702,9 +4229,10 @@ if (!gitbuilder.ui) {
 			modal += '<div class="col-md-4">';
 			modal += '<div class="panel panel-default">';
 			modal += '<div class="panel-heading">Validation Option</div>';
-			modal += '<div class="panel-body">';
-			modal += '<div class="input-group">';
-			modal += '<input type="number" class="form-control" min="0" max="100" id="' + valiWeight + '" placeholder="Weight">';
+			modal += '<div class="panel-body" style="min-height:130px;max-height:300px;overflow-y:auto;">';
+			modal += '<div class="input-group GitBuilder-Validation-Option-Weight" style="visibility:hidden">';
+			modal += '<input type="number" class="form-control" min="0" max="100" id="' + gitbuilder.variable.elementid.validationWeight
+					+ '" placeholder="Weight">';
 			modal += '<span class="input-group-addon">%</span>';
 			modal += '</div>';
 			modal += '<div id="' + valiOpt + '">';
@@ -3717,11 +4245,19 @@ if (!gitbuilder.ui) {
 			modal += '<div class="col-md-4">';
 			modal += '<div class="panel panel-default">';
 			modal += '<div class="panel-heading">Detailed Option</div>';
-			modal += '<div class="panel-body" id="' + relation + '">';
-			modal += '-';
+			modal += '<div class="panel-body" id="' + relation + '" style="min-height:130px;max-height:300px;overflow-y:auto;">';
 			modal += '</div>';
 			modal += '</div>';
 			modal += '</div>';
+
+			// modal += '<div class="col-md-3">';
+			// modal += '<div class="panel panel-default">';
+			// modal += '<div class="panel-heading">Information</div>';
+			// modal += '<div class="panel-body" id="' + info + '">';
+			//
+			// modal += '</div>';
+			// modal += '</div>';
+			// modal += '</div>';
 
 			modal += ' </div>';
 
@@ -3729,17 +4265,18 @@ if (!gitbuilder.ui) {
 			modal += '<div class="col-md-12">';
 			modal += '<div class="panel panel-default">';
 			modal += '<div class="panel-heading">Information</div>';
-			modal += '<div class="panel-body" id="' + info + '">';
+			modal += '<div class="panel-body" id="' + info + '" style="max-height:300px;overflow-y:auto;">';
 
 			modal += '</div>';
 			modal += '</div>';
 			modal += '</div>';
 			modal += '</div>';
+
 			modal += '</div>';
 
 			modal += '<div class="modal-footer">';
 			modal += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
-			modal += '<button type="button" class="btn btn-primary GitBuilder-Button-Validation" data-dismiss="modal" onclick="gitbuilder.method.validation.RequestValidation()">Validate</button>';
+			modal += '<button type="button" class="btn btn-primary GitBuilder-Button-Validation" onclick="gitbuilder.method.validation.RequestValidation()">Validate</button>';
 			modal += '</div>';
 
 			modal += '</div>';
@@ -3770,19 +4307,6 @@ if (!gitbuilder.ui) {
 				});
 				// console.log(gitbuilder.variable.validationObj);
 			});
-
-			// 가중치
-			$("#" + gitbuilder.variable.elementid.validationWeight).on(
-					"input",
-					function() {
-						console.log($(this).val());
-						gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight = ($(this).val() === "") ? 0 : $(
-								this).val();
-						$("#" + gitbuilder.variable.elementid.validationInfo).empty();
-						$("#" + gitbuilder.variable.elementid.validationInfo).append(gitbuilder.ui.OutputValidationOverview());
-
-						// console.log(gitbuilder.variable.validationObj);
-					});
 
 			// gitbuilder.variable.validationLayer.after 현재 레이어
 			$(document).on("click", ".GitBuilder-QAList-Item", function() {
@@ -3815,10 +4339,15 @@ if (!gitbuilder.ui) {
 					// }
 				}
 
-				gitbuilder.method.edit.CreateValidationArea({
+				var isValid = true;
+				isValid = gitbuilder.method.edit.CreateValidationArea({
 					area : gitbuilder.variable.validationArea,
 					validation : gitbuilder.method.layer.getLayerById(nowId)
 				});
+
+				if (!isValid) {
+					return;
+				}
 
 				// var retriveWeight = "";
 				// if (gitbuilder.variable.validationObj[id]) {
@@ -3831,12 +4360,54 @@ if (!gitbuilder.ui) {
 				var layer = gitbuilder.method.layer.getLayerById(nowId);
 				var ul = gitbuilder.ui.OutputValidationOption(layer);
 				$("#" + gitbuilder.variable.elementid.validationOption).append(ul);
+				$(".GitBuilder-Validation-Option-Weight").css("visibility", "visible");
 				if (gitbuilder.variable.validationObj.layers.hasOwnProperty(nowId)) {
 					if (gitbuilder.variable.validationObj.layers[nowId].hasOwnProperty("weight")) {
 						$("#" + gitbuilder.variable.elementid.validationWeight).val(gitbuilder.variable.validationObj.layers[nowId].weight);
 					}
 				}
 				$("#" + gitbuilder.variable.elementid.layerRelation).empty();
+			});
+
+			// 가중치
+			$(document).on("input", "#" + gitbuilder.variable.elementid.validationWeight, function() {
+
+				console.log($(this).val());
+
+				var val = $("#" + gitbuilder.variable.elementid.validationWeight).val();
+
+				if (val.length > 1 && (val.charAt(0) === "0")) {
+					var nozero = val.slice(1);
+					$("#" + gitbuilder.variable.elementid.validationWeight).val(nozero);
+				}
+
+				if (val.search(".") !== -1 && val.length > 5) {
+					$("#" + gitbuilder.variable.elementid.validationWeight).val(Math.round(parseFloat(val) * 100) / 100);
+				}
+
+				if (parseFloat(val) < 0 || isNaN(val)) {
+					alert("please enter valid values");
+					$(this).val("0");
+					$(this).focus();
+				}
+
+				if (!gitbuilder.variable.validationLayer.after) {
+					alert("select layer to validate");
+					$(this).val("");
+				}
+				// gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight
+				// = ($(this).val() === "" || $(this).val() === "-") ? 0 :
+				// $(this).val();
+				if ($(this).val() === "" || $(this).val() === "-") {
+					gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight = 0;
+					$(this).val("0");
+				} else {
+					gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight = $(this).val();
+				}
+				$("#" + gitbuilder.variable.elementid.validationInfo).empty();
+				$("#" + gitbuilder.variable.elementid.validationInfo).append(gitbuilder.ui.OutputValidationOverview());
+
+				// console.log(gitbuilder.variable.validationObj);
 			});
 
 			// gitbuilder.variable.validationOption.after 현재 선택한 옵션
@@ -3868,40 +4439,151 @@ if (!gitbuilder.ui) {
 								switch (gitbuilder.variable.validationOption.after) {
 								case "SmallLength":
 									// 길이
+									$("#" + gitbuilder.variable.elementid.smallLength).off("input");
 									$("#" + gitbuilder.variable.elementid.smallLength)
 											.on(
 													"input",
 													function() {
 														console.log($(this).val());
-														gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallLength = $(
-																this).val();
+														
+														var val = $(this).val();
+
+//														if (val.length > 1 && (val.charAt(0) === "0") && (val.search(".") === -1)) {
+//															var nozero = val.slice(1);
+//															$(this).val(nozero);
+//														}
+
+														if ($(this).val() === "") {
+															if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption
+																	.hasOwnProperty("SmallLength")) {
+																delete gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallLength;
+															}
+														} else if (parseFloat($(this).val()) < 0) {
+															$(this).val("0");
+															gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallLength = 0;
+														} else {
+															gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallLength = $(
+																	this).val();
+														}
+
 														// console.log(gitbuilder.variable.validationObj);
+
+														$("#" + gitbuilder.variable.elementid.validationOption).empty();
+														// $("#" +
+														// gitbuilder.variable.elementid.validationWeight).val(retriveWeight);
+														var layer = gitbuilder.method.layer.getLayerById(gitbuilder.variable.validationLayer.after);
+														var ul = gitbuilder.ui.OutputValidationOption(layer);
+														$("#" + gitbuilder.variable.elementid.validationOption).append(ul);
+														$(".GitBuilder-Validation-Option-Weight").css("visibility", "visible");
+														if (gitbuilder.variable.validationObj.layers
+																.hasOwnProperty(gitbuilder.variable.validationLayer.after)) {
+															if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after]
+																	.hasOwnProperty("weight")) {
+																$("#" + gitbuilder.variable.elementid.validationWeight)
+																		.val(
+																				gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight);
+															}
+														}
 													});
 									break;
 
 								case "SmallArea":
 									// 넓이
+									$("#" + gitbuilder.variable.elementid.smallArea).off("input");
 									$("#" + gitbuilder.variable.elementid.smallArea)
 											.on(
 													"input",
 													function() {
 														console.log($(this).val());
-														gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallArea = $(
-																this).val();
+														
+														var val = $(this).val();
+
+//														if (val.length > 1 && (val.charAt(0) === "0")) {
+//															var nozero = val.slice(1);
+//															$(this).val(nozero);
+//														}
+														
+														if ($(this).val() === "") {
+															if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption
+																	.hasOwnProperty("SmallArea")) {
+																delete gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallArea;
+															}
+														} else if (parseFloat($(this).val()) < 0) {
+															$(this).val("0");
+															gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallArea = 0;
+														} else {
+															gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallArea = $(
+																	this).val();
+														}
+
 														// console.log(gitbuilder.variable.validationObj);
+
+														$("#" + gitbuilder.variable.elementid.validationOption).empty();
+														// $("#" +
+														// gitbuilder.variable.elementid.validationWeight).val(retriveWeight);
+														var layer = gitbuilder.method.layer.getLayerById(gitbuilder.variable.validationLayer.after);
+														var ul = gitbuilder.ui.OutputValidationOption(layer);
+														$("#" + gitbuilder.variable.elementid.validationOption).append(ul);
+														$(".GitBuilder-Validation-Option-Weight").css("visibility", "visible");
+														if (gitbuilder.variable.validationObj.layers
+																.hasOwnProperty(gitbuilder.variable.validationLayer.after)) {
+															if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after]
+																	.hasOwnProperty("weight")) {
+																$("#" + gitbuilder.variable.elementid.validationWeight)
+																		.val(
+																				gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight);
+															}
+														}
 													});
 									break;
 
 								case "ConOverDegree":
 									// 꺾임
+									$("#" + gitbuilder.variable.elementid.conOverDegree).off("input");
 									$("#" + gitbuilder.variable.elementid.conOverDegree)
 											.on(
 													"input",
 													function() {
 														console.log($(this).val());
-														gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.ConOverDegree = $(
-																this).val();
+														
+														var val = $(this).val();
+
+//														if (val.length > 1 && (val.charAt(0) === "0")) {
+//															var nozero = val.slice(1);
+//															$(this).val(nozero);
+//														}
+														
+														if ($(this).val() === "") {
+															if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption
+																	.hasOwnProperty("ConOverDegree")) {
+																delete gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.ConOverDegree;
+															}
+														} else if (parseFloat($(this).val()) < 0) {
+															$(this).val("0");
+															gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.ConOverDegree = 0;
+														} else {
+															gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.ConOverDegree = $(
+																	this).val();
+														}
+
 														// console.log(gitbuilder.variable.validationObj);
+
+														$("#" + gitbuilder.variable.elementid.validationOption).empty();
+														// $("#" +
+														// gitbuilder.variable.elementid.validationWeight).val(retriveWeight);
+														var layer = gitbuilder.method.layer.getLayerById(gitbuilder.variable.validationLayer.after);
+														var ul = gitbuilder.ui.OutputValidationOption(layer);
+														$("#" + gitbuilder.variable.elementid.validationOption).append(ul);
+														$(".GitBuilder-Validation-Option-Weight").css("visibility", "visible");
+														if (gitbuilder.variable.validationObj.layers
+																.hasOwnProperty(gitbuilder.variable.validationLayer.after)) {
+															if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after]
+																	.hasOwnProperty("weight")) {
+																$("#" + gitbuilder.variable.elementid.validationWeight)
+																		.val(
+																				gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight);
+															}
+														}
 													});
 									break;
 
@@ -3944,15 +4626,148 @@ if (!gitbuilder.ui) {
 
 			});
 
-			$(document).on("change", ".GitBuilder-QAList-CheckBox-AllToggle", function() {
-				if ($(this).is(":checked")) {
-					$(".GitBuilder-QAList-Relation-CheckBox").prop("checked", true);
-
-					var check = $(".GitBuilder-QAList-Relation-CheckBox");
-					$(check).each(function() {
+			$(document).on(
+					"change",
+					".GitBuilder-QAList-CheckBox-AllToggle",
+					function() {
 						if ($(this).is(":checked")) {
-							console.log($(this).val());
+							$(".GitBuilder-QAList-Relation-CheckBox").prop("checked", true);
+
+							var check = $(".GitBuilder-QAList-Relation-CheckBox:checkbox:checked");
+							$(check).each(function() {
+								// if ($(this).is(":checked")) {
+								// console.log($(this).val());
+								var layerId = gitbuilder.variable.validationLayer.after;
+
+								gitbuilder.method.edit.CreateValidationArea({
+									area : gitbuilder.variable.validationArea,
+									validation : gitbuilder.method.layer.getLayerById($(this).val())
+								});
+								if (gitbuilder.variable.validationObj.layers.hasOwnProperty(layerId)) {
+									if (gitbuilder.variable.validationObj.layers[layerId].hasOwnProperty("qaOption")) {
+										var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
+										if (!Array.isArray(obj[gitbuilder.variable.validationOption.after])) {
+											obj[gitbuilder.variable.validationOption.after] = [];
+										}
+										var flag = $.inArray($(this).val(), obj[gitbuilder.variable.validationOption.after]);
+										if (flag === -1) {
+											obj[gitbuilder.variable.validationOption.after].push($(this).val());
+										}
+
+									}
+								}
+
+								// console.log(gitbuilder.variable.validationObj);
+								// } else {
+
+								// console.log($(this).val());
+								// var layerId =
+								// gitbuilder.variable.validationLayer.after;
+								//
+								// var obj =
+								// gitbuilder.variable.validationObj.layers[layerId].qaOption;
+								// if
+								// (!Array.isArray(obj[gitbuilder.variable.validationOption.after]))
+								// {
+								// obj[gitbuilder.variable.validationOption.after]
+								// = [];
+								// }
+								// var idx =
+								// obj[gitbuilder.variable.validationOption.after].indexOf($(this).val());
+								// obj[gitbuilder.variable.validationOption.after].splice(idx,
+								// 1);
+								// if
+								// (obj[gitbuilder.variable.validationOption.after].length
+								// === 0) {
+								// delete
+								// obj[gitbuilder.variable.validationOption.after];
+								// }
+								// console.log(gitbuilder.variable.validationObj);
+
+								// }
+							});
+
+						} else {
+							$(".GitBuilder-QAList-Relation-CheckBox").prop("checked", false);
+
+							var check = $(".GitBuilder-QAList-Relation-CheckBox:checkbox:not(:checked)");
+							$(check).each(function() {
+								// if ($(this).is(":checked")) {
+								// console.log($(this).val());
+								// var layerId =
+								// gitbuilder.variable.validationLayer.after;
+								//
+								// var obj =
+								// gitbuilder.variable.validationObj.layers[layerId].qaOption;
+								// if
+								// (!Array.isArray(obj[gitbuilder.variable.validationOption.after]))
+								// {
+								// obj[gitbuilder.variable.validationOption.after]
+								// = [];
+								// }
+								// obj[gitbuilder.variable.validationOption.after].push($(this).val());
+
+								// console.log(gitbuilder.variable.validationObj);
+								// } else {
+								// console.log($(this).val());
+								var layerId = gitbuilder.variable.validationLayer.after;
+
+								if (gitbuilder.variable.validationObj.layers.hasOwnProperty(layerId)) {
+									if (gitbuilder.variable.validationObj.layers[layerId].hasOwnProperty("qaOption")) {
+										var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
+										if (!Array.isArray(obj[gitbuilder.variable.validationOption.after])) {
+											obj[gitbuilder.variable.validationOption.after] = [];
+										}
+										var flag = $.inArray($(this).val(), obj[gitbuilder.variable.validationOption.after]);
+										if (flag !== -1) {
+											var idx = obj[gitbuilder.variable.validationOption.after].indexOf($(this).val());
+											obj[gitbuilder.variable.validationOption.after].splice(idx, 1);
+											if (obj[gitbuilder.variable.validationOption.after].length === 0) {
+												delete obj[gitbuilder.variable.validationOption.after];
+											}
+										}
+
+										if (Object.keys(gitbuilder.variable.validationObj.layers[$(this).val()].qaOption).length === 0) {
+											delete gitbuilder.variable.validationObj.layers[$(this).val()];
+										}
+									}
+								}
+
+								// console.log(gitbuilder.variable.validationObj);
+								// }
+							});
+						}
+
+						$("#" + gitbuilder.variable.elementid.validationOption).empty();
+						// $("#" +
+						// gitbuilder.variable.elementid.validationWeight).val(retriveWeight);
+						var layer = gitbuilder.method.layer.getLayerById(gitbuilder.variable.validationLayer.after);
+						var ul = gitbuilder.ui.OutputValidationOption(layer);
+						$("#" + gitbuilder.variable.elementid.validationOption).append(ul);
+						$(".GitBuilder-Validation-Option-Weight").css("visibility", "visible");
+						if (gitbuilder.variable.validationObj.layers.hasOwnProperty(gitbuilder.variable.validationLayer.after)) {
+							if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].hasOwnProperty("weight")) {
+								$("#" + gitbuilder.variable.elementid.validationWeight).val(
+										gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight);
+							}
+						}
+
+						$("#" + gitbuilder.variable.elementid.validationInfo).empty();
+						$("#" + gitbuilder.variable.elementid.validationInfo).append(gitbuilder.ui.OutputValidationOverview());
+					});
+
+			$(document).on(
+					"change",
+					".GitBuilder-QAList-Relation-CheckBox",
+					function() {
+						if ($(this).is(":checked")) {
+							// console.log($(this).val());
 							var layerId = gitbuilder.variable.validationLayer.after;
+
+							gitbuilder.method.edit.CreateValidationArea({
+								area : gitbuilder.variable.validationArea,
+								validation : gitbuilder.method.layer.getLayerById($(this).val())
+							});
 
 							var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
 							if (!Array.isArray(obj[gitbuilder.variable.validationOption.after])) {
@@ -3962,7 +4777,7 @@ if (!gitbuilder.ui) {
 
 							// console.log(gitbuilder.variable.validationObj);
 						} else {
-							console.log($(this).val());
+							// console.log($(this).val());
 							var layerId = gitbuilder.variable.validationLayer.after;
 
 							var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
@@ -3974,17 +4789,37 @@ if (!gitbuilder.ui) {
 							if (obj[gitbuilder.variable.validationOption.after].length === 0) {
 								delete obj[gitbuilder.variable.validationOption.after];
 							}
+
+							if (Object.keys(gitbuilder.variable.validationObj.layers[$(this).val()].qaOption).length === 0) {
+								delete gitbuilder.variable.validationObj.layers[$(this).val()];
+							}
 							// console.log(gitbuilder.variable.validationObj);
 						}
+
+						$("#" + gitbuilder.variable.elementid.validationOption).empty();
+						// $("#" +
+						// gitbuilder.variable.elementid.validationWeight).val(retriveWeight);
+						var layer = gitbuilder.method.layer.getLayerById(gitbuilder.variable.validationLayer.after);
+						var ul = gitbuilder.ui.OutputValidationOption(layer);
+						$("#" + gitbuilder.variable.elementid.validationOption).append(ul);
+						$(".GitBuilder-Validation-Option-Weight").css("visibility", "visible");
+						if (gitbuilder.variable.validationObj.layers.hasOwnProperty(gitbuilder.variable.validationLayer.after)) {
+							if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].hasOwnProperty("weight")) {
+								$("#" + gitbuilder.variable.elementid.validationWeight).val(
+										gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight);
+							}
+						}
+
+						$("#" + gitbuilder.variable.elementid.validationInfo).empty();
+						$("#" + gitbuilder.variable.elementid.validationInfo).append(gitbuilder.ui.OutputValidationOverview());
 					});
 
-				} else {
-					$(".GitBuilder-QAList-Relation-CheckBox").prop("checked", false);
-
-					var check = $(".GitBuilder-QAList-Relation-CheckBox");
-					$(check).each(function() {
+			$(document).on(
+					"change",
+					".GitBuilder-QAList-Attribute-CheckBox",
+					function() {
 						if ($(this).is(":checked")) {
-							console.log($(this).val());
+							// console.log($(this).val());
 							var layerId = gitbuilder.variable.validationLayer.after;
 
 							var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
@@ -4009,78 +4844,28 @@ if (!gitbuilder.ui) {
 							}
 							// console.log(gitbuilder.variable.validationObj);
 						}
+
+						$("#" + gitbuilder.variable.elementid.validationOption).empty();
+						// $("#" +
+						// gitbuilder.variable.elementid.validationWeight).val(retriveWeight);
+						var layer = gitbuilder.method.layer.getLayerById(gitbuilder.variable.validationLayer.after);
+						var ul = gitbuilder.ui.OutputValidationOption(layer);
+						$("#" + gitbuilder.variable.elementid.validationOption).append(ul);
+						$(".GitBuilder-Validation-Option-Weight").css("visibility", "visible");
+						if (gitbuilder.variable.validationObj.layers.hasOwnProperty(gitbuilder.variable.validationLayer.after)) {
+							if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].hasOwnProperty("weight")) {
+								$("#" + gitbuilder.variable.elementid.validationWeight).val(
+										gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].weight);
+							}
+						}
+
 					});
-				}
-			});
-
-			$(document).on("change", ".GitBuilder-QAList-Relation-CheckBox", function() {
-				if ($(this).is(":checked")) {
-					// console.log($(this).val());
-					var layerId = gitbuilder.variable.validationLayer.after;
-
-					gitbuilder.method.edit.CreateValidationArea({
-						area : gitbuilder.variable.validationArea,
-						validation : gitbuilder.method.layer.getLayerById($(this).val())
-					});
-
-					var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
-					if (!Array.isArray(obj[gitbuilder.variable.validationOption.after])) {
-						obj[gitbuilder.variable.validationOption.after] = [];
-					}
-					obj[gitbuilder.variable.validationOption.after].push($(this).val());
-
-					// console.log(gitbuilder.variable.validationObj);
-				} else {
-					// console.log($(this).val());
-					var layerId = gitbuilder.variable.validationLayer.after;
-
-					var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
-					if (!Array.isArray(obj[gitbuilder.variable.validationOption.after])) {
-						obj[gitbuilder.variable.validationOption.after] = [];
-					}
-					var idx = obj[gitbuilder.variable.validationOption.after].indexOf($(this).val());
-					obj[gitbuilder.variable.validationOption.after].splice(idx, 1);
-					if (obj[gitbuilder.variable.validationOption.after].length === 0) {
-						delete obj[gitbuilder.variable.validationOption.after];
-					}
-
-					if (Object.keys(gitbuilder.variable.validationObj.layers[$(this).val()].qaOption).length === 0) {
-						delete gitbuilder.variable.validationObj.layers[$(this).val()];
-					}
-					// console.log(gitbuilder.variable.validationObj);
-				}
-			});
-
-			$(document).on("change", ".GitBuilder-QAList-Attribute-CheckBox", function() {
-				if ($(this).is(":checked")) {
-					// console.log($(this).val());
-					var layerId = gitbuilder.variable.validationLayer.after;
-
-					var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
-					if (!Array.isArray(obj[gitbuilder.variable.validationOption.after])) {
-						obj[gitbuilder.variable.validationOption.after] = [];
-					}
-					obj[gitbuilder.variable.validationOption.after].push($(this).val());
-
-					// console.log(gitbuilder.variable.validationObj);
-				} else {
-					// console.log($(this).val());
-					var layerId = gitbuilder.variable.validationLayer.after;
-
-					var obj = gitbuilder.variable.validationObj.layers[layerId].qaOption;
-					if (!Array.isArray(obj[gitbuilder.variable.validationOption.after])) {
-						obj[gitbuilder.variable.validationOption.after] = [];
-					}
-					var idx = obj[gitbuilder.variable.validationOption.after].indexOf($(this).val());
-					obj[gitbuilder.variable.validationOption.after].splice(idx, 1);
-					if (obj[gitbuilder.variable.validationOption.after].length === 0) {
-						delete obj[gitbuilder.variable.validationOption.after];
-					}
-					// console.log(gitbuilder.variable.validationObj);
-				}
-			});
 
 		} else {
+			$("#" + gitbuilder.variable.elementid.validationAreaLayer).empty();
+			var lineLayers = gitbuilder.ui.OutputVectorLayersSelect();
+			$("#" + gitbuilder.variable.elementid.validationAreaLayer).append(lineLayers);
+
 			$("#" + gitbuilder.variable.elementid.validationLayerList).empty();
 			var list = gitbuilder.ui.OutputVectorLayers();
 			$("#" + gitbuilder.variable.elementid.validationLayerList).append(list);
@@ -4095,6 +4880,9 @@ if (!gitbuilder.ui) {
 			});
 
 		}
+		$(".GitBuilder-Validation-Option-Weight").css("visibility", "hidden");
+		$("#" + gitbuilder.variable.elementid.validationOption).empty();
+		$("#" + gitbuilder.variable.elementid.layerRelation).empty();
 
 		$("#" + gitbuilder.variable.elementid.validationInfo).empty();
 		$("#" + gitbuilder.variable.elementid.validationInfo).append(gitbuilder.ui.OutputValidationOverview());
@@ -4143,8 +4931,16 @@ if (!gitbuilder.ui) {
 		var str = '<select class="form-control GitBuilder-QAList-ValidationArea">';
 		for (var i = 0; i < vector.getLength(); i++) {
 			if (vector.item(i).get("type") === "MultiLineString") {
+				var source = vector.item(i).getSource();
+				if (source.getFeatures().length === 1) {
+
+				}
 				str += '<option class="" value="' + vector.item(i).get("id") + '"';
-				if (i === 0) {
+				if (!!gitbuilder.variable.validationArea) {
+					if (vector.item(i).get("id") === gitbuilder.variable.validationArea.get("id")) {
+						str += "selected";
+					}
+				} else if (i === 0) {
 					str += "selected";
 				}
 				str += '>' + vector.item(i).get("name") + '</option>';
@@ -4254,19 +5050,23 @@ if (!gitbuilder.ui) {
 		var total = 0;
 		for (var i = 0; i < key.length; i++) {
 			var layer = gitbuilder.method.layer.getLayerById(key[i]);
-			str += '<tr>';
-			str += '<td class="col-md-4"><p class="text-center">' + layer.get("name") + '</p></td>';
-			str += '<td class="col-md-4"><p class="text-center">' + layer.get("type") + '</p></td>';
-			str += '<td class="col-md-4"><p class="text-center">' + qaObj[key[i]].weight + '</p></td>';
-			total += parseInt(qaObj[key[i]].weight);
-			str += '</tr>';
+			var opLength = Object.keys(qaObj[key[i]].qaOption).length;
+			// if (layer && (opLength > 0)) {
+			if (layer) {
+				str += '<tr>';
+				str += '<td class="col-md-4"><p class="text-center">' + layer.get("name") + '</p></td>';
+				str += '<td class="col-md-4"><p class="text-center">' + layer.get("type") + '</p></td>';
+				str += '<td class="col-md-4"><p class="text-center">' + qaObj[key[i]].weight + '</p></td>';
+				total += parseFloat(qaObj[key[i]].weight);
+				str += '</tr>';
+			}
 		}
 		str += '</tbody>';
 		str += '<tfoot>';
 		str += '<tr>';
 		str += '<td class="col-md-4"></td>';
 		str += '<td class="col-md-4"></td>';
-		str += '<td class="col-md-4"><p class="text-center">' + total + '%</p></td>';
+		str += '<td class="col-md-4"><p class="text-center">' + total.toFixed(2) + '%</p></td>';
 		str += '</tr>';
 		str += '</tfoot>';
 		str += '</table>';
@@ -4291,6 +5091,7 @@ if (!gitbuilder.ui) {
 		var key = Object.keys(attr);
 		for (var i = 0; i < key.length; i++) {
 			str += '<li class="list-group-item GitBuilder-QAList-DetailOption" >';
+			str += '<label>';
 			str += '<input type="checkbox" class="GitBuilder-QAList-CheckBox GitBuilder-QAList-Attribute-CheckBox GitBuilder-Margin-CheckBoxOrRadio" value="'
 					+ key[i] + '"';
 			if (Array.isArray(attrKeys)) {
@@ -4302,6 +5103,7 @@ if (!gitbuilder.ui) {
 			}
 			str += '>';
 			str += key[i];
+			str += '</label>';
 			str += '</li>';
 		}
 		str += '</ul>';
@@ -4327,7 +5129,8 @@ if (!gitbuilder.ui) {
 		// gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallLength
 
 		var type = layer.get("type");
-		var str = '<ul class="list-group">';
+		var str = '';
+		str += '<ul class="list-group">';
 		if (type === "MultiPoint") {
 			var ptOption = gitbuilder.validation.validationOption.point;
 			for (var i = 0; i < ptOption.length; i++) {
@@ -4532,7 +5335,8 @@ if (!gitbuilder.ui) {
 		case "SmallLength":
 			str += '<div class="GitBuilder-QAList-DetailOption">';
 			str += '<span class="input-group">';
-			str += '<input type="number" class="form-control GitBuilder-QAList-Value-Text" min="0" placeholder="Length" id="' + length + '"';
+			str += '<input type="number" class="form-control GitBuilder-QAList-Value-Text" step="0.1" min="0" placeholder="Length" id="' + length
+					+ '"';
 			if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallLength !== undefined) {
 				str += 'value="' + gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallLength + '"';
 			}
@@ -4556,7 +5360,7 @@ if (!gitbuilder.ui) {
 		case "SmallArea":
 			str += '<div class="GitBuilder-QAList-DetailOption">';
 			str += '<span class="input-group">';
-			str += '<input type="number" class="form-control GitBuilder-QAList-Value-Text" min="0" placeholder="Area" id="' + area + '" ';
+			str += '<input type="number" class="form-control GitBuilder-QAList-Value-Text" step="0.1" min="0" placeholder="Area" id="' + area + '" ';
 			if (gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallArea !== undefined) {
 				str += 'value="' + gitbuilder.variable.validationObj.layers[gitbuilder.variable.validationLayer.after].qaOption.SmallArea + '"';
 			}
@@ -4829,7 +5633,7 @@ if (!gitbuilder.ui) {
 		for (var i = 0; i < key.length; i++) {
 			if (key[i] === "geometry") {
 				continue;
-			} else if (key[i] === "errfeatureID") {
+			} else if (key[i] === "featureID") {
 				if (layer.get("cat") === 2) {
 					tb += '<tr class="GitBuilder-Navigating-Feature">';
 					tb += '<td>';
@@ -5031,13 +5835,36 @@ if (!gitbuilder.ui) {
 			gitbuilder.variable.elementid.reportWindow = rptWindow;
 
 			var jqTable = "jqErrorTable";
-			var count = 0;
+			count = 0;
 			while (gitbuilder.method.isDuplicatedId(jqTable)) {
 				jqTable += count;
 			}
 			gitbuilder.variable.elementid.reportTable = jqTable;
 
+			var iso = "isoTable";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(iso)) {
+				iso += count;
+			}
+			gitbuilder.variable.elementid.isoTable = iso;
+
+			var tab1 = "tabOne";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(tab1)) {
+				tab1 += count;
+			}
+			gitbuilder.variable.elementid.tabOne = tab1;
+
+			var tab2 = "tabTwo";
+			count = 0;
+			while (gitbuilder.method.isDuplicatedId(tab2)) {
+				tab2 += count;
+			}
+			gitbuilder.variable.elementid.tabTwo = tab2;
+
 			var errReport = gitbuilder.variable.errReport;
+			var isoReport = gitbuilder.variable.isoReport;
+
 			var modal = "";
 			modal += '<div id="' + rptWindow
 					+ '" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="my" aria-hidden="true">';
@@ -5045,49 +5872,268 @@ if (!gitbuilder.ui) {
 			modal += '<div class="modal-content">';
 			modal += '<div class="modal-body">';
 
-			modal += '<table id="' + gitbuilder.variable.elementid.reportTable + '">';
+			modal += '<ul class="nav nav-tabs" role="tablist">';
+			modal += '<li role="presentation" class="active"><a href="#' + gitbuilder.variable.elementid.tabOne
+					+ '" aria-controls="home" role="tab" data-toggle="tab">ISO</a></li>';
+			modal += '<li role="presentation"><a href="#' + gitbuilder.variable.elementid.tabTwo
+					+ '" aria-controls="profile" role="tab" data-toggle="tab">Error Result</a></li>';
+			modal += '</ul>';
+
+			modal += '<div class="tab-content">';
+			modal += '<div role="tabpanel" class="tab-pane active" id="' + gitbuilder.variable.elementid.tabOne + '">';
+
+			modal += '<br/>';
+			modal += '<table id="' + gitbuilder.variable.elementid.isoTable + '" class ="display">';
+			modal += '<thead>';
+			modal += '</thead>';
+			modal += '<tbody>';
+			modal += '</tbody>';
+			modal += '<tfoot>';
+			modal += '<tr align=center>';
+			modal += '<td>';
+			modal += 'Total accuracy';
+			modal += '</td>';
+			modal += '<td colspan="6">';
+			modal += '';
+			modal += '</td>';
+			modal += '</tr>';
+			modal += '</tfoot>';
 			modal += '</table>';
+
+			modal += '</div>';
+			modal += '<div role="tabpanel" class="tab-pane" id="' + gitbuilder.variable.elementid.tabTwo + '">';
+
+			modal += '<br/>';
+			modal += '<table id="' + gitbuilder.variable.elementid.reportTable + '" class ="display">';
+			modal += '</table>';
+
+			modal += '</div>';
+			modal += '</div>';
 
 			modal += '</div>';
 			modal += '<div class="modal-footer">';
 			modal += '<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>';
-			modal += ' </div>';
+			modal += '</div>';
 			modal += '</div>';
 			modal += '</div>';
 			modal += '</div>';
 
 			$("body").append(modal);
 
+			$('#' + gitbuilder.variable.elementid.isoTable).DataTable({
+				"autoWidth" : false,
+				data : gitbuilder.variable.isoReport,
+				"columnDefs" : [ {
+					"title" : "Layer",
+					"width" : "20%",
+					"targets" : 0
+				}, {
+					"title" : "Number of Item",
+					"width" : "16%",
+					"targets" : 1
+				}, {
+					"title" : "Number of Error Item",
+					"width" : "18%",
+					"targets" : 2
+				}, {
+					"title" : "Ratio of Error Item",
+					"width" : "16%",
+					"targets" : 3
+				}, {
+					"title" : "Accuracy",
+					"width" : "10%",
+					"targets" : 4
+				}, {
+					"title" : "Weight",
+					"width" : "10%",
+					"targets" : 5
+				}, {
+					"title" : "Weighted Value",
+					"width" : "10%",
+					"targets" : 6,
+					className : "Weight"
+				} ],
+				"columns" : [ {
+					"data" : "layerID"
+				}, {
+					"data" : "numOfItem"
+				}, {
+					"data" : "numOfErrItem"
+				}, {
+					"data" : "ratioOferrItem"
+				}, {
+					"data" : "accuracyValue"
+				}, {
+					"data" : "weight"
+				}, {
+					"data" : "weightedValue"
+				} ]
+			});
+
+			$('#' + gitbuilder.variable.elementid.reportTable).DataTable({
+				"autoWidth" : false,
+				data : gitbuilder.variable.errReport,
+				"columnDefs" : [ {
+					"title" : "Error Type",
+					"width" : "15%",
+					"targets" : 0
+				}, {
+					"title" : "Error Name",
+					"width" : "10%",
+					"targets" : 1
+				}, {
+					"title" : "Layer ID",
+					"width" : "15%",
+					"targets" : 2
+				}, {
+					"title" : "Feature ID",
+					"width" : "20%",
+					"targets" : 3
+				}, {
+					"title" : "Error Coordinate X",
+					"width" : "20%",
+					"targets" : 4
+				}, {
+					"title" : "Error Coordinate Y",
+					"width" : "20%",
+					"targets" : 5
+				} ],
+				"columns" : [ {
+					"data" : "errorType"
+				}, {
+					"data" : "errorName"
+				}, {
+					"data" : "layerID"
+				}, {
+					"data" : "featureID"
+				}, {
+					"data" : "errorCoordinateX"
+				}, {
+					"data" : "errorCoordinateY"
+				} ]
+			});
+
+		}
+		$('#' + gitbuilder.variable.elementid.isoTable).DataTable().destroy();
+
+		$('#' + gitbuilder.variable.elementid.reportTable).DataTable().destroy();
+
+		$('#' + gitbuilder.variable.elementid.isoTable).DataTable({
+			"autoWidth" : false,
+			data : gitbuilder.variable.isoReport,
+			"columnDefs" : [ {
+				"title" : "Layer",
+				"width" : "20%",
+				"targets" : 0
+			}, {
+				"title" : "Number of Item",
+				"width" : "16%",
+				"targets" : 1
+			}, {
+				"title" : "Number of Error Item",
+				"width" : "18%",
+				"targets" : 2
+			}, {
+				"title" : "Ratio of Error Item",
+				"width" : "16%",
+				"targets" : 3
+			}, {
+				"title" : "Accuracy",
+				"width" : "10%",
+				"targets" : 4
+			}, {
+				"title" : "Weight",
+				"width" : "10%",
+				"targets" : 5
+			}, {
+				"title" : "Weighted Value",
+				"width" : "10%",
+				"targets" : 6,
+				className : "Weight"
+			} ],
+			"columns" : [ {
+				"data" : "layerID"
+			}, {
+				"data" : "numOfItem"
+			}, {
+				"data" : "numOfErrItem"
+			}, {
+				"data" : "ratioOferrItem"
+			}, {
+				"data" : "accuracyValue"
+			}, {
+				"data" : "weight"
+			}, {
+				"data" : "weightedValue"
+			} ]
+		});
+
+		// var table = $('#' +
+		// gitbuilder.variable.elementid.isoTable).DataTable();
+		//
+		// table.rows.add([ {
+		// "layerID" : "",
+		// "numOfItem" : "",
+		// "numOfErrItem" : "",
+		// "ratioOferrItem" : "",
+		// "accuracyValue" : "",
+		// "weight" : "Total accuracy",
+		// "weightedValue" : "100"
+		// } ]).draw();
+
+		var table = $('#' + gitbuilder.variable.elementid.isoTable).DataTable();
+
+		if (!!gitbuilder.variable.isoReport) {
+			table.columns('.Weight').every(function() {
+				var sum = this.data().reduce(function(a, b) {
+					return a + b;
+				});
+
+				$(this.footer()).html('(define as the sum of weighted accuracy proportion * 100) ' + (sum * 100).toFixed(2) + '%');
+			});
 		}
 
-		// $("#" +
-		// gitbuilder.variable.elementid.reportTable).jqGrid("clearGridData");
-
-		$("#" + gitbuilder.variable.elementid.reportTable).jqGrid({
-			caption : "Error Report",
-			rownumbers : true,
-			width : "865px",
-			colNames : [ 'Error Type', 'Error Name', 'Layer ID', 'Feature ID', 'Error Coordinate X', 'Error Coordinate Y' ],
-			colModel : [ {
-				name : "errType",
-				width : 150
+		$('#' + gitbuilder.variable.elementid.reportTable).DataTable({
+			"autoWidth" : false,
+			data : gitbuilder.variable.errReport,
+			"columnDefs" : [ {
+				"title" : "Error Type",
+				"width" : "15%",
+				"targets" : 0
 			}, {
-				name : "errName",
-				width : 130
+				"title" : "Error Name",
+				"width" : "10%",
+				"targets" : 1
 			}, {
-				name : "layerID",
-				width : 135
+				"title" : "Layer ID",
+				"width" : "15%",
+				"targets" : 2
 			}, {
-				name : "featureID",
-				width : 150
+				"title" : "Feature ID",
+				"width" : "20%",
+				"targets" : 3
 			}, {
-				name : "errCoorX",
-				width : 150
+				"title" : "Error Coordinate X",
+				"width" : "20%",
+				"targets" : 4
 			}, {
-				name : "errCoorY",
-				width : 150
+				"title" : "Error Coordinate Y",
+				"width" : "20%",
+				"targets" : 5
 			} ],
-			data : gitbuilder.variable.errReport
+			"columns" : [ {
+				"data" : "errorType"
+			}, {
+				"data" : "errorName"
+			}, {
+				"data" : "layerID"
+			}, {
+				"data" : "featureID"
+			}, {
+				"data" : "errorCoordinateX"
+			}, {
+				"data" : "errorCoordinateY"
+			} ]
 		});
 
 		$('#' + gitbuilder.variable.elementid.reportWindow).modal('show');
@@ -5152,696 +6198,52 @@ if (!gitbuilder.ui) {
 		$("#" + gitbuilder.variable.elementid.crsLayerList).append(gitbuilder.ui.OutputAllVectorLayersSelect());
 		$('#' + gitbuilder.variable.elementid.crsWindow).modal('show');
 	}
-
-=======
-}
-
-if (!gitbuilder.ui) {
-	// ==========================================================================================================
-	gitbuilder.ui = {};
-	gitbuilder.ui.button = {};
-	gitbuilder.ui.window = {};
-
 	// ==========================================================================================================
 	/**
-	 * @description 레이어 리스트를 설정
-	 * @param {ol.control[]}
-	 *            control - 컨트롤 배열
+	 * @description 빌더정보 다이얼로그
 	 */
-	gitbuilder.ui.LayerList = function setLayerList(target) {
-		var layerListId = "layerList";
-		var count = 0;
-		while (gitbuilder.method.isDuplicatedId(layerListId)) {
-			layerListId += count;
-		}
-
-		gitbuilder.variable.elementid.layerList = layerListId;
-		// div.css("overflow", "hidden");
-		var list = $('<ul id="' + layerListId + '" class=".GitBuilder-LayerList"></ul>');
-		$("#" + target).append(list);
-
-		$("#" + layerListId).sortable({
-			handle : ".GitBuilder-LayerList-Item-Handle",
-			stop : function(event, ui) {
-				// 선택한 li의 배열
-				var layerLiArr = $("#" + layerListId + " li").toArray();
-				// 배열을 뒤집는다
-				layerLiArr.reverse();
-				// 모든 레이어 획득
-				var layers = gitbuilder.method.map.getBuilderMap().getLayers();
-				// 모든 레이어를 배열로 획득
-				var addedLayers = layers.getArray();
-
-				for (var i = 0; i < layerLiArr.length; i++) {
-					// 레이어 아이디와 같은 레이어를 검색
-					for (var j = 0; j < addedLayers.length; j++) {
-						// li의 아이디가 레이어의 아이디와 같다면
-						if (addedLayers[j].get("id") === $(layerLiArr[i]).attr("layerId")) {
-							if (addedLayers[j] instanceof ol.layer.Group) {
-								addedLayers[j].setZIndex(i);
-								var layers = addedLayers[j].getLayers().getArray();
-								for (var k = 0; k < layers.length; k++) {
-									layers[k].setZIndex(i);
-								}
-							} else {
-								// li의 인덱스를 레이어의 인덱스로 설정
-								addedLayers[j].setZIndex(i);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}).addClass("layerSelectable").selectable({
-			filter : "li",
-			cancel : ".GitBuilder-LayerList-Item-Handle, .layerPropBtn",
-			stop : function(event, ui) {
-
-				// // ul 객체를 저장
-				// var p1 = $(this);
-				//
-				// // 선택한 li들의 객체배열을 획득
-				// var selected = $(".layerSelectable .ui-selected");
-				//
-				// // 모든 레이어 획득
-				// var allLayers =
-				// gitbuilder.method.getBuilderMap().getLayers().getArray();
-				//
-				// // // 모든 레이어를 비선택으로 설정
-				// // for (var i = 0; i < allLayers.length; i++) {
-				// // allLayers[i].set("selected", 0);
-				// // }
-				//
-				// // 각각의 li마다
-				// selected.each(function() {
-				// // li의 부모를 획득
-				// var p2 = $(this).parent();
-				// // 같은 부모의 자식이라면
-				// if (p1.get(0) === p2.get(0)) {
-				// // selectable에서 선택한 아이디를 가진 레이어 객체획득
-				// var selectedLayer = getLayerById($(this).attr("id"));
-				// // 선택여부를 1로 설정
-				// selectedLayer.set("selected", 1);
-				// } else {
-				// // 아니라면 메시지 출력
-				// console.log("it isn't a descendant");
-				// }
-				// });
-				// // 선택한 레이어 객체들 획득
-				// var selected = getSelectedLayers();
-				//
-				// // 선택한 레이어가 2개 이상이면
-				// if (selected.length > 1) {
-				// // 레이어 이름 배열로 초기화
-				// var layerNames = [];
-				// // 선택된 레이어들의 이름을 배열에 추가
-				// for (var i = 0; i < selected.length; i++) {
-				// layerNames.push(selected[i].get("name"));
-				// }
-				// // 레이어 이름들을 다이얼로그에 출력
-				// $("#drawTool").dialog("option", "title", "Tool - " +
-				// layerNames);
-				// // 다중레이어 선택으로 도구모음을 연다
-				// openToolBox("multiplex");
-				//
-				// $("#featureList").empty();
-				//
-				// // 선택한 레이어가 1개라면
-				// } else if (selected.length === 1) {
-				//
-				// var layer = selected[0];
-				// if (layer.get("editable") === false) {
-				// disabledTool();
-				// } else {
-				// enabledTool();
-				// }
-				//
-				// var view = gitbuilder.method.getBuilderMap().getView();
-				//
-				// if (layer instanceof ol.layer.Image) {
-				// view.fit(layer.getExtent(),
-				// gitbuilder.method.getBuilderMap().getSize());
-				// } else if (layer instanceof ol.layer.Vector) {
-				// var source = layer.getSource();
-				// var features = source.getFeatures();
-				// if (features.length > 0) {
-				// view.fit(source.getExtent(),
-				// gitbuilder.method.getBuilderMap().getSize());
-				// }
-				// } else if (layer instanceof ol.layer.Group) {
-				// var layers = layer.getLayers().getArray();
-				// for (var i = 0; i < layers.length; i++) {
-				// if (layers[i] instanceof ol.layer.Tile) {
-				// view.fit(layers[i].getExtent(),
-				// gitbuilder.method.getBuilderMap().getSize());
-				// }
-				// }
-				// }
-				// // 레이어 이름을 저장
-				// var layerNames = selected[0].get("name");
-				//
-				// // 선택한 레이어가 베이스맵이 아니라면
-				// if (selected[0].get("type") === "point" ||
-				// selected[0].get("type") === "linestring"
-				// || selected[0].get("type") === "polygon" ||
-				// selected[0].get("type") === "multipoint"
-				// || selected[0].get("type") === "multilinestring" ||
-				// selected[0].get("type") === "multipolygon") {
-				//
-				// // 레이어 이름 출력
-				// $("#drawTool").dialog("option", "title", "Tool - " +
-				// layerNames);
-				// // 레이어 타입에 따른 도구모음을 연다
-				// openToolBox(selected[0].get("type"));
-				// if (selected[0].get("cat") === 2) {
-				// openToolBox("error");
-				// }
-				// var layers = getSelectedLayers();
-				// if (layers.length === 1 && layers[0] instanceof
-				// ol.layer.Vector) {
-				// $("#featureList").empty();
-				// var features = layers[0].getSource().getFeatures();
-				// for (var i = 0; i < features.length; i++) {
-				// var str = '<li class="ui-widget-content" id="' +
-				// features[i].getId() + '" style="padding: 3px;">'
-				// + features[i].getId() + '</li>';
-				// $("#featureList").append(str);
-				// }
-				//
-				// $("#featureList").selectable({
-				// start : function(event, ui) {
-				// selectedFeatures = new ol.Collection();
-				// },
-				// selected : function(event, ui) {
-				//
-				// var id = ui.selected.id;
-				// var feature = getFeatureById(id);
-				// selectedFeatures.push(feature);
-				//
-				// },
-				// stop : function(event, ui) {
-				//
-				// var view = gitbuilder.method.getBuilderMap().getView();
-				// var source = new ol.source.Vector();
-				// source.addFeatures(selectedFeatures.getArray());
-				// view.fit(source.getExtent(),
-				// gitbuilder.method.getBuilderMap().getSize());
-				//
-				// removeMyInteraction(gitbuilder.method.getBuilderMap());
-				//
-				// if (selectedFeatures.getLength() > 0) {
-				//
-				// popFeatureDialog(selectedFeatures.getArray());
-				// $("#selectPopUp").dialog("option", "position", {
-				// my : "right top",
-				// at : "right-310px top",
-				// of : $("#map")
-				// });
-				//
-				// var selectLayers = getSelectedLayers();
-				// if (selectedFeatures.getLength() > 0 && selectLayers.length >
-				// 1) {
-				// $("#dlet").button("disable");
-				// }
-				//
-				// if (selectedFeatures.getLength() === 1) {
-				// var layers = getSelectedLayers();
-				// if (layers.length === 1) {
-				// if (layers[0].get("cat") === 2) {
-				// $("#cpy").button("disable");
-				// $("#attr").button("disable");
-				// $("#dlet").button("enable");
-				// $("#mdfy").button("enable");
-				// $("#move").button("enable");
-				// } else {
-				// $("#cpy").button("enable");
-				// $("#attr").button("enable");
-				// $("#dlet").button("enable");
-				// $("#mdfy").button("enable");
-				// $("#move").button("enable");
-				// }
-				// }
-				//
-				// var feature = selectedFeatures.item(0);
-				// var str = getSimpleProperties(feature);
-				// $("#viewAttr").empty();
-				// $("#viewAttr").append(str);
-				//
-				// var keys = feature.getKeys();
-				// var features1 = selected[0].getSource().getFeatures();
-				// var keys = features1[0].getKeys();
-				// var flag = true;
-				// if (selectLayers.length === 1) {
-				// if (selectLayers[0].get("cat") === 2) {
-				// flag = false;
-				// }
-				// } else {
-				//
-				// }
-				// if (flag) {
-				//
-				// var featureId = feature.getId();
-				// var layerId = featureId.substring(0, featureId.indexOf("."));
-				// // console.log(layerId);
-				// layerId = layerId.trim();
-				// var layer = getLayerById(layerId);
-				// var layers = [ layer ];
-				// var collFeatures = new ol.Collection();
-				// var theFeature = getFeatureById2(layerId, featureId);
-				// collFeatures.push(theFeature);
-				// updateSelectInteraction2(layers, collFeatures,
-				// gitbuilder.method.getBuilderMap());
-				//
-				// $("#deleteConfirmFeature").dialog({
-				// autoOpen : false,
-				// modal : true,
-				// buttons : {
-				// "확인" : function() {
-				// removeSelectedFeature(layer, collFeatures);
-				// $(this).dialog("close");
-				// },
-				// "취소" : function() {
-				// $(this).dialog("close");
-				// }
-				// }
-				// });
-				//
-				// } else if (!flag) {
-				// var featureId = feature.get("errfeatureID");
-				// // var
-				// // featureId
-				// // =
-				// // "layer1.1";
-				// var layerId = featureId.substring(0, featureId.indexOf("."));
-				// // console.log(layerId);
-				// layerId = layerId.trim();
-				// var layer = getLayerById(layerId);
-				// var layers = [ layer ];
-				// var collFeatures = new ol.Collection();
-				// var theFeature = getFeatureById2(layerId, featureId);
-				// collFeatures.push(theFeature);
-				// // updateSelectInteraction2(null,
-				// // null,
-				// // map);
-				// updateSelectInteraction2(layers, collFeatures,
-				// gitbuilder.method.getBuilderMap());
-				//
-				// $("#deleteConfirmFeature").dialog({
-				// autoOpen : false,
-				// modal : true,
-				// buttons : {
-				// "확인" : function() {
-				// removeSelectedFeature(layer, collFeatures);
-				// $(this).dialog("close");
-				// },
-				// "취소" : function() {
-				// $(this).dialog("close");
-				// }
-				// }
-				// });
-				//
-				// }
-				//
-				// } else if (selectedFeatures.getLength() > 1) {
-				//
-				// // //////////////////////////////
-				// var flag = true;
-				// if (selectLayers.length === 1) {
-				// if (selectLayers[0].get("cat") === 2) {
-				// flag = false;
-				// }
-				// } else {
-				//
-				// }
-				// if (flag) {
-				//
-				// var collFeatures = new ol.Collection();
-				// var layers;
-				//
-				// for (var i = 0; i < selectedFeatures.getLength(); i++) {
-				// var featureId = selectedFeatures.item(i).getId();
-				// var layerId = featureId.substring(0, featureId.indexOf("."));
-				// // console.log(layerId);
-				// layerId = layerId.trim();
-				// var layer = getLayerById(layerId);
-				// layers = [ layer ];
-				// var theFeature = getFeatureById2(layerId, featureId);
-				// collFeatures.push(theFeature);
-				// }
-				//
-				// updateSelectInteraction2(layers, collFeatures,
-				// gitbuilder.method.getBuilderMap());
-				//
-				// $("#deleteConfirmFeature").dialog({
-				// autoOpen : false,
-				// modal : true,
-				// buttons : {
-				// "확인" : function() {
-				// removeSelectedFeature(layer, collFeatures);
-				// $(this).dialog("close");
-				// },
-				// "취소" : function() {
-				// $(this).dialog("close");
-				// }
-				// }
-				// });
-				//
-				// } else if (!flag) {
-				//
-				// var collFeatures = new ol.Collection();
-				// var layers;
-				//
-				// for (var i = 0; i < selectedFeatures.getLength(); i++) {
-				// var featureId = selectedFeatures.item(i).get("errfeatureID");
-				// var layerId = featureId.substring(0, featureId.indexOf("."));
-				// // console.log(layerId);
-				// layerId = layerId.trim();
-				// var layer = getLayerById(layerId);
-				// layers = [ layer ];
-				// var theFeature = getFeatureById2(layerId, featureId);
-				// collFeatures.push(theFeature);
-				// }
-				//
-				// updateSelectInteraction2(layers, collFeatures,
-				// gitbuilder.method.getBuilderMap());
-				//
-				// $("#deleteConfirmFeature").dialog({
-				// autoOpen : false,
-				// modal : true,
-				// buttons : {
-				// "확인" : function() {
-				// removeSelectedFeature(layer, collFeatures);
-				// $(this).dialog("close");
-				// },
-				// "취소" : function() {
-				// $(this).dialog("close");
-				// }
-				// }
-				// });
-				//
-				// }
-				//
-				// // /////////////////////////////
-				//
-				// var layers = getSelectedLayers();
-				// if (layers.length === 1) {
-				// if (layers[0].get("cat") === 2) {
-				// $("#cpy").button("disable");
-				// $("#attr").button("disable");
-				// $("#dlet").button("disable");
-				// $("#mdfy").button("disable");
-				// $("#move").button("disable");
-				// } else {
-				// $("#cpy").button("enable");
-				// $("#attr").button("disable");
-				// $("#dlet").button("enable");
-				// $("#mdfy").button("enable");
-				// $("#move").button("enable");
-				// }
-				// }
-				// }
-				//
-				// $("#selectPopUp").dialog("open");
-				// }
-				// }
-				// });
-				//
-				// }
-				// } else {
-				// $("#drawTool").dialog("close");
-				// }
-				//
-				// } else {
-				// // 도구모음창을 닫는다
-				// $("#drawTool").dialog("close");
-				// }
-				// // 편집도구모음창을 닫는다
-				// $("#selectPopUp").dialog("close");
-				// // 인터랙션을 삭제한다
-				// removeMyInteraction(gitbuilder.method.getBuilderMap());
-			}
-		}).find("li").addClass("ui-corner-all").prepend(
-				"<span class='GitBuilder-LayerList-Item-Handle'><span class='glyphicon glyphicon-sort' aria-hidden='true'></span></span>");
-	}
-	// ==========================================================================================================
-	/**
-	 * @description 새로운 SHP 레이어를 생성
-	 */
-	gitbuilder.ui.NewSHPWindow = function NewSHPWindow() {
-
-		if (!gitbuilder.variable.elementid.shpWindow) {
-			var shpLayerWindowId = "shpWindow";
+	gitbuilder.ui.aboutBuilder = function aboutBuilder() {
+		if (!gitbuilder.variable.elementid.infoWindow) {
+			var infoWindow = "infoWindow";
 			var count = 0;
-			while (gitbuilder.method.isDuplicatedId(shpLayerWindowId)) {
-				shpLayerWindowId += count;
+			while (gitbuilder.method.isDuplicatedId(infoWindow)) {
+				infoWindow += count;
 			}
-			gitbuilder.variable.elementid.shpWindow = shpLayerWindowId;
+			gitbuilder.variable.elementid.infoWindow = infoWindow;
 
-			var upload1 = "shpfile";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedId(upload1)) {
-				upload1 += count;
-			}
-			gitbuilder.variable.elementid.shpInput = upload1;
+			var modal = "";
+			modal += '<div class="modal fade" id="' + gitbuilder.variable.elementid.infoWindow + '" tabindex="-1" role="dialog" aria-hidden="true">';
+			modal += '<div class="modal-dialog">';
+			modal += '<div class="modal-content">';
+			modal += '<div class="modal-header">';
+			modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+			modal += '<span aria-hidden="true">&times;</span>';
+			modal += '</button>';
+			modal += '<h4 class="modal-title">About OpenGDS/Builder</h4>';
+			modal += '</div>';
+			modal += '<div class="modal-body">';
+			modal += '<h4>OpenGDS/Builder</h4>';
+			modal += '<p>Based on the following open source libraries :</p>';
+			modal += '<p><strong>jQuery</strong> - http://jquery.com/</p>';
+			modal += '<p><strong>Openlayers 3</strong> - http://openlayers.org/</p>';
+			modal += '<p><strong>Proj4js</strong> - http://proj4js.org/</p>';
+			modal += '<p><strong>JSTS</strong> - https://github.com/bjornharrtell/jsts</p>';
+			modal += '<p><strong>jQuery UI</strong> - http://jqueryui.com/</p>';
+			modal += '<p><strong>Bootstrap</strong> - http://bootstrapk.com/</p>';
+			modal += '<p><strong>Datatables</strong> - https://datatables.net/</p>';
+			modal += '<p><strong>Spectrum</strong> - http://bgrins.com/spectrum/</p>';
+			modal += '<p><strong>Sweetalert</strong> - http://t4t5.github.io/sweetalert/</p>';
+			modal += '</div>';
+			modal += '<div class="modal-footer">';
+			modal += '<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>';
+			modal += '</div>';
+			modal += '</div>';
+			modal += '</div>';
+			modal += '</div>';
 
-			var upload2 = "shxfile";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedId(upload2)) {
-				upload2 += count;
-			}
-			gitbuilder.variable.elementid.shxInput = upload2;
+			$("body").append(modal);
 
-			var upload3 = "dbffile";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedId(upload3)) {
-				upload3 += count;
-			}
-			gitbuilder.variable.elementid.dbfInput = upload3;
-
-			var shpWin = "<div class='modal fade' id='" + shpLayerWindowId + "' tabindex='-1' role='dialog'>";
-			shpWin += '<div class="modal-dialog">';
-			shpWin += '<div class="modal-content">';
-			shpWin += '<div class="modal-header">';
-			shpWin += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-			shpWin += '<h4 class="modal-title">SHP Upload</h4>';
-			shpWin += '</div>';
-			shpWin += '<div class="modal-body">';
-
-			shpWin += '<div class="form-group">';
-
-			shpWin += '<label for="exampleInputFile1">SHP File Upload</label>';
-			shpWin += '<input type="file" id="' + upload1 + '">';
-			shpWin += '<p class="help-block">Upload your SHP file</p>';
-
-			shpWin += '<label for="exampleInputFile2">SHX File Upload</label>';
-			shpWin += '<input type="file" id="' + upload2 + '">';
-			shpWin += '<p class="help-block">Upload your SHX file</p>';
-
-			shpWin += '<label for="exampleInputFile3">DBF File Upload</label>';
-			shpWin += '<input type="file" id="' + upload3 + '">';
-			shpWin += '<p class="help-block">Upload your DBF file</p>';
-
-			shpWin += '</div>';
-
-			shpWin += '</div>';
-			shpWin += '<div class="modal-footer">';
-			shpWin += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
-			shpWin += '<button type="button" class="btn btn-primary">Upload</button>';
-			shpWin += '</div>';
-			shpWin += '</div>';
-			shpWin += '</div>';
-			shpWin += '</div>';
-
-			$("body").append(shpWin);
 		}
-
-		$('#' + gitbuilder.variable.elementid.shpWindow).modal('show');
+		$('#' + gitbuilder.variable.elementid.infoWindow).modal('show');
 	}
-	// ==========================================================================================================
-	/**
-	 * @description 새로운 벡터 레이어를 생성
-	 */
-	gitbuilder.ui.NewVectorWindow = function NewVectorWindow() {
-		if (!gitbuilder.variable.elementid.vectorWindow) {
-			var vectorLayerWindowId = "vectorWindow";
-			var count = 0;
-			while (gitbuilder.method.isDuplicatedId(vectorLayerWindowId)) {
-				vectorLayerWindowId += count;
-			}
-			gitbuilder.variable.elementid.vectorWindow = vectorLayerWindowId;
-
-			var pointId = "ptType";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedId(pointId)) {
-				pointId += count;
-			}
-			gitbuilder.variable.elementid.pointInput = pointId;
-
-			var lineId = "lsType";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedId(lineId)) {
-				lineId += count;
-			}
-			gitbuilder.variable.elementid.lineInput = lineId;
-
-			var polygonId = "pgType";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedId(polygonId)) {
-				polygonId += count;
-			}
-			gitbuilder.variable.elementid.polyInput = polygonId;
-
-			var layerType = "lType";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedName(layerType)) {
-				layerType += count;
-			}
-			gitbuilder.variable.elementid.layerType = layerType;
-
-			var layerNameId = "layerName";
-			count = 0;
-			while (gitbuilder.method.isDuplicatedId(layerNameId)) {
-				layerNameId += count;
-			}
-			gitbuilder.variable.elementid.layerName = layerNameId;
-
-			var vector = "<div class='modal fade' id='" + vectorLayerWindowId + "' tabindex='-1' role='dialog'>";
-			vector += '<div class="modal-dialog">';
-			vector += '<div class="modal-content">';
-			vector += '<div class="modal-header">';
-			vector += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-			vector += '<h4 class="modal-title">Vector</h4>';
-			vector += '</div>';
-			vector += '<div class="modal-body">';
-
-			vector += '<form class="form-horizontal">';
-
-			vector += '<div class="form-group">';
-
-			vector += '<label class="col-md-2 control-label">Type</label>';
-
-			vector += '<div class="col-md-3">';
-			vector += '<label class="radio-inline">';
-			vector += '<input type="radio" name="' + layerType + '" id="' + pointId + '" value="point"> Point';
-			vector += '</label>';
-			vector += '</div>';
-			vector += '<div class="col-md-3">';
-			vector += '<label class="radio-inline">';
-			vector += '<input type="radio" name="' + layerType + '" id="' + lineId + '" value="linestring"> LineString';
-			vector += '</label>';
-			vector += '</div>';
-			vector += '<div class="col-md-3">';
-			vector += '<label class="radio-inline">';
-			vector += '<input type="radio" name="' + layerType + '" id="' + polygonId + '" value="polygon"> Polygon';
-			vector += '</label>';
-			vector += '</div>';
-			vector += '<div class="col-md-1">';
-			vector += '</div>';
-			vector += '</div>';
-
-			vector += '<div class="form-group">';
-			vector += '<label for="' + layerNameId + '" class="col-md-2 control-label">Name</label>';
-			vector += '<div class="col-md-9">';
-			vector += '<input type="text" class="form-control" placeholder="Layer name" id="' + layerNameId + '">';
-			vector += '</div>';
-			vector += '</div>';
-
-			vector += '<div class="form-group">';
-			vector += '<label class="col-md-2 control-label">Stroke</label>';
-			vector += '<div class="col-md-2">';
-			vector += '<input type="text"	id="strk" />';
-			vector += '</div>';
-			vector += '<label class="col-md-2 control-label">Width</label>';
-			vector += '<div class="col-md-2">';
-			vector += '<input type="number" min="0" class="form-control"	id="width" />';
-			vector += '</div>';
-			vector += '</div>';
-			
-			vector += '<div class="form-group">';
-			vector += '<label class="col-md-2 control-label">Fill</label>';
-			vector += '<div class="col-md-2">';
-			vector += '<input type="text"	id="fll" />';
-			vector += '</div>';
-			vector += '<label class="col-md-2 control-label">Radius</label>';
-			vector += '<div class="col-md-2">';
-			vector += '<input type="number" min="0" class="form-control"	id="radius" />';
-			vector += '</div>';
-			vector += '</div>';
-
-			vector += '</form>';
-
-			vector += '</div>';
-			vector += '<div class="modal-footer">';
-			vector += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
-			vector += '<button type="button" class="btn btn-primary">Create</button>';
-			vector += '</div>';
-			vector += '</div>';
-			vector += '</div>';
-			vector += '</div>';
-
-			$("body").append(vector);
-
-			$("#strk")
-					.spectrum(
-							{
-								showAlpha : true,
-								showInput : true,
-								preferredFormat : "rgb",
-								showPalette : true,
-								palette : [
-										[ "rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)", "rgb(183, 183, 183)",
-												"rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)",
-												"rgb(255, 255, 255)" ],
-										[ "rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
-												"rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)" ],
-										[ "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)",
-												"rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)",
-												"rgb(217, 210, 233)", "rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)",
-												"rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)",
-												"rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
-												"rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)",
-												"rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)",
-												"rgb(142, 124, 195)", "rgb(194, 123, 160)", "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)",
-												"rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)",
-												"rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)", "rgb(133, 32, 12)", "rgb(153, 0, 0)",
-												"rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)", "rgb(19, 79, 92)", "rgb(17, 85, 204)",
-												"rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)", "rgb(91, 15, 0)", "rgb(102, 0, 0)",
-												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
-												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
-							});
-
-			$("#fll")
-					.spectrum(
-							{
-								showAlpha : true,
-								showInput : true,
-								preferredFormat : "rgb",
-								showPalette : true,
-								palette : [
-										[ "rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)", "rgb(153, 153, 153)", "rgb(183, 183, 183)",
-												"rgb(204, 204, 204)", "rgb(217, 217, 217)", "rgb(239, 239, 239)", "rgb(243, 243, 243)",
-												"rgb(255, 255, 255)" ],
-										[ "rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
-												"rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)" ],
-										[ "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)",
-												"rgb(217, 234, 211)", "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)",
-												"rgb(217, 210, 233)", "rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)",
-												"rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)", "rgb(162, 196, 201)",
-												"rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
-												"rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)",
-												"rgb(147, 196, 125)", "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)",
-												"rgb(142, 124, 195)", "rgb(194, 123, 160)", "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)",
-												"rgb(241, 194, 50)", "rgb(106, 168, 79)", "rgb(69, 129, 142)", "rgb(60, 120, 216)",
-												"rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)", "rgb(133, 32, 12)", "rgb(153, 0, 0)",
-												"rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)", "rgb(19, 79, 92)", "rgb(17, 85, 204)",
-												"rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)", "rgb(91, 15, 0)", "rgb(102, 0, 0)",
-												"rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)", "rgb(12, 52, 61)", "rgb(28, 69, 135)",
-												"rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)" ] ]
-							});
-		}
-
-		$('#' + gitbuilder.variable.elementid.vectorWindow).modal('show');
-	}
-	// ==========================================================================================================
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }

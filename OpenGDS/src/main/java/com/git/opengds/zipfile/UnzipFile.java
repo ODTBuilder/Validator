@@ -6,12 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -116,7 +112,7 @@ public class UnzipFile {
 		}
 		int total = arrayList.size();
 		int result = total - count;
-		System.out.println("실패한 shp 파일 수 : " + result);
+		//System.out.println("실패한 shp 파일 수 : " + result);
 		jsonObject.put("layers", subJsonObject);
 		//System.out.println("결과: " + jsonObject);
 		return jsonObject;

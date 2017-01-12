@@ -259,6 +259,7 @@ function processDone(data, textStatus, jqXHR, doneCallback) {
 
 function processFail(jqXHR, textStatus, errorThrown) {
 	loadImageHide();
+	$('#layerloadimage').hide(); // 추후 삭제
 	if (typeof (console) !== 'undefined' && typeof (console.log) !== 'undefined') {
 		console.log(textStatus + " - " + jqXHR.status + " (" + errorThrown + ")");
 	}
@@ -292,6 +293,21 @@ function commify(n) {
 	return n;
 }
 
+/**
+ * 숫자를 구분한다.
+ * @author seulgi.lee
+ * @date 2016. 02.
+ * @param s - 비교할 문자열
+ * @returns Boolean
+ */
+function isNumber(s) {
+    s += ''; // 문자열로 변환
+    s = s.replace(/^\s*|\s*$/g, ''); // 좌우 공백 제거
+    if (s == '' || isNaN(s)) return false;
+    return true;
+}
+
+
 
 /**
  * 공백체크를 한다.
@@ -314,9 +330,9 @@ function validation(validCase) {
 			}
 			if(!str) {
             			    if(val.type == "text") {
-            				alertPopup("경고",val.name+" 입력해주세요");
+            				alertPopup("Warning","Please enter your "+val.name);
             			} else if( val.type == "radio"){
-            				alertPopup("경고",val.name+" 선택해주세요");
+            				alertPopup("Warning","Please choose your"+val.name);
             			}
 				errorCnt++;
 				return false;

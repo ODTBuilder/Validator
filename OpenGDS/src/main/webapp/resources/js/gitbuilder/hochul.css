@@ -1,20 +1,102 @@
-.hoicon {
-	opacity: 0.9;
-	z-index: 1;
-}
-
-.hoicon:hover {
-	opacity: 0.6;
-	cursor: pointer;
-}
-
-.rotationing {
-	opacity: 0.6;
-}
-
-#autocomplete {
+#commandWindow {
 	position: absolute;
     padding: 5px;
     bottom: 0;
     display: none;
+}
+
+#commandWindow td {
+	color: white;
+}
+
+#consoleWindow, #commandHistory {
+    float: left;
+    width: 50%;
+    height: 10em;
+    background-color: rgba(40, 40, 40, 0.9);
+    border: darkgray solid 1px;
+    border-radius: 0.3em;
+}
+
+.tip {
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  color: white;
+  padding: 4px 8px;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+.tip-measure {
+  opacity: 1;
+  font-weight: bold;
+}
+.tip-static {
+  background-color: #ffcc33;
+  color: black;
+  border: 1px solid white;
+}
+.tip-measure:before,
+.tip-static:before {
+  border-top: 6px solid rgba(0, 0, 0, 0.5);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  margin-left: -7px;
+  left: 50%;
+}
+.tip-static:before {
+  border-top-color: #ffcc33;
+}
+
+.ol-control button{ 
+    background-color: rgba(40, 40, 40, 0.8) !important;
+}
+.ol-control button:hover{ 
+    background-color: rgba(40, 40, 40, 1) !important;
+}
+
+.ol-popup {
+    position: absolute;
+    min-width: 180px;
+    background-color: white;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    bottom: 12px;
+    left: -50px;
+}
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+.ol-popup:after {
+    border-top-color: white;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+.ol-popup:before {
+    border-top-color: #cccccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+.ol-popup-closer {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 8px;
+}
+.ol-popup-closer:after {
+    content: "X";
 }

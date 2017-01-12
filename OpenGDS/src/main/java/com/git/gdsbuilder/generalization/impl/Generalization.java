@@ -204,7 +204,7 @@ public class Generalization {
 				///////////////////////////
 				Double length = mainGeom.getLength()/1000;
 				topology.setAlValue(length.valueOf(Math.round(length*100d)));
-				
+				 
 				
 				
 				Coordinate[] mainCoord = mainGeom.getCoordinates();

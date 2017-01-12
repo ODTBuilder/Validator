@@ -19,10 +19,12 @@ public class SelfEntityMultiValidator implements Callable<ErrorLayer> {
 
 	SimpleFeatureCollection validatorSfc;
 	SimpleFeatureCollection relationSfc;
+//	private HttpServletRequest request;
 
 	public SelfEntityMultiValidator(SimpleFeatureCollection validatorSfc, SimpleFeatureCollection relationSfc) {
 		this.validatorSfc = validatorSfc;
 		this.relationSfc = relationSfc;
+		//this.request = request;
 	}
 
 	@Override

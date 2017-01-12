@@ -19,10 +19,12 @@ public class SmallLengthValidator implements Callable<ErrorLayer> {
 
 	private SimpleFeatureCollection validatorSfc;
 	private double inputLength;
+	//private HttpServletRequest request;
 
 	public SmallLengthValidator(SimpleFeatureCollection validatorSfc, double inputLength) {
 		this.validatorSfc = validatorSfc;
 		this.inputLength = inputLength;
+	//	this.request = request;
 	}
 
 	@Override

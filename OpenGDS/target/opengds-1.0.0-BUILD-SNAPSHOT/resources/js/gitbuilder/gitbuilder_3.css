@@ -1,0 +1,296 @@
+.Gitbuilder-LayerSelectable {
+	width: inherit;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+.GitBuilder-LayerSelectable-Legend {
+	display: inline-block;
+}
+
+.GitBuilder-LayerSelectable-Item {
+	background-color: #ffffff;
+	position: relative;
+	margin: 7px;
+	padding-top: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	border: 1px solid #adadad;
+	list-style: none;
+	padding-left: 0;
+	border-radius: 4px;
+	width: 236px;
+}
+
+.Gitbuilder-LayerSelectable .ui-selecting {
+	background: #e6e6e6;
+	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.Gitbuilder-LayerSelectable .ui-selecting .Gitbuilder-LayerSortable-Handle
+	{
+	background: #ddd;
+}
+
+.Gitbuilder-LayerSelectable .ui-selected {
+	background: #eee;
+}
+
+.Gitbuilder-LayerSelectable .ui-selected .Gitbuilder-LayerSortable-Handle
+	{
+	background: #d8d8d8;
+}
+
+.Gitbuilder-LayerSelectable-Function-Area {
+	margin-top: 10px;
+	width: 150px;
+}
+
+.Gitbuilder-LayerSelectable-Function-Button {
+	width: 30px !important;
+	padding: 6px !important;
+}
+
+.Gitbuilder-LayerSelectable-Filter {
+	margin: 0;
+	padding-left: 42px;
+	padding-top: 0.8em;
+	padding-right: 0.8em;
+	padding-bottom: 0.8em;
+}
+
+.Gitbuilder-LayerSortable {
+	width: inherit;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+.GitBuilder-LayerSortable-Item {
+	background-color: #ffffff;
+	position: relative;
+	margin: 7px;
+	/* 	padding-top: 0.8em; */
+	/* 	padding-right: 0.8em; */
+	/* 	padding-bottom: 0.8em; */
+	border: 1px solid #adadad;
+	list-style: none;
+	/* 	padding-left: 42px; */
+	border-radius: 4px;
+	width: 236px;
+}
+
+.Gitbuilder-LayerSortable-Handle {
+	border-radius: 4px 0 0 4px;
+	background: #f8f8f8;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	/* 		padding: 8px; */
+	padding-top: 9px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 9px;
+}
+
+/* .GitBuilder-LayerList-Item-Handle>span { */
+/* 	font-size: 14px; */
+/* } */
+
+/* .GitBuilder-Editing-ToolBox { */
+/* 	z-index: 3; */
+/* 	margin: 0; */
+/* 	padding: 6px; */
+/* 	border-radius: 4px; */
+/* 	border: 1px solid #adadad; */
+/* 	background-color: #ffffff; */
+/* 	width: 94px; */
+/* 	height: auto; */
+/* 	max-height: 400px; */
+/* 	top: 12%; */
+/* 	right: 0px; */
+/* 	position: absolute; */
+/* } */
+
+/* .GitBuilder-Editing-ToolBox-Open { */
+/* 	width: 398px !important; */
+/* } */
+
+/* .GitBuilder-Editing-ToolBox-Close { */
+/* 	width: 94px !important; */
+/* 	right: 0px !important; */
+/* 	position: absolute !important; */
+/* } */
+
+/* .GitBuilder-Editing-ToolBox-Line-Collapsed { */
+/* 	display: none; */
+/* } */
+
+/* .GitBuilder-Editing-ToolBox-Line-NonCollapsed { */
+/* 	display: block; */
+/* } */
+
+/* .GitBuilder-Editing-ToolBox-Line-FeatureList { */
+/* 	margin-right: 4px; */
+/* } */
+
+/* .GitBuilder-Editing-ToolBox-Line { */
+/* 	vertical-align: top !important; */
+/* 	float: left; */
+/* 	max-width: 300px; */
+/* } */
+
+/* .GitBuilder-Editing-Navigator { */
+/* 	z-index: 3; */
+/* 	margin: 0; */
+/* 	padding: 6px; */
+/* 	border-radius: 4px; */
+/* 	border: 1px solid #adadad; */
+/* 	background-color: #ffffff; */
+/* 	width: 255px; */
+/* 	height: auto; */
+/* 	max-height: 400px; */
+/* 	top: 12%; */
+/* 	right: 95px; */
+/* 	position: absolute; */
+/* } */
+
+/* .GitBuilder-QAList-Item { */
+/* 	cursor: pointer; */
+/* } */
+
+/* .GitBuilder-QAList-Item-active { */
+/* 	background-color: #e6e6e6 !important; */
+/* 	background-position: 0 -15px !important; */
+/* } */
+
+/* .GitBuilder-QAList-Item:hover { */
+/* 	background-color: #e6e6e6; */
+/* 	background-position: 0 -15px; */
+/* } */
+
+/* .GitBuilder-QAList-Item:active { */
+/* 	background: #e6e6e6; */
+/* 	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125); */
+/* 	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125); */
+/* 	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125); */
+/* } */
+
+/* .GitBuilder-QAList-OptionName { */
+/* 	cursor: pointer; */
+/* } */
+
+/* .GitBuilder-QAList-OptionName:hover { */
+/* 	background-color: #e6e6e6; */
+/* 	background-position: 0 -15px; */
+/* } */
+
+/* .GitBuilder-QAList-OptionName:active { */
+/* 	background: #e6e6e6; */
+/* 	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125); */
+/* 	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125); */
+/* 	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125); */
+/* } */
+
+/* .GitBuilder-Edit-FeatureList { */
+/* 	width: 190px; */
+/* 	max-width: 190px; */
+/* 	table-layout: fixed; */
+/* } */
+
+/* .GitBuilder-Edit-FeatureList-Feature-Number { */
+/* 	width: 50px !important; */
+/* 	white-space: nowrap; */
+/* } */
+
+/* .GitBuilder-Edit-FeatureList-Feature-UFID { */
+/* 	width: 130px !important; */
+/* 	white-space: nowrap; */
+/* } */
+
+/* .GitBuilder-Edit-FeatureList-Feature { */
+/* 	cursor: pointer; */
+/* } */
+
+/* .GitBuilder-Edit-Button { */
+/* 	height: 34px; */
+/* } */
+
+/* .GitBuilder-Editing-FeatureList { */
+/* 	max-height: 300px; */
+/* 	overflow: auto; */
+/* 	margin-top: 10px; */
+/* } */
+
+/* .GitBuilder-Edit-AttributePopup { */
+/* 	position: absolute; */
+/* 	background-color: white; */
+/* 	-webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); */
+/* 	filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); */
+/* 	padding: 15px; */
+/* 	border-radius: 4px; */
+/* 	border: 1px solid #cccccc; */
+/* 	bottom: 12px; */
+/* 	left: -50px; */
+/* 	min-width: 280px; */
+/* 	/* 	z-index: 999999; */
+*
+/
+/* } */
+
+/* .GitBuilder-Edit-AttributePopup:after, .GitBuilder-Edit-AttributePopup:before */
+/* 	{ */
+/* 	top: 100%; */
+/* 	border: solid transparent; */
+/* 	content: " "; */
+/* 	height: 0; */
+/* 	width: 0; */
+/* 	position: absolute; */
+/* 	pointer-events: none; */
+/* } */
+
+/* .GitBuilder-Edit-AttributePopup:after { */
+/* 	border-top-color: white; */
+/* 	border-width: 10px; */
+/* 	left: 48px; */
+/* 	margin-left: -10px; */
+/* } */
+
+/* .GitBuilder-Edit-AttributePopup:before { */
+/* 	border-top-color: #cccccc; */
+/* 	border-width: 11px; */
+/* 	left: 48px; */
+/* 	margin-left: -11px; */
+/* } */
+
+/* .GitBuilder-Edit-Attribute-Close { */
+/* 	display: block !important; */
+/* 	margin-bottom: 10px; */
+/* } */
+
+/* .GitBuilder-Edit-Attribute-Row { */
+/* 	margin-top: 7px; */
+/* 	margin-bottom: 7px; */
+/* } */
+
+/* .GitBuilder-Feature-Table { */
+/* 	border-bottom: 1px solid #ddd; */
+/* } */
+
+/* .ui-jqgrid { */
+/* 	font-size: 12px; */
+/* } */
+
+/* .GitBuilder-Margin-CheckBoxOrRadio { */
+/* 	margin-right: 5px !important; */
+/* } */
+
+/* .GitBuilder-Layer-Legend { */
+/* 	display: inline-block; */
+/* } */

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.geotools.data.DataStoreFinder;
@@ -17,10 +18,14 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.simple.SimpleFeatureStore;
 import org.geotools.feature.SchemaException;
+import org.json.JSONArray;
+import org.json.simple.JSONObject;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
+
+import com.git.gdsbuilder.convertor.DataConvertor;
 
 public class ConvertGeojson 
 {
@@ -55,6 +60,8 @@ public class ConvertGeojson
 	// create , Write SHP File
 	public void createSHP(SimpleFeatureCollection simpleFeatureCollection, String filePath) throws IOException, SchemaException, NoSuchAuthorityCodeException, FactoryException {
 
+		DataConvertor dataConvertor = new DataConvertor();
+		
 		FileDataStoreFactorySpi factory = new ShapefileDataStoreFactory();
 		File file = new File(filePath);
 		Map map = Collections.singletonMap("url", file.toURI().toURL());

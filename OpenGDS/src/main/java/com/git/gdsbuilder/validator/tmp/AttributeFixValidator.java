@@ -20,10 +20,12 @@ public class AttributeFixValidator implements Callable<ErrorLayer> {
 
 	private SimpleFeatureCollection validatorSfc;
 	private JSONArray notNullAtt;
+	//private HttpServletRequest request;
 
 	public AttributeFixValidator(SimpleFeatureCollection validatorSfc, JSONArray notNullAtt) {
 		this.validatorSfc = validatorSfc;
 		this.notNullAtt = notNullAtt;
+		//this.request = request;
 	}
 
 	@Override

@@ -1,9 +1,5 @@
 .GitBuilder-LayerList {
-<<<<<<< HEAD
 	width: inherit;
-=======
-	width:inherit;
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -11,21 +7,12 @@
 }
 
 .GitBuilder-LayerList-Item {
-<<<<<<< HEAD
 	background-color: #ffffff;
 	position: relative;
 	margin: 7px;
 	padding-top: 0.8em;
 	padding-right: 0.8em;
 	padding-bottom: 1.2em;
-=======
-	width: 100%;
-	height: auto;
-	background: white;
-	position: relative;
-	margin: 1em 0;
-	padding: 0.8em;
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	border: 1px solid #adadad;
 	list-style: none;
 	padding-left: 42px;
@@ -39,19 +26,13 @@
 	left: 0;
 	top: 0;
 	bottom: 0;
-<<<<<<< HEAD
 	/* 		padding: 8px; */
 	padding-top: 13px;
-=======
-/* 		padding: 8px; */
-	padding-top: 11px;
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	padding-right: 10px;
 	padding-bottom: 10px;
 	padding-left: 8px;
 }
 
-<<<<<<< HEAD
 .GitBuilder-LayerList-Item-Handle>span {
 	font-size: 14px;
 }
@@ -61,10 +42,6 @@
 	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-=======
-.ui-selecting {
-	background: #eee;
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }
 
 .ui-selecting .handle {
@@ -72,16 +49,11 @@
 }
 
 .ui-selected {
-<<<<<<< HEAD
 	background: #eee;
-=======
-	background: #def;
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }
 
 .ui-selected .handle {
 	background: #cde;
-<<<<<<< HEAD
 }
 
 .GitBuilder-Editing-ToolBox {
@@ -200,7 +172,7 @@
 }
 
 .GitBuilder-Edit-Button {
-	height: 34px;
+	height: 36px;
 }
 
 .GitBuilder-Editing-FeatureList {
@@ -271,7 +243,7 @@
 }
 
 .GitBuilder-LayerList-Function-Button {
-	width: 34px !important;
+	width: 30px !important;
 	padding: 6px !important;
 }
 
@@ -281,6 +253,4 @@
 
 .GitBuilder-Layer-Legend {
 	display: inline-block;
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }

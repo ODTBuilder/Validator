@@ -87,6 +87,25 @@ public class DataValidCheck {
 		}
 	}
 
+	public boolean extentCheck(String layerID, SimpleFeatureCollection simpleFeatureCollection) {
+
+		boolean isTrue = false;
+		int featureSize = simpleFeatureCollection.size();
+		if (featureSize > 1 || featureSize == 0) {
+			return isTrue;
+		} else {
+			SimpleFeatureIterator simpleFeatureIterator = simpleFeatureCollection.features();
+			while (simpleFeatureIterator.hasNext()) {
+				SimpleFeature simpleFeature = simpleFeatureIterator.next();
+				Geometry geom = (Geometry) simpleFeature.getDefaultGeometry();
+				if (geom.isValid() || !geom.getGeometryType().equals("Polygon")) {
+					isTrue = false;
+				}
+			}
+			return isTrue;
+		}
+	}
+
 	// 객체 꼬임 여부 검사
 	public ErrorFeature featureDataCheck(SimpleFeature simpleFeature) throws SchemaException {
 		Geometry geometry = (Geometry) simpleFeature.getDefaultGeometry();

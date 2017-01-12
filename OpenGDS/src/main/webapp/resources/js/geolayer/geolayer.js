@@ -23,6 +23,18 @@ function loadingLayerServerAjaxCallback(result) {
 		}
 }
 
+function testSessionRemove(){
+	var url = CONTEXT + "/validator/testSessionRemoveAjax.ajax";
+	var params = {};
+	sendJsonRequest(url, params, testSessionRemoveAjaxCallback);
+}
+
+function testSessionRemoveAjaxCallback(result){
+	if(result.flag){
+		alert("test session remove success");
+	}
+}
+
 function loadLayerAjax() {
     	var serverName = $("#seserverlayer option:selected").val();
 	var url = CONTEXT + "/geolayer/loadLayerAjax.ajax";
@@ -92,8 +104,6 @@ function geoLayerAdd() {
 	//프록시서버로 요청했을시
 	/*var url = CONTEXT + "/geoserver/proxy.ajax";
 	
-	// undo 위한 data 배열 -김호철-
-	var layerArr = [];
 	
 	// layer를 추가하기전 숨겨진 layer와 feature를 삭제
 	gitbuilder.variable.undoRedo.resetRedos();
@@ -132,8 +142,6 @@ function geoLayerAdd() {
 					edit : true,
 					attrType : layerVO.attInfo
 				};
-				// 배열에 layer 정보를 저장 -김호철-
-				layerArr.push(layer);
 				
 				gitbuilder.method.layer.setLayerProperties(obj);
 
@@ -145,8 +153,6 @@ function geoLayerAdd() {
 		});
 
 	}
-	// undo를 위한 data set -김호철-
-	gitbuilder.method.SetUndoData('layerHide', layerArr, null);
 	$('#geoserverLayerWindow').modal('hide');*/
 }
 
@@ -197,19 +203,13 @@ function createDTGeoLayerToOlLayer(dtGeoserver, dtGeolayer){
 		edit : true,
 		attrType : dtGeolayer.attInfo
 	    };
-	    // 배열에 layer 정보를 저장 -김호철-
-	    layerArr.push(olLayer);
 
 	    gitbuilder.method.layer.setLayerProperties(obj);
 
 	    gitbuilder.method.layer.addLayerOnList(olLayer);
 
 	    gitbuilder.method.layer.updateLayerList();
-
 	    
-	    
-	    // undo를 위한 data set -김호철-
-//	    gitbuilder.command.SetUndoData('layerHide',layerArr, null);
 	    $('#geoserverLayerWindow').modal('hide');
     }
     else{
@@ -304,9 +304,7 @@ function convertGeojsonToLayer(result) {
 
 function call(result){
 	loadImageHide();
-	// undo 위한 data 배열 -김호철-
-	var layerArr = [];
-
+	
 	var layer = convertGeojsonToLayer(result);
 
 	var layerId = gitbuilder.method.layer.createLayerId();
@@ -321,8 +319,6 @@ function call(result){
 		edit : true,
 		attrType : layerList[chklayer[callNum]].attInfo
 	};
-	// 배열에 layer 정보를 저장 -김호철-
-	layerArr.push(layer);
 	
 	gitbuilder.method.layer.setLayerProperties(obj);
 
@@ -330,8 +326,6 @@ function call(result){
 	
 	gitbuilder.method.layer.updateLayerList();
 	
-	// undo를 위한 data set -김호철-
-	gitbuilder.method.SetUndoData('layerHide', layerArr, null);
 	$('#geoserverLayerWindow').modal('hide');
 	
 	callNum = callNum+1;

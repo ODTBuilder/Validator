@@ -18,9 +18,11 @@ import com.git.gdsbuilder.validator.factory.GeometryValidatorImpl;
 public class EntityDuplicatedValidator implements Callable<ErrorLayer> {
 
 	private SimpleFeatureCollection validatorSfc;
+	//private HttpServletRequest request;
 
 	public EntityDuplicatedValidator(SimpleFeatureCollection validatorSfc) {
 		this.validatorSfc = validatorSfc;
+		//this.request = request;
 	}
 
 	@Override

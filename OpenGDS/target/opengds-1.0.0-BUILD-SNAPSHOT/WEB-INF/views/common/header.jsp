@@ -12,7 +12,7 @@ body {
 	line-height: 1;
 }
 
-ol, ul { 
+ol, ul {
 	list-style: none;
 }
 
@@ -30,26 +30,48 @@ table {
 	border-spacing: 0;
 }
 
-#mask{position:fixed; z-index:990; top:0; left:0; width:100%; height:100%; display:none; font-size:0; text-indent:-1900px; background:#000; -ms-filter:progid:DXImageTransform.Microsoft.alpha(opacity=50); /*IE8*/
-filter:progid:DXImageTransform.Microsoft.alpha(opacity=50); opacity:0.5;}
-</style>	
-<div id="mask">dimmed</div> 
+#mask {
+	position: fixed;
+	z-index: 990;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	font-size: 0;
+	text-indent: -1900px;
+	background: #000;
+	-ms-filter: progid:DXImageTransform.Microsoft.alpha(opacity=50);
+	/*IE8*/
+	filter: progid:DXImageTransform.Microsoft.alpha(opacity=50);
+	opacity: 0.5;
+}
+</style>
+<div id="mask">dimmed</div>
 
-	<!-- loadimage추가 -->
-	
-	<img id="loadimage" src="${pageContext.request.contextPath}/resources/img/spin.gif" style="position: absolute; width: 150px; height: 150px; display: none;">
-	<div id="builderInfo" style="width: 100%; height: 6%; background-color: #f8f8f8;">
-		<div class="col-md-10">
-			<a href="javascript:goMainPage()">
-				<img src="${pageContext.request.contextPath}/resources/img/ci.png" style="width: auto; height: 25px; margin-top: 18px; margin-left: 6px;"/>
-			</a>
-		</div>
-		<div class="col-md-2 text-right" style="margin-top: 14px;">
-			<div class="input-group">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"  onclick="gitbuilder.ui.showQAPage()">Validation</button>
-					<button class="btn btn-default" type="button" onclick="gitbuilder.ui.showGenPage()">Generalization</button>
-				</span>
-			</div>
+<!-- loadimage추가 -->
+
+<img id="loadimage" src="${pageContext.request.contextPath}/resources/img/spin.gif" style="position: absolute; width: 150px; height: 150px; display: none;">
+
+<div class="row panel panel-default" style="margin-bottom: 0;">
+
+	<div class="navbar-header">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="javascript:goMainPage()">OpenGDS</a>
 		</div>
 	</div>
+	<div class="collapse navbar-collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Quick menu<span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#" onclick="gitbuilder.ui.showQAPage()">Validation</a></li>
+					<li><a href="#" onclick="gitbuilder.ui.showGenPage()">Generalization</a></li>
+				</ul></li>
+		</ul>
+	</div>
+
+</div>

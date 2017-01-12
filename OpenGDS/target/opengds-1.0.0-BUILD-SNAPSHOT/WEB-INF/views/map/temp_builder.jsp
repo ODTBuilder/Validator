@@ -1,175 +1,149 @@
-<<<<<<< HEAD
 <%@ page contentType="text/html; charset=UTF-8"%>
 <jsp:include page="/WEB-INF/views/common/common.jsp" />
+<!DOCTYPE html>
 <html>
 <head>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- masking -->
 <title>Builder test</title>
+<script src="${pageContext.request.contextPath}/resources/js/gitbuilder/commandline.js"></script>
+<style>
+/* 작은 기기들 (태블릿, 768px 이상) */
+@media (min-width: @screen-sm-min) {}
 
+/* 중간 기기들 (데스크탑, 992px 이상) */
+@media (min-width: @screen-md-min) {}
+
+/* 큰 기기들 (큰 데스크탑, 1200px 이상) */
+@media (min-width: @screen-lg-min) {}
+</style>
 </head>
 <body>
 
-	<div id="header">
+	<div id="builderInfo" class="container-fluid">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	</div>
 
-	<div id="builderHeader navbar navbar-default" style="width: 100%; height: 6%; background-color: #f8f8f8;">
+	<div id="builderHeader" class="container-fluid">
+		<nav class="row navbar navbar-default" style="margin-bottom: 0;">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#builderNav">
+						<span class="sr-only">Toggle navigation</span>MENU
+					</button>
+<!-- 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#builderLayer"> -->
+<!-- 						<span class="sr-only">Toggle navigation</span>LAYER -->
+<!-- 					</button> -->
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" style="padding: 0;" id="builderNav">
+					<ul class="nav navbar-nav">
+						<li><a href="#" onclick="gitbuilder.ui.NewVectorWindow()" title="Vector"><i class="fa fa-file-o fa-lg" aria-hidden="true"></i> New</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" title="New Layer"><i class="fa fa-folder-open-o fa-lg" aria-hidden="true"></i> Open</a>
+							<ul class="dropdown-menu" role="menu">
+								<!-- 							<li><a href="#" onclick="gitbuilder.ui.NewVectorWindow()"><h4>Vector</h4></a></li> -->
+								<li><a href="#" onclick="gitbuilder.ui.NewSHPWindow()">SHP</a></li>
+								<li><a href="#" onclick="gitbuilder.ui.NewGeoserverLayerWindow('Q')">GeoServer</a></li>
+							</ul></li>
 
-		<div class="row" style="margin-left: 0px !important; margin-right: 0px !important;">
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" title="Save"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Save</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">as a SHP</a></li>
+								<li><a href="#">to Server</a></li>
+							</ul></li>
 
-			<div class="col-md-10">
-				<button class="btn btn-default" onclick="gitbuilder.ui.NewSHPWindow()">SHP</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.NewVectorWindow()">Vector</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.NewGeoserverLayerWindow('Q')">GeoServer</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.EditingWindow()">Edit</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.ConvertCoordinates()">CRS</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.NavigatorWindow()">Error Navigator</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.OutputOperationWindow()">Calculation</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.ValidationOptionWindow()">Q/A</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.NewAddGeoserverWindow()">Server Management</button>
-				<button class="btn btn-default" onclick="gitbuilder.ui.OutputErrorReportWindow()">Error Report</button>
-				<button class="btn btn-default">Save</button>
-				<button class="btn btn-default" onclick="loadTemp()">Temp</button>
-				<!-- 				<button class="btn btn-default" onclick="gitbuilder.method.edit.EditToolTip()">EditToolTip</button> -->
+						<li><a href="#" onclick="gitbuilder.ui.EditingWindow()" title="Edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</a></li>
+						<li><a href="#" onclick="gitbuilder.ui.ValidationOptionWindow()" title="Validation"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Validation</a></li>
+
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" title="Validation Result"><i class="fa fa-list-alt fa-lg" aria-hidden="true"></i> Result</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#" onclick="gitbuilder.ui.NavigatorWindow()">Error Navigator</a></li>
+								<li><a href="#" onclick="gitbuilder.ui.OutputErrorReportWindow()">Error Report</a></li>
+							</ul></li>
+
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" title="ToolBox"><i class="fa fa-calculator fa-lg" aria-hidden="true"></i> ToolBox</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#" onclick="gitbuilder.ui.ConvertCoordinates()">CRS Transformation</a></li>
+								<li><a href="#" onclick="gitbuilder.ui.OutputOperationWindow()">Spatial Operation</a></li>
+							</ul></li>
+
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" title="History"><i class="fa fa-history fa-lg" aria-hidden="true"></i> History</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">History</a></li>
+								<li role="presentation" class="divider"></li>
+								<li><a href="#">Download History</a></li>
+								<li><a href="#">Upload History</a></li>
+							</ul></li>
+
+						<li><a href="#" onclick="gitbuilder.ui.NewAddGeoserverWindow()" title="Server Management"><i class="fa fa-server fa-lg" aria-hidden="true"></i> Server</a></li>
+						<li><a href="#" onclick="gitbuilder.ui.aboutBuilder()" title="Information"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> Information</a></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
 			</div>
+			<!-- /.container-fluid -->
 
-			<div class="col-md-2">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search for..."> <span class="input-group-btn">
-						<button class="btn btn-default" type="button">Search</button>
-					</span>
+		</nav>
+	</div>
+	<!-- 		<div class="row"> -->
+	<!-- 			<div class="col-md-2" style="height: 90%; overflow-y: auto; margin: 0;"> -->
+	<!-- 				<div class="panel panel-default "> -->
+	<!-- 					<div class="panel-heading">Layer</div> -->
+	<!-- 					<div class="panel-body"> -->
+	<!-- 						<div id="builderLayer"></div> -->
+	<!-- 					</div> -->
+	<!-- 				</div> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="col-md-10" style="height: 90%; margin: 0;"> -->
+	<!-- 				<div class="panel panel-default"> -->
+	<!-- 					<div class="panel-heading">Map</div> -->
+	<!-- 					<div class="panel-body"> -->
+	<!-- 						<div id="builderMap"></div> -->
+	<!-- 					</div> -->
+	<!-- 				</div> -->
+	<!-- 			</div> -->
+
+	<div class="container-fluid" style="padding: 0; margin: 0; overflow: hidden; background-color: #f8f8f8;">
+		<div id="builderLayer" style="width: 15%; min-width:150px; height: 89.5%; float: left; border: 1px solid #e7e7e7; background-color: #f8f8f8;"></div>
+		<div id="builderMap" style="width: 85%; height: 89.5%; float: left; border: 1px solid #e7e7e7; background-color: #f8f8f8; padding: 8px;"></div>
+		<div id="commandWindow">
+			<div id="consoleWindow">
+				<kbd>console</kbd>
+				<div style="width:100%; height:90%; position:relative; overflow:auto">
+					<table></table>
 				</div>
 			</div>
-
-=======
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
-<head>
-
-<script src="${pageContext.request.contextPath}/resources/js/jquery/jquery-2.2.2.min.js"></script>
-
-<script src="${pageContext.request.contextPath}/resources/js/ol3/ol-debug.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/ol3/ol.css">
-
-<script src="${pageContext.request.contextPath}/resources/js/jqueryui/jquery-ui.min.js"></script>
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/jqueryui/jquery-ui.min.css"> --%>
-
-<script src="${pageContext.request.contextPath}/resources/js/spectrum/spectrum.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/spectrum/spectrum.css">
-
-<script src="${pageContext.request.contextPath}/resources/js/gitbuilder/gitbuilder_2.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/gitbuilder/gitbuilder_2.css">
-
-<%-- <script src="${pageContext.request.contextPath}/resources/js/gserver/gserver.js"></script> --%>
-
-<%-- 부트스트랩 --%>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/bootstrap/css/bootstrap.min.css">
-
-<style>
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
-	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
-	em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
-	b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
-	table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
-	details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
-	output, ruby, section, summary, time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, footer, header, hgroup,
-	menu, nav, section {
-	display: block;
-}
-
-body {
-	line-height: 1;
-}
-
-ol, ul {
-	list-style: none;
-}
-
-blockquote, q {
-	quotes: none;
-}
-
-blockquote:before, blockquote:after, q:before, q:after {
-	content: '';
-	content: none;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-</style>
-
-<title>Builder test</title>
-</head>
-<body>
-	<div id="builderInfo" style="width: 100%; height: 3%; background-color: #e3e3e3;"></div>
-	<div id="builderHeader" style="width: 100%; height: 5%; background-color: #e9e9e9">
-
-		<div class="col-md-8" role="toolbar" aria-label="...">
-			<button class="btn btn-default" onclick="gitbuilder.ui.NewSHPWindow()">SHP</button>
-			<button class="btn btn-default" onclick="gitbuilder.ui.NewVectorWindow()">Vector</button>
-			<button class="btn btn-default">GeoServer</button>
-			<button class="btn btn-default">Editing</button>
-			<button class="btn btn-default">Validation</button>
-			<button class="btn btn-default">Add GeoServer</button>
-			<button class="btn btn-default">Error Report</button>
-			<button class="btn btn-default">Save</button>
-		</div>
-
-		<div class="col-md-4" role="toolbar" aria-label="...">
-			<div class="col-md-10">
-				<input class="form-control" type="text">
+			<div id="commandHistory">
+				<kbd>history</kbd>
+				<div style="width:100%; height:90%; position:relative; overflow:auto">
+					<table></table>
+				</div>
 			</div>
-			<div class="col-md-2">
-				<button class="btn btn-default">Search</button>
+			<div class="input-group">
+				<div class="input-group-addon">$</div>
+				<input type="text" id="commandKeyword" class="form-control">
 			</div>
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
-		</div>
-
-	</div>
-
-	<div>
-<<<<<<< HEAD
-		<div id="builderLayer" style="float: left; width: 13%; height: 88%; background-color: #f8f8f8;"></div>
-		<div id="builderMap" style="float: left; width: 87%; height: 88%; background-color: #e9e9e9;"></div>
-		<form action="javascript:gitbuilder.command.CheckCommand()">
-			<div id='autocomplete'>
-				<input id="commandKeyword" class="form-control">
-			</div>
-		</form>
-	</div>
-	
-	<div id="autoComplete" class="form-group hocommand">
-		<div class="input-group">
-			<span class="input-group-addon">@</span>
-			<input type="text" id="commandKeyword" class="form-control">
-			
 		</div>
 	</div>
-	
-=======
-		<div id="builderLayer" style="float: left; width: 13%; height: 92%; background-color: #f1f1f1;"></div>
-		<div id="builderMap" style="float: left; width: 87%; height: 92%; background-color: #cccccc;"></div>
-	</div>
+	<!-- 	<div id="builderLayer" style="float: left; width: 15%; height: 80%; overflow-y: auto; margin: 0;"></div> -->
+	<!-- 	<div id="builderMap" style="float: left; width: 80%; height: 80%; margin: 0;"></div> -->
+	<!-- 	<div id="autocomplete"> -->
+	<!-- 		<div class="input-group"> -->
+	<!-- 			<div class="input-group-addon">$</div> -->
+	<!-- 			<input type="text" id="commandKeyword" class="form-control"> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
+	<!-- 	</div> -->
 
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
+	<!-- 	<div id="autoComplete" class="form-group hocommand"> -->
+	<!-- 		<div class="input-group"> -->
+	<!-- 			<span class="input-group-addon">@</span> <input type="text" id="commandKeyword" class="form-control"> -->
+
+	<!-- 		</div> -->
+	<!-- 	</div> -->
+
+	<!-- 	</div> -->
 	<script type="text/javascript">
 		var mapMethod = gitbuilder.method.map;
 		var ui = gitbuilder.ui;
@@ -177,11 +151,7 @@ table {
 			center : ol.proj.transform([ 71.433333, 51.166667 ], 'EPSG:4326', 'EPSG:3857'),
 			zoom : 4,
 			minZoom : 2,
-<<<<<<< HEAD
 			maxZoom : 20,
-=======
-			maxZoom : 19,
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 			projection : 'EPSG:3857'
 		}));
 
@@ -206,27 +176,6 @@ table {
 
 		ui.LayerList("builderLayer");
 
-<<<<<<< HEAD
-=======
-		var osm = new ol.layer.Tile({
-			source : new ol.source.OSM()
-		});
-
-		var obj1 = {
-			layer : osm,
-			name : "osm_",
-			id : gitbuilder.method.layer.createLayerId(),
-			type : "tile",
-			cat : 1,
-			edit : false,
-			attrType : null
-		};
-
-		gitbuilder.method.layer.setLayerProperties(obj1);
-
-		gitbuilder.method.layer.addLayerOnList(osm);
-
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		var bing = new ol.layer.Tile({
 			preload : Infinity,
 			source : new ol.source.BingMaps({
@@ -250,7 +199,6 @@ table {
 
 		gitbuilder.method.layer.setLayerProperties(obj2);
 
-<<<<<<< HEAD
 		gitbuilder.method.layer.addLayerOnList(bing);
 
 		var osm = new ol.layer.Tile({
@@ -272,8 +220,8 @@ table {
 		gitbuilder.method.layer.addLayerOnList(osm);
 
 		gitbuilder.method.layer.updateLayerList();
-		
-		function loadTemp (){
+
+		function loadTemp() {
 			var serverUrl = gitbuilder.method.getContextPath() + '/validator/validate.ajax';
 
 			$.ajax({
@@ -340,12 +288,17 @@ table {
 				}
 			});
 		};
-=======
-		gitbuilder.method.layer.addLayerOnList(bing)
 
-		gitbuilder.method.layer.updateLayerList();
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
+		$(function() {
+			$('#commandKeyword').commandline({
+				map : gitbuilder.variable.map,
+				source : gitbuilder.command.defaults(),
+				create : function() {
+					$('#ui-id-1').css('display', 'inline-block');
+				},
+				autoFocus : true
+			});
+		});
 	</script>
-
 </body>
 </html>

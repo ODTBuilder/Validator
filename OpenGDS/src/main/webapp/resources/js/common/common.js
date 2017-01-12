@@ -4,32 +4,20 @@
  * @date 2016. 02.
  */
 $(document).ready(function() {
-<<<<<<< HEAD
-=======
-	$('.layClose').click(function() {
-		$('.layerPop').xHidePopup();
-	});
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 });
 
 
 /**
  * 활성화되어 있는 팝업창을 닫는다.
-<<<<<<< HEAD
  * 
  * @author seulgi.lee
  * @date 2016. 02.
-=======
- * @author seulgi.lee
- * @date 2016. 02. 
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
  */
 function closePop() {
 	$('.layerPop').xHidePopup();
 }
 
 
-<<<<<<< HEAD
 function goMainPage(){
    /* swal({
 	    title : 'Do you want to go to the main page?',
@@ -77,8 +65,6 @@ function goMainPage(){
 	  }});
 }
 
-=======
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 /**
  * 활성화되어 있는 팝업창을 닫는다.
  * @author seulgi.lee
@@ -103,11 +89,7 @@ function loadImageShow(){
 	 * 웹페이지를 로딩할 때 초기화를 한다.
 	 * 1. loadimage 초기화
 	 * */
-<<<<<<< HEAD
 	$("#loadimage").css("left", $(window).width()/2-80).css("bottom", $(window).height()/2).css("display","block").css("z-index",999);
-=======
-	$("#loadimage").css("left", $(window).width()/2 -50).css("bottom", $(window).height()/2 + 50).css("display","block");
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	$("#loadimage").show();
 	$("#mask").show();
 }
@@ -277,6 +259,7 @@ function processDone(data, textStatus, jqXHR, doneCallback) {
 
 function processFail(jqXHR, textStatus, errorThrown) {
 	loadImageHide();
+	$('#layerloadimage').hide(); // 추후 삭제
 	if (typeof (console) !== 'undefined' && typeof (console.log) !== 'undefined') {
 		console.log(textStatus + " - " + jqXHR.status + " (" + errorThrown + ")");
 	}
@@ -310,6 +293,21 @@ function commify(n) {
 	return n;
 }
 
+/**
+ * 숫자를 구분한다.
+ * @author seulgi.lee
+ * @date 2016. 02.
+ * @param s - 비교할 문자열
+ * @returns Boolean
+ */
+function isNumber(s) {
+    s += ''; // 문자열로 변환
+    s = s.replace(/^\s*|\s*$/g, ''); // 좌우 공백 제거
+    if (s == '' || isNaN(s)) return false;
+    return true;
+}
+
+
 
 /**
  * 공백체크를 한다.
@@ -332,15 +330,9 @@ function validation(validCase) {
 			}
 			if(!str) {
             			    if(val.type == "text") {
-<<<<<<< HEAD
-            				alertPopup("경고",val.name+" 입력해주세요");
+            				alertPopup("Warning","Please enter your "+val.name);
             			} else if( val.type == "radio"){
-            				alertPopup("경고",val.name+" 선택해주세요");
-=======
-            				alertPopup("알림",val.name+" 입력해주세요");
-            			} else if( val.type == "radio"){
-            				alertPopup("알림",val.name+" 선택해주세요");
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
+            				alertPopup("Warning","Please choose your"+val.name);
             			}
 				errorCnt++;
 				return false;
@@ -375,10 +367,6 @@ $.fn.xHidePopup = function(e) {
 		e.preventDefault();
 	}
 	$(this).each(function() {
-<<<<<<< HEAD
-=======
-		$("#mask").hide();
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 		$(this).hide();
 	});
 };
@@ -429,7 +417,6 @@ function closeMsgPopup() {
  * @param sub - 알림내용
  * @returns 
  */
-<<<<<<< HEAD
 function alertPopup(title,sub) {
     swal({
 	  title: title,
@@ -449,22 +436,12 @@ function showModal(target){
 
 function closeModal(target){
     $('#'+target+'').modal('hide');
-=======
-function alertPopup(main, sub) {
-	$('#warningPopup').xShowPopup();
-	$('#warningMain').text(main);
-	$('#warningSub').html(sub);
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 }
 
 /**
  * showProgress 처리
  */
-<<<<<<< HEAD
 $.fn.showProgress = function() { 
-=======
-$.fn.showProgress = function() {
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	$(this).each(function() {
 		$("#mask").show();
 		$(this).show();

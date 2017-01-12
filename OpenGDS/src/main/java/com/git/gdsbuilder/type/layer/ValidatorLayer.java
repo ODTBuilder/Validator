@@ -1,9 +1,5 @@
 package com.git.gdsbuilder.type.layer;
 
-<<<<<<< HEAD
-=======
-import java.util.ArrayList;
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 import java.util.List;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -15,11 +11,7 @@ public class ValidatorLayer {
 	String layerType;
 	String layerID;
 	SimpleFeatureCollection simpleFeatureCollection;
-<<<<<<< HEAD
 	List<ValidatorOption> validatorOptions;
-=======
-	List<ValidatorOption> validatorOptions = new ArrayList<ValidatorOption>();
->>>>>>> ecf4dc000dbc1e75e4bec2ccdd071366fc17030c
 	double weigth;
 
 	public ValidatorLayer() {
