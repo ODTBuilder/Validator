@@ -2,7 +2,7 @@ package com.git.gdsbuilder.generalization.rep;
 
 import java.io.Serializable;
 
-import com.git.gdsbuilder.generalization.rep.type.DTGeneralNums;
+import com.git.gdsbuilder.generalization.rep.type.DTGeneralReportNums;
 
 /**
  * 일반화결과 레포트
@@ -10,26 +10,27 @@ import com.git.gdsbuilder.generalization.rep.type.DTGeneralNums;
  * @Date 2016.10
  * */
 public class DTGeneralReport implements Serializable {
+	private DTGeneralReportNums entityNums;
+	private DTGeneralReportNums pointNums; 
 	
-	private static final long serialVersionUID = 1L;
-	
-	private DTGeneralNums preResultNum; //일반화전 객체 및 포인트수
-	private DTGeneralNums afResultNum; //일반화후 객체 및 포인트수 
-	
-	//일반화 결과 Enum
-	public enum DTGeneralReportType {
-		PREREPORT("prereport"), //일반화전
-		AFREPORT("afreport"), //일반화후 
+	/**
+	 * 일반화레포트 Type
+	 * @author SG.Lee
+	 * @Date 2016.10.24
+	 * */
+	public enum DTGeneralReportNumsType {
+		ENTITY("entity"),
+		POINT("point"),
 		UNKNOWN(null);
 
 		private final String typeName;
 
-		private DTGeneralReportType(String typeName) {
+		private DTGeneralReportNumsType(String typeName) {
 			this.typeName = typeName;
 		}
 
-		public static DTGeneralReportType get(String typeName) {
-			for (DTGeneralReportType type : values()) {
+		public static DTGeneralReportNumsType get(String typeName) {
+			for (DTGeneralReportNumsType type : values()) {
 				if(type == UNKNOWN)
 					continue;
 				if(type.typeName.equals(typeName))
@@ -37,54 +38,37 @@ public class DTGeneralReport implements Serializable {
 			}
 			return UNKNOWN;
 		}
-		
 		public String getTypeName(){
 			return this.typeName;
 		}
 	};
 	
-	
-	/**
-	 * GET, SET
-	 * @author SG.Lee
-	 * @Date 2016.10
-	 * */
-	public DTGeneralNums getPreResultNum() {
-		return preResultNum;
-	}
-
-	public void setPreResultNum(DTGeneralNums preResultNum) {
-		this.preResultNum = preResultNum;
-	}
-
-	public DTGeneralNums getAfResultNum() {
-		return afResultNum;
-	}
-
-	public void setAfResultNum(DTGeneralNums afResultNum) {
-		this.afResultNum = afResultNum;
+	public DTGeneralReport(){
+		
 	}
 	
-	public DTGeneralReport(DTGeneralNums preResultNum, DTGeneralNums afResultNum){
-		this.preResultNum=preResultNum;
-		this.afResultNum=afResultNum;
+	public DTGeneralReport(DTGeneralReportNums entityNums, DTGeneralReportNums pointNums) {
+		// TODO Auto-generated constructor stub
+		this.entityNums = entityNums;
+		this.pointNums = pointNums;
 	}
 	
-	
-	/**
-	 * 일반화 타입별 DTGeneralNums 
-	 * @author SG.Lee
-	 * @Date 2016.10
-	 * @param type - 레포트 타입(일반화 전,후)
-	 * @return DTGeneralNums
-	 * @throws
-	 * */
-	public DTGeneralNums getNums(DTGeneralReportType type){
-		if(type.getTypeName().equals(DTGeneralReportType.PREREPORT.getTypeName()))
-			return preResultNum;
-		else if(type.getTypeName().equals(DTGeneralReportType.AFREPORT.getTypeName()))
-			return afResultNum;
+	public DTGeneralReportNums getDTGeneralReportNums(DTGeneralReportNumsType numsType) {
+		if(numsType == DTGeneralReportNumsType.ENTITY){
+			return this.entityNums;
+		}
+		else if(numsType == DTGeneralReportNumsType.POINT){
+			return this.pointNums;
+		}
 		else
 			return null;
+	}
+	
+	
+	public void setEntityNum(DTGeneralReportNums entityNums) {
+		this.entityNums = entityNums;
+	}
+	public void setPointNum(DTGeneralReportNums pointNum) {
+		this.pointNums = pointNum;
 	}
 }
