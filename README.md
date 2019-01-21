@@ -39,60 +39,61 @@ Getting Started
 - src/test/com/git/gdsbuilder/validator/ValidationTest 클래스 생성
 - LayerCollectionValidation
 <pre><code>
- 		// read zip file
-		File zipFile = new File("D:\\digitalmap20.zip");
-		UnZipFile unZipFile = new UnZipFile("D:\\upzip");
-		try {
-			unZipFile.decompress(zipFile, (long) 2); // cidx 2 : 수치지도 구조화 shp 파일
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-    // create DTLayerCollection
-		String epsg = "EPSG:4326";
-		QAFileParser parser = new QAFileParser(epsg, 2, "shp", unZipFile, null); // cidx 2 : 수치지도 구조화 shp 파일
-		DTLayerCollectionList collectionList = parser.getCollectionList();
+// read zip file
+File zipFile = new File("D:\\digitalmap20.zip");
+UnZipFile unZipFile = new UnZipFile("D:\\upzip");
+try {
+	unZipFile.decompress(zipFile, (long) 2); // cidx 2 : 수치지도 구조화 shp 파일
+} catch (Throwable e) {
+	e.printStackTrace();
+}
 
-		// create QALayerType
-		String typeName = "건물";
+// create DTLayerCollection
+String epsg = "EPSG:4326";
+QAFileParser parser = new QAFileParser(epsg, 2, "shp", unZipFile, null); // cidx 2 : 수치지도 구조화 shp 파일
+DTLayerCollectionList collectionList = parser.getCollectionList();
 
-    // set SelfEntity Option
-		GraphicMiss selfentity = new GraphicMiss();
-		selfentity.setOption(DMQAOptions.Type.SELFENTITY.getErrCode());
+// create QALayerType
+String typeName = "건물";
 
-    // set Entityduplicated Option
-		GraphicMiss entityduplicated = new GraphicMiss();
-		entityduplicated.setOption(DMQAOptions.Type.ENTITYDUPLICATED.getErrCode());
+// set SelfEntity Option
+GraphicMiss selfentity = new GraphicMiss();
+selfentity.setOption(DMQAOptions.Type.SELFENTITY.getErrCode());
 
-		List<GraphicMiss> graphicMissOptions = new ArrayList<>();
-		graphicMissOptions.add(selfentity);
-		graphicMissOptions.add(entityduplicated);
+// set Entityduplicated Option
+GraphicMiss entityduplicated = new GraphicMiss();
+entityduplicated.setOption(DMQAOptions.Type.ENTITYDUPLICATED.getErrCode());
 
-    // create QAOption
-		QAOption option = new QAOption();
-		option.setName(typeName);
-		option.setGraphicMissOptions(graphicMissOptions);
+List<GraphicMiss> graphicMissOptions = new ArrayList<>();
+graphicMissOptions.add(selfentity);
+graphicMissOptions.add(entityduplicated);
 
-		QALayerType layerType = new QALayerType();
-		layerType.setName(typeName);
-		List<String> layerIdList = new ArrayList<>();
-		layerIdList.add("B0010000");
-		layerIdList.add("B0020000");
-		layerType.setLayerIDList(layerIdList);
-		layerType.setOption(option);
+// create QAOption
+QAOption option = new QAOption();
+option.setName(typeName);
+option.setGraphicMissOptions(graphicMissOptions);
 
-		QALayerTypeList qaLayerTypeList = new QALayerTypeList();
-		qaLayerTypeList.add(layerType);
+QALayerType layerType = new QALayerType();
+layerType.setName(typeName);
+List<String> layerIdList = new ArrayList<>();
+layerIdList.add("B0010000");
+layerIdList.add("B0020000");
+layerType.setLayerIDList(layerIdList);
+layerType.setOption(option);
 
-    // Validation 
-		for (DTLayerCollection collection : collectionList) {
-			CollectionValidator validator = new CollectionValidator(collection, null, qaLayerTypeList);
-			ErrorLayer errLayer = validator.getErrLayer();
-			try {
-				SHPFileWriter.writeSHP(epsg, errLayer, "D:\\collectionErr_" + collection.getCollectionName() + ".shp");
-			} catch (IOException | SchemaException | FactoryException e) {
-				e.printStackTrace();
-			}
-		}
+QALayerTypeList qaLayerTypeList = new QALayerTypeList();
+qaLayerTypeList.add(layerType);
+
+// Validation 
+for (DTLayerCollection collection : collectionList) {
+	CollectionValidator validator = new CollectionValidator(collection, null, qaLayerTypeList);
+	ErrorLayer errLayer = validator.getErrLayer();
+	try {
+		SHPFileWriter.writeSHP(epsg, errLayer, "D:\\collectionErr_" + collection.getCollectionName() + ".shp");
+	} catch (IOException | SchemaException | FactoryException e) {
+		e.printStackTrace();
+	}
+}
 </code></pre>
 
 사용 라이브러리
