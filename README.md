@@ -37,7 +37,7 @@ Getting Started
 
 ### 4. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/validator/ValidationTest 클래스 생성
-- DTLayerCollection Validation
+- DTLayerCollection Validation : Collection 형태의 다수 Layer 검수
 <pre><code>
 // read zip file
 File zipFile = new File("D:\\digitalmap20.zip");
@@ -95,7 +95,7 @@ for (DTLayerCollection collection : collectionList) {
     }
 }
 </code></pre>
-- DTLayer Validation
+- DTLayer Validation : 단일 Layer 검수
 <pre><code>
 // read shp file
 String epsg = "EPSG:4326";
@@ -118,7 +118,7 @@ try {
     e.printStackTrace();
 }
 </code></pre>
-- DTFeature Validation
+- DTFeature Validation : 단일 Feature 검수
 <pre><code>
 GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 WKTReader reader = new WKTReader(geometryFactory);
