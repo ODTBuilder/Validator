@@ -38,7 +38,7 @@ Getting Started
 ### 4. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/validator/ValidationTest 클래스 생성
 - DTLayerCollection Validation : Collection 형태의 다수 shp layer 파일 검수
-<pre><code>// read zip file
+<pre><code>// 1. read zip file
 File zipFile = new File("D:\\digitalmap20.zip");
 UnZipFile unZipFile = new UnZipFile("D:\\upzip");
 
@@ -48,19 +48,19 @@ try {
     e.printStackTrace();
 }
 
-// create DTLayerCollection
+// 2. create DTLayerCollection
 String epsg = "EPSG:4326";
 QAFileParser parser = new QAFileParser(epsg, 2, "shp", unZipFile, null); // cidx 2 : 국가기본도 구조화 shp 파일
 DTLayerCollectionList collectionList = parser.getCollectionList();
 
-// create QALayerType
+// 3. create QALayerType
 String typeName = "건물";
 
-// set SelfEntity Option
+// 4. set SelfEntity Option
 GraphicMiss selfentity = new GraphicMiss();
 selfentity.setOption(DMQAOptions.Type.SELFENTITY.getErrCode());
 
-// set Entityduplicated Option
+// 5. set Entityduplicated Option
 GraphicMiss entityduplicated = new GraphicMiss();
 entityduplicated.setOption(DMQAOptions.Type.ENTITYDUPLICATED.getErrCode());
 
@@ -68,7 +68,7 @@ List<GraphicMiss> graphicMissOptions = new ArrayList<>();
 graphicMissOptions.add(selfentity);
 graphicMissOptions.add(entityduplicated);
 
-// create QAOption
+// 6. create QAOption
 QAOption option = new QAOption();
 option.setName(typeName);
 option.setGraphicMissOptions(graphicMissOptions);
@@ -84,11 +84,12 @@ layerType.setOption(option);
 QALayerTypeList qaLayerTypeList = new QALayerTypeList();
 qaLayerTypeList.add(layerType);
 
-// Validation 
+// 7. validation 
 for (DTLayerCollection collection : collectionList) {
     CollectionValidator validator = new CollectionValidator(collection, null, qaLayerTypeList);
     ErrorLayer errLayer = validator.getErrLayer();
     try {
+        // 8. Write error shp file
 	SHPFileWriter.writeSHP(epsg, errLayer, "D:\\collectionErr_" + collection.getCollectionName() + ".shp");
     } catch (IOException | SchemaException | FactoryException e) {
 	e.printStackTrace();
@@ -96,22 +97,22 @@ for (DTLayerCollection collection : collectionList) {
 }
 </code></pre>
 - DTLayer Validation : 단일 shp layer 파일 검수
-<pre><code>// read shp file
+<pre><code>// 1. read shp file
 String epsg = "EPSG:4326";
 SHPFileLayerParser parser = new SHPFileLayerParser();
 SimpleFeatureCollection sfc = parser.getShpObject(epsg, new File("D:\\gis_osm_buildings.shp"));
 
-// create DTLayer
+// 2. create DTLayer
 String layerId = "gis_osm_buildings";
 DTLayer layer = new DTLayer();
 layer.setLayerID(layerId);
 layer.setSimpleFeatureCollection(sfc);
 
-// validation
+// 3. validation
 LayerValidator validator = new LayerValidatorImpl(layer);
 try {
     ErrorLayer errLayer = validator.validateSelfEntity(null);
-    // write error shp file
+    // 4. write error shp file
     SHPFileWriter.writeSHP(epsg, errLayer, "D:\\layerErr.shp");
     } catch (SchemaException | IOException | FactoryException e) {
     e.printStackTrace();
@@ -119,35 +120,35 @@ try {
 </code></pre>
 - DTFeature Validation : 단일 feature 검수
 - 파일 검수가 아닌 SimpleFeature 검수
-<pre><code>// create Geometry
+<pre><code>// 1. create Geometry
 GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 WKTReader reader = new WKTReader(geometryFactory);
 try {
     Geometry geom1 = geometryFactory.createGeometry(reader.read("POLYGON((10 10, 30 0, 40 10, 30 20, 10 10))"));
     Geometry geom2 = geometryFactory.createGeometry(reader.read("POLYGON((20 10, 20 40, 30 40, 30 0, 20 10))"));
 
-    // create SimpleFeature
+    // 2. create SimpleFeature
     SimpleFeatureType sfType1 = DataUtilities.createType("DTFeature1", "the_geom:Polygon");
     SimpleFeature sf1 = SimpleFeatureBuilder.build(sfType1, new Object[] { geom1 }, "DTFeature1");
 
     SimpleFeatureType sfType2 = DataUtilities.createType("DTFeature2", "the_geom:Polygon");
     SimpleFeature sf2 = SimpleFeatureBuilder.build(sfType2, new Object[] { geom2 }, "DTFeature2");
 
-    // create DTFeature
+    // 3. create DTFeature
     DTFeature feature1 = new DTFeature();
     feature1.setSimefeature(sf1);
 
     DTFeature feature2 = new DTFeature();
     feature2.setSimefeature(sf2);
 
-    // validation
+    // 4. validation
     FeatureGraphicValidator validator = new FeatureGraphicValidatorImpl();
     List<ErrorFeature> errFeatures = validator.validateSelfEntity(feature1, feature2, null);
 
     ErrorLayer errLayer = new ErrorLayer();
     errLayer.addErrorFeatureList(errFeatures);
 
-    // write error shp file
+    // 5. write error shp file
     String epsg = "EPSG:4326";
     SHPFileWriter.writeSHP(epsg, errLayer, "D:\\featureErr.shp");
     } catch (ParseException | SchemaException e) {
