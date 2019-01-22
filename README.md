@@ -36,7 +36,7 @@ Getting Started
 - eclipse 실행 후 Project Import
 
 ### 4. Test 코드 작성 ###
-- src/test/com/git/gdsbuilder/validator/ValidationTest 클래스 생성
+- src/test/com/git/gdsbuilder/validator/ValidationTest.java 클래스 생성
 - DTLayerCollection Validation : zip 형태의 다수 shp layer 파일 검수
 <pre><code>// 1. read zip file
 File zipFile = new File("D:\\digitalmap20.zip");
@@ -161,7 +161,8 @@ try {
         e.printStackTrace();
   }
 </code></pre>
-
+- 테스트 코드 작성 후 각각의 error shp file 생성 여부 확인 
+- error shp file은 OpenGDS / Builder (공간자료 편집도구) 또는 타 GIS 편집 툴에서 확인 가능
 
 사용 라이브러리
 =====
