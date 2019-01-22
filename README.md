@@ -12,10 +12,10 @@ OpenGeoDT 팀
 특징
 =====
 - OpenGDS/Validator는 자사 GIS 통합 솔루션인 GeoDT 2.2 기술을 기반으로한 공간정보 검수 자바 라이브러리입니다.
-- 웹 페이지상에서 공간정보의 기하학적/논리적 구조와 속성값에 대한 검수편집 기능을 제공합니다.
-- 라이브러리 형태로 개발되어 사용자 요구사항에 따라 커스터 마이징 및 확장이 가능합니다.
-- shp, ngi, dxf 파일 검수를 제공하며 검수 결과는 shp 파일로 다운로드 받을 수 있습니다. 
+- 웹 페이지상에서 공간정보의 기하학적/논리적 구조와 속성값에 대한 검수 기능을 제공합니다.
 - OGC 표준을 준수하고 있으며 국가기본도, 지하시설물도, 임상도 작성 작업규정을 따르는 총 53여종의 검수기능을 제공합니다.
+- 라이브러리 형태로 개발되어 사용자 요구사항에 따라 커스터 마이징 및 확장이 가능합니다.
+- shp, ngi, dxf 파일을 업로드 후 검수하며 검수 결과는 shp 파일로 다운로드 받을 수 있습니다.
 
 연구기관
 =====
@@ -37,20 +37,20 @@ Getting Started
 
 ### 4. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/validator/ValidationTest 클래스 생성
-- DTLayerCollection Validation : Collection 형태의 다수 Layer 검수
-<pre><code>
-// read zip file
+- DTLayerCollection Validation : Collection 형태의 다수 shp layer 파일 검수
+<pre><code>// read zip file
 File zipFile = new File("D:\\digitalmap20.zip");
 UnZipFile unZipFile = new UnZipFile("D:\\upzip");
+
 try {
-    unZipFile.decompress(zipFile, (long) 2); // cidx 2 : 수치지도 구조화 shp 파일
+    unZipFile.decompress(zipFile, (long) 2); // cidx 2 : 국가기본도 구조화 shp 파일
 } catch (Throwable e) {
     e.printStackTrace();
 }
 
 // create DTLayerCollection
 String epsg = "EPSG:4326";
-QAFileParser parser = new QAFileParser(epsg, 2, "shp", unZipFile, null); // cidx 2 : 수치지도 구조화 shp 파일
+QAFileParser parser = new QAFileParser(epsg, 2, "shp", unZipFile, null); // cidx 2 : 국가기본도 구조화 shp 파일
 DTLayerCollectionList collectionList = parser.getCollectionList();
 
 // create QALayerType
@@ -95,9 +95,8 @@ for (DTLayerCollection collection : collectionList) {
     }
 }
 </code></pre>
-- DTLayer Validation : 단일 Layer 검수
-<pre><code>
-// read shp file
+- DTLayer Validation : 단일 shp layer 파일 검수
+<pre><code>// read shp file
 String epsg = "EPSG:4326";
 SHPFileLayerParser parser = new SHPFileLayerParser();
 SimpleFeatureCollection sfc = parser.getShpObject(epsg, new File("D:\\gis_osm_buildings.shp"));
@@ -118,12 +117,12 @@ try {
     e.printStackTrace();
 }
 </code></pre>
-- DTFeature Validation : 단일 Feature 검수
-<pre><code>
+- DTFeature Validation : 단일 feature 검수
+- 파일 검수가 아닌 SimpleFeature 검수
+<pre><code>// create Geometry
 GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 WKTReader reader = new WKTReader(geometryFactory);
 try {
-    // create Geometry
     Geometry geom1 = geometryFactory.createGeometry(reader.read("POLYGON((10 10, 30 0, 40 10, 30 20, 10 10))"));
     Geometry geom2 = geometryFactory.createGeometry(reader.read("POLYGON((20 10, 20 40, 30 40, 30 0, 20 10))"));
 
