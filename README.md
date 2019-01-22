@@ -28,6 +28,7 @@ Getting Started
 ### 1. 환경 ###
 - Java – OpenJDK 1.8.0.111 64 bit
 - eclipse neon 
+- Tomcat8.0.43 64bit
 
 ### 2. Clone or Download ###
 - https://github.com/ODTBuilder/Validator 접속 후 Git 또는 SVN을 통해 Clone 하거나 zip 파일 형태로 소스코드 다운로드 
