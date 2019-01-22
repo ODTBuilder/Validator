@@ -37,7 +37,7 @@ Getting Started
 
 ### 4. Test 코드 작성 ###
 - src/test/com/git/gdsbuilder/validator/ValidationTest 클래스 생성
-- DTLayerCollection Validation : Collection 형태의 다수 shp layer 파일 검수
+- DTLayerCollection Validation : zip 형태의 다수 shp layer 파일 검수
 <pre><code>// 1. read zip file
 File zipFile = new File("D:\\digitalmap20.zip");
 UnZipFile unZipFile = new UnZipFile("D:\\upzip");
@@ -115,7 +115,7 @@ try {
     // 4. write error shp file
     SHPFileWriter.writeSHP(epsg, errLayer, "D:\\layerErr.shp");
     } catch (SchemaException | IOException | FactoryException e) {
-    e.printStackTrace();
+        e.printStackTrace();
 }
 </code></pre>
 - DTFeature Validation : 단일 feature 검수
@@ -152,13 +152,13 @@ try {
     String epsg = "EPSG:4326";
     SHPFileWriter.writeSHP(epsg, errLayer, "D:\\featureErr.shp");
     } catch (ParseException | SchemaException e) {
-    e.printStackTrace();
+        e.printStackTrace();
     } catch (NoSuchAuthorityCodeException e) {
-    e.printStackTrace();
+        e.printStackTrace();
     } catch (IOException e) {
-    e.printStackTrace();
+        e.printStackTrace();
     } catch (FactoryException e) {
-    e.printStackTrace();
+        e.printStackTrace();
   }
 </code></pre>
 
