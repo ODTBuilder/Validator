@@ -1,9 +1,14 @@
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+[![Korean](https://img.shields.io/badge/language-Korean-blue.svg)](#korean)
+
+
+<a name="korean"></a>
 OpenGDS / Validator (공간정보 검수 자바 라이브러리)
 =======
 
-OpenGDS/Validator는 국토공간정보연구사업 중, [공간정보 SW 활용을 위한 오픈소스 가공기술 개발]과제의 3차년도 연구성과입니다. 
-2차원 공간정보 검수를 위한 오픈소스 자바 라이브러리이며 Geotools, GeoserverManager 등의 오픈소스 라이브러리를 사용하여 개발되었습니다.
-또한 OpenGDS / Builder (공간자료 편집도구)와 연동하여 검수 요청 및 검수 결과 확인, 오류 데이터 편집이 가능합니다. 
+OpenGDS/Validator는 국토공간정보연구사업 중, [공간정보 SW 활용을 위한 오픈소스 가공기술 개발]과제의 3차년도 연구성과입니다.<br>
+2차원 공간정보 검수를 위한 오픈소스 자바 라이브러리이며 Geotools, GeoserverManager 등의 오픈소스 라이브러리를 사용하여 개발되었습니다.<br>
+또한 OpenGDS / Builder (공간자료 편집도구)와 연동하여 검수 요청 및 검수 결과 확인, 오류 데이터 편집이 가능합니다.<br>
 
 감사합니다.<br>
 공간정보기술(주) 연구소 <link>http://www.git.co.kr/<br>
