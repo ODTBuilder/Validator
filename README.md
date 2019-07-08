@@ -64,11 +64,11 @@ String typeName = "건물";
 
 // 4. set SelfEntity Option
 GraphicMiss selfentity = new GraphicMiss();
-selfentity.setOption(DMQAOptions.Type.SELFENTITY.getErrCode());
+selfentity.setOption(DMQAOptions.SELFENTITY.getErrCode());
 
 // 5. set Entityduplicated Option
 GraphicMiss entityduplicated = new GraphicMiss();
-entityduplicated.setOption(DMQAOptions.Type.ENTITYDUPLICATED.getErrCode());
+entityduplicated.setOption(DMQAOptions.ENTITYDUPLICATED.getErrCode());
 
 List<GraphicMiss> graphicMissOptions = new ArrayList<>();
 graphicMissOptions.add(selfentity);
