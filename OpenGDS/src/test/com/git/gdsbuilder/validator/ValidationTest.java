@@ -15,8 +15,10 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 
-import com.git.gdsbuilder.file.writer.SHPFileWriter;
-import com.git.gdsbuilder.parser.file.QAFileParser;
+import com.git.gdsbuilder.parser.file.reader.UnZipFile;
+import com.git.gdsbuilder.parser.file.shp.SHPFileLayerParser;
+import com.git.gdsbuilder.parser.file.writer.SHPFileWriter;
+import com.git.gdsbuilder.parser.qa.QAFileParser;
 import com.git.gdsbuilder.type.dt.collection.DTLayerCollection;
 import com.git.gdsbuilder.type.dt.collection.DTLayerCollectionList;
 import com.git.gdsbuilder.type.dt.feature.DTFeature;
@@ -25,14 +27,12 @@ import com.git.gdsbuilder.type.validate.error.ErrorFeature;
 import com.git.gdsbuilder.type.validate.error.ErrorLayer;
 import com.git.gdsbuilder.type.validate.layer.QALayerType;
 import com.git.gdsbuilder.type.validate.layer.QALayerTypeList;
+import com.git.gdsbuilder.type.validate.option.DMQAOptions;
+import com.git.gdsbuilder.type.validate.option.GraphicMiss;
 import com.git.gdsbuilder.type.validate.option.QAOption;
-import com.git.gdsbuilder.type.validate.option.specific.GraphicMiss;
-import com.git.gdsbuilder.type.validate.option.type.DMQAOptions;
 import com.git.gdsbuilder.validator.collection.CollectionValidator;
 import com.git.gdsbuilder.validator.feature.FeatureGraphicValidator;
 import com.git.gdsbuilder.validator.feature.FeatureGraphicValidatorImpl;
-import com.git.gdsbuilder.validator.fileReader.UnZipFile;
-import com.git.gdsbuilder.validator.fileReader.shp.parser.SHPFileLayerParser;
 import com.git.gdsbuilder.validator.layer.LayerValidator;
 import com.git.gdsbuilder.validator.layer.LayerValidatorImpl;
 import com.vividsolutions.jts.geom.Geometry;
@@ -74,10 +74,10 @@ public class ValidationTest {
 		String typeName = "건물";
 
 		GraphicMiss selfentity = new GraphicMiss();
-		selfentity.setOption(DMQAOptions.Type.SELFENTITY.getErrCode());
+		selfentity.setOption(DMQAOptions.SELFENTITY.getErrCode());
 
 		GraphicMiss entityduplicated = new GraphicMiss();
-		entityduplicated.setOption(DMQAOptions.Type.ENTITYDUPLICATED.getErrCode());
+		entityduplicated.setOption(DMQAOptions.ENTITYDUPLICATED.getErrCode());
 
 		List<GraphicMiss> graphicMissOptions = new ArrayList<>();
 		graphicMissOptions.add(selfentity);
@@ -117,7 +117,8 @@ public class ValidationTest {
 		// read shp file
 		String epsg = "EPSG:4326";
 		SHPFileLayerParser parser = new SHPFileLayerParser();
-		SimpleFeatureCollection sfc = parser.getShpObject(epsg, new File("D:\\gis_osm_buildings.shp"));
+		SimpleFeatureCollection sfc = parser.getShpObject(epsg, new File("D:\\gis_osm_buildings.shp"),
+				"gis_osm_buildings");
 
 		// create DTLayer
 		String layerId = "gis_osm_buildings";

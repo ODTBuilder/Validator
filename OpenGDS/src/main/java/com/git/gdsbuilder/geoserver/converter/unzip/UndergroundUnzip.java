@@ -7,18 +7,18 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * @Description Underground 파일을 지정된 경로에 압축해제하는 기능을 제공 
+ * 지하시설물 파일을 지정된 경로에 압축해제하는 기능을 제공하는 클래스
+ * 
  * @author SG.Lee
- * @Date 2018. 10. 17. 오전 10:18:19
- * */
+ * @since 2018. 10. 17. 오전 10:18:19
+ */
 public class UndergroundUnzip {
 
-	
 	/**
 	 * 대상 파일
-	 * */
+	 */
 	private File zipFile;
-	
+
 	/**
 	 * 압축해제 경로
 	 */
@@ -32,17 +32,22 @@ public class UndergroundUnzip {
 	 */
 	private String fileDirectory;
 
-	
-	public UndergroundUnzip(File zipFile){
+	/**
+	 * 생성자
+	 * 
+	 * @author SG.LEE
+	 * @param zipFile 다운로드 받은 File 클래스
+	 */
+	public UndergroundUnzip(File zipFile) {
 		this.zipFile = zipFile;
 //		this.OUTPUT_DIR = output_dir;
 		this.OUTPUT_DIR = zipFile.getParent();
 	}
-	
+
 	/**
 	 * 압축폴더명 반환
 	 * 
-	 * @return String
+	 * @return String 압축폴더명
 	 */
 	public String getEntryName() {
 		return entryName;
@@ -51,18 +56,16 @@ public class UndergroundUnzip {
 	/**
 	 * 압축폴더명 설정
 	 * 
-	 * @param entryName
-	 *            압축폴더명
+	 * @param entryName 압축폴더명
 	 */
 	public void setEntryName(String entryName) {
 		this.entryName = entryName;
 	}
 
-
 	/**
 	 * 압축파일 경로 반환
 	 * 
-	 * @return String
+	 * @return String 압축파일 경로
 	 */
 	public String getFileDirectory() {
 		return fileDirectory;
@@ -71,8 +74,7 @@ public class UndergroundUnzip {
 	/**
 	 * 압축파일 경로 설정
 	 * 
-	 * @param fileDirectory
-	 *            압축파일 경로
+	 * @param fileDirectory 압축파일 경로
 	 */
 	public void setFileDirectory(String fileDirectory) {
 		this.fileDirectory = fileDirectory;
@@ -88,17 +90,17 @@ public class UndergroundUnzip {
 	}
 
 	/**
-	 * @Description zip 파일의 압축 해제 후 지정된 경로에 압축 해제
+	 * zip 파일의 압축 해제 후 지정된 경로에 압축 해제
+	 * 
 	 * @author SG.Lee
-	 * @Date 2018. 8. 1. 오전 11:37:15
-	 * @return 에러코드 200 성공
-	 *                 700 파일구조 에러
-	 *                 
+	 * @since 2018. 8. 1. 오전 11:37:15
+	 * @return 에러코드 200 성공 700 파일구조 에러
+	 * 
 	 * @throws Throwable long
-	 * */
+	 */
 	public int decompress() throws Throwable {
 		int flagNum = 200;
-		
+
 		FileInputStream fis = null;
 		ZipInputStream zis = null;
 		ZipEntry zipentry = null;
@@ -116,14 +118,11 @@ public class UndergroundUnzip {
 			// Zip 파일 스트림
 			zis = new ZipInputStream(fis);
 
-			
-
 			// Fentry가 없을때까지 뽑기
 			while ((zipentry = zis.getNextEntry()) != null) {
 				String zipentryName = zipentry.getName();
 				File file = new File(OUTPUT_DIR, zipentryName);
 
-				
 				// entiry가 폴더면 구조에러
 				if (zipentry.isDirectory()) {
 					flagNum = 700;

@@ -14,7 +14,6 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-
 package com.git.gdsbuilder.type.validate.layer;
 
 import java.util.ArrayList;
@@ -23,17 +22,26 @@ import java.util.List;
 import com.git.gdsbuilder.type.dt.collection.DTLayerCollection;
 import com.git.gdsbuilder.type.dt.layer.DTLayer;
 import com.git.gdsbuilder.type.dt.layer.DTLayerList;
-import com.git.gdsbuilder.type.validate.option.specific.OptionRelation;
+import com.git.gdsbuilder.type.dt.layer.DTQuadLayer;
+import com.git.gdsbuilder.type.dt.layer.DTQuadLayerList;
 
 /**
- * ValidateLayerTypeList 정보를 담고 있는 클래스
+ * {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}의 검수 옵션
+ * <p>
+ * 다수의{@link com.git.gdsbuilder.type.validate.layer.QALayerType}을
+ * {@link java.util.ArrayList} 형태로 저장
  * 
  * @author DY.Oh
- * @Date 2017. 3. 11. 오후 3:02:56
  */
 public class QALayerTypeList extends ArrayList<QALayerType> {
 
+	/**
+	 * 검수 종류 수치지도 1.0 : 1, 수치지도 2.0 : 2, 지하시설물 1.0 : 3, 지하시설물 2.0 : 4, 임상도 : 5
+	 */
 	int category;
+	/**
+	 * QALayerTypeList에 해당하는 LayerID List
+	 */
 	List<String> layerIDList = new ArrayList<String>();
 
 	public int getCategory() {
@@ -60,6 +68,22 @@ public class QALayerTypeList extends ArrayList<QALayerType> {
 		this.layerIDList.add(layerID);
 	}
 
+	/**
+	 * 특정 Name에 해당하는 {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의
+	 * LayerID List와 동일한 ID를 가진 {@link com.git.gdsbuilder.type.dt.layer.DTLayer}를
+	 * {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}에서 모두 검색하여
+	 * {@link com.git.gdsbuilder.type.dt.layer.DTLayerList} 형태로 반환
+	 * 
+	 * @param typeName        {@link com.git.gdsbuilder.type.validate.layer.QALayerType}
+	 *                        Name
+	 * @param layerCollection LayerID를 검색할
+	 *                        {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}
+	 * @return DTLayerList
+	 *         {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의 LayerID
+	 *         List와 동일한 ID를 가진 {@link com.git.gdsbuilder.type.dt.layer.DTLayerList}
+	 * 
+	 * @author DY.Oh
+	 */
 	public DTLayerList getTypeLayers(String typeName, DTLayerCollection layerCollection) {
 		DTLayerList layers = new DTLayerList();
 		for (int j = 0; j < this.size(); j++) {
@@ -69,6 +93,45 @@ public class QALayerTypeList extends ArrayList<QALayerType> {
 				for (int i = 0; i < names.size(); i++) {
 					String name = names.get(i);
 					DTLayer geoLayer = layerCollection.getLayer(name);
+					if (geoLayer != null) {
+						geoLayer.setTypeName(typeName);
+						layers.add(geoLayer);
+					} else {
+						continue;
+					}
+				}
+			}
+		}
+		return layers;
+	}
+
+	/**
+	 * 특정 Name에 해당하는 {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의
+	 * LayerID List와 동일한 ID를 가진
+	 * {@link com.git.gdsbuilder.type.dt.layer.DTQuadLayer}를
+	 * {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}에서 모두 검색하여
+	 * {@link com.git.gdsbuilder.type.dt.layer.DTQuadLayerList} 형태로 반환
+	 * 
+	 * @param typeName        {@link com.git.gdsbuilder.type.validate.layer.QALayerType}
+	 *                        Name
+	 * @param layerCollection LayerID를 검색할
+	 *                        {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}
+	 * @return DTLayerList
+	 *         {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의 LayerID
+	 *         List와 동일한 ID를 가진
+	 *         {@link com.git.gdsbuilder.type.dt.layer.DTQuadLayerList}
+	 * 
+	 * @author DY.Oh
+	 */
+	public DTQuadLayerList getTypeQuadLayers(String typeName, DTLayerCollection layerCollection) {
+		DTQuadLayerList layers = new DTQuadLayerList();
+		for (int j = 0; j < this.size(); j++) {
+			QALayerType type = this.get(j);
+			if (type.getName().equals(typeName)) {
+				List<String> names = type.getLayerIDList();
+				for (int i = 0; i < names.size(); i++) {
+					String name = names.get(i);
+					DTQuadLayer geoLayer = layerCollection.getQuadLayer(name);
 					if (geoLayer != null) {
 						layers.add(geoLayer);
 					} else {
@@ -81,13 +144,21 @@ public class QALayerTypeList extends ArrayList<QALayerType> {
 	}
 
 	/**
+	 * 특정 Name에 해당하는 {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의
+	 * LayerID와 동일한 ID를 가진 {@link com.git.gdsbuilder.type.dt.layer.DTLayer}를
+	 * {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}에서 검색하여 반환
+	 * 
+	 * @param typeName        {@link com.git.gdsbuilder.type.validate.layer.QALayerType}
+	 *                        Name
+	 * @param layerID         {@link com.git.gdsbuilder.type.dt.layer.DTLayer} ID
+	 * @param layerCollection LayerID를 검색할
+	 *                        {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}
+	 * @return DTLayer {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의
+	 *         LayerID List와 동일한 ID List를 가진
+	 *         {@link com.git.gdsbuilder.type.dt.layer.DTLayerList}
 	 * @author DY.Oh
-	 * @Date 2018. 3. 6. 오후 7:16:29
-	 * @param code
-	 * @param layerCollection
-	 * @decription
 	 */
-	public DTLayer getTypeLayer(String typeName, String code, DTLayerCollection layerCollection) {
+	public DTLayer getTypeLayer(String typeName, String layerID, DTLayerCollection layerCollection) {
 
 		DTLayer layer = null;
 		for (int j = 0; j < this.size(); j++) {
@@ -96,7 +167,7 @@ public class QALayerTypeList extends ArrayList<QALayerType> {
 				List<String> names = type.getLayerIDList();
 				for (int i = 0; i < names.size(); i++) {
 					String name = names.get(i);
-					if (name.equals(code)) {
+					if (name.equals(layerID)) {
 						layer = layerCollection.getLayer(name);
 					}
 				}
@@ -106,35 +177,37 @@ public class QALayerTypeList extends ArrayList<QALayerType> {
 	}
 
 	/**
+	 * 특정 Name에 해당하는 {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의
+	 * LayerID와 동일한 ID를 가진 {@link com.git.gdsbuilder.type.dt.layer.DTQuadLayer}를
+	 * {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}에서 검색하여 반환
+	 * 
+	 * @param typeName        {@link com.git.gdsbuilder.type.validate.layer.QALayerType}
+	 *                        Name
+	 * @param layerID         {@link com.git.gdsbuilder.type.dt.layer.DTQuadLayer}
+	 *                        ID
+	 * @param layerCollection LayerID를 검색할
+	 *                        {@link com.git.gdsbuilder.type.dt.collection.DTLayerCollection}
+	 * @return DTQuadLayer
+	 *         {@link com.git.gdsbuilder.type.validate.layer.QALayerType}의 LayerID
+	 *         List와 동일한 ID를 가진 {@link com.git.gdsbuilder.type.dt.layer.DTQuadLayer}
+	 * 
 	 * @author DY.Oh
-	 * @Date 2018. 3. 16. 오후 5:42:03
-	 * @param relation
-	 * @param layerCollection
-	 * @return DTLayerList
-	 * @decription
 	 */
-	public DTLayerList getTypeLayers(OptionRelation relation, DTLayerCollection layerCollection) {
+	public DTQuadLayer getTypeQuadLayer(String typeName, String layerID, DTLayerCollection layerCollection) {
 
-		String typeName = relation.getName();
-		DTLayerList layers = new DTLayerList();
+		DTQuadLayer layer = null;
 		for (int j = 0; j < this.size(); j++) {
 			QALayerType type = this.get(j);
 			if (type.getName().equals(typeName)) {
 				List<String> names = type.getLayerIDList();
 				for (int i = 0; i < names.size(); i++) {
 					String name = names.get(i);
-					DTLayer dtLayer = layerCollection.getLayer(name);
-					if (dtLayer != null) {
-						// dtLayer.setFigure(relation.getFigure(name));
-						dtLayer.setFilter(relation.getFilter(name));
-						layers.add(dtLayer);
-					} else {
-						continue;
+					if (name.equals(layerID)) {
+						layer = layerCollection.getQuadLayer(name);
 					}
 				}
 			}
 		}
-		return layers;
-
+		return layer;
 	}
 }

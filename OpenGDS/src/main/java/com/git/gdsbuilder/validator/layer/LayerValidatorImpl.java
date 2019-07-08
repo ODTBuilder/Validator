@@ -55,22 +55,24 @@ import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.opengis.referencing.operation.TransformException;
 
 import com.git.gdsbuilder.type.dt.feature.DTFeature;
+import com.git.gdsbuilder.type.dt.feature.DTFeatureList;
 import com.git.gdsbuilder.type.dt.layer.DTLayer;
 import com.git.gdsbuilder.type.dt.layer.DTLayerList;
 import com.git.gdsbuilder.type.validate.error.ErrorFeature;
 import com.git.gdsbuilder.type.validate.error.ErrorLayer;
-import com.git.gdsbuilder.type.validate.option.specific.AttributeFigure;
-import com.git.gdsbuilder.type.validate.option.specific.AttributeFilter;
-import com.git.gdsbuilder.type.validate.option.specific.OptionFigure;
-import com.git.gdsbuilder.type.validate.option.specific.OptionFilter;
-import com.git.gdsbuilder.type.validate.option.specific.OptionTolerance;
-import com.git.gdsbuilder.type.validate.option.standard.FixedValue;
+import com.git.gdsbuilder.type.validate.option.AttributeFigure;
+import com.git.gdsbuilder.type.validate.option.AttributeFilter;
+import com.git.gdsbuilder.type.validate.option.FixedValue;
+import com.git.gdsbuilder.type.validate.option.OptionFigure;
+import com.git.gdsbuilder.type.validate.option.OptionFilter;
+import com.git.gdsbuilder.type.validate.option.OptionTolerance;
 import com.git.gdsbuilder.validator.feature.FeatureAttributeValidator;
 import com.git.gdsbuilder.validator.feature.FeatureAttributeValidatorImpl;
 import com.git.gdsbuilder.validator.feature.FeatureCloseCollectionValidator;
 import com.git.gdsbuilder.validator.feature.FeatureCloseCollectionValidatorImpl;
 import com.git.gdsbuilder.validator.feature.FeatureGraphicValidator;
 import com.git.gdsbuilder.validator.feature.FeatureGraphicValidatorImpl;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.vividsolutions.jts.geom.Geometry;
 
 public class LayerValidatorImpl implements LayerValidator {
@@ -85,22 +87,10 @@ public class LayerValidatorImpl implements LayerValidator {
 		this.validatorLayer = validatorLayer;
 	}
 
-	public LayerValidatorImpl() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * jf
-	 *
-	 * @return the validatorLayer
-	 */
 	public DTLayer getValidatorLayer() {
 		return validatorLayer;
 	}
 
-	/**
-	 * @param validatorLayer the validatorLayer to set
-	 */
 	public void setValidatorLayer(DTLayer validatorLayer) {
 		this.validatorLayer = validatorLayer;
 	}
@@ -140,7 +130,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -194,7 +184,7 @@ public class LayerValidatorImpl implements LayerValidator {
 			}
 		}
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -231,7 +221,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -263,7 +253,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -301,7 +291,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -334,7 +324,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -369,7 +359,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -377,7 +367,7 @@ public class LayerValidatorImpl implements LayerValidator {
 	}
 
 	@Override
-	public ErrorLayer validateOverShoot(DTLayer relationLayer, OptionTolerance tole) throws SchemaException {
+	public ErrorLayer validateOverShoot(DTLayerList relationLayers, OptionTolerance tole) throws SchemaException {
 
 		OptionFilter filter = validatorLayer.getFilter();
 		List<AttributeFilter> attrConditions = null;
@@ -400,22 +390,22 @@ public class LayerValidatorImpl implements LayerValidator {
 			SimpleFeature simpleFeature = simpleFeatureIterator.next();
 			DTFeature feature = new DTFeature(layerID, simpleFeature, attrConditions);
 
-			// for (DTLayer relationLayer : relationLayers) {
+			for (DTLayer relationLayer : relationLayers) {
 
-			List<ErrorFeature> errFeatures = graphicValidator.validateOverShoot(feature, relationLayer, tole);
-			if (errFeatures != null) {
-				for (ErrorFeature errFeature : errFeatures) {
-					errFeature.setLayerID(layerID);
-					errorLayer.addErrorFeature(errFeature);
+				List<ErrorFeature> errFeatures = graphicValidator.validateOverShoot(feature, relationLayer, tole);
+				if (errFeatures != null) {
+					for (ErrorFeature errFeature : errFeatures) {
+						errFeature.setLayerID(layerID);
+						errorLayer.addErrorFeature(errFeature);
+					}
+				} else {
+					continue;
 				}
-			} else {
-				continue;
 			}
-			// }
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -464,7 +454,58 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		sfcIter.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
+			return errorLayer;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ErrorLayer validateSelfEntity(DTLayer relationLayer, OptionTolerance tolerance)
+			throws SchemaException, IOException {
+
+		ErrorLayer errorLayer = new ErrorLayer();
+		OptionFilter optionFilter = validatorLayer.getFilter();
+		List<AttributeFilter> attrConditions = null;
+		if (optionFilter != null) {
+			attrConditions = optionFilter.getFilter();
+		}
+		String layerID = validatorLayer.getLayerID();
+		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+		SimpleFeatureIterator sfcIter = sfc.features();
+		if (relationLayer != null) {
+			String relationLayerId = relationLayer.getLayerID();
+			OptionFilter reFilter = relationLayer.getFilter();
+			List<AttributeFilter> reAttrConditions = null;
+			if (reFilter != null) {
+				reAttrConditions = optionFilter.getFilter();
+			}
+			SimpleFeatureCollection reSfc = relationLayer.getSimpleFeatureCollection();
+			while (sfcIter.hasNext()) {
+				SimpleFeature sf = sfcIter.next();
+				DTFeature feature = new DTFeature(layerID, sf, attrConditions);
+				SimpleFeatureIterator reSfcIter = reSfc.features();
+				while (reSfcIter.hasNext()) {
+					SimpleFeature reSf = reSfcIter.next();
+					if (sf.equals(reSf)) {
+						continue;
+					}
+					DTFeature reFeature = new DTFeature(relationLayerId, reSf, reAttrConditions);
+					List<ErrorFeature> errFeatures = graphicValidator.validateSelfEntity(feature, reFeature, tolerance);
+					if (errFeatures != null) {
+						for (ErrorFeature errFeature : errFeatures) {
+							errFeature.setLayerID(layerID);
+							errorLayer.addErrorFeature(errFeature);
+						}
+					}
+				}
+				reSfcIter.close();
+			}
+		}
+		sfcIter.close();
+		if (errorLayer.getErrFeatureList().size() > 0) {
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -484,6 +525,48 @@ public class LayerValidatorImpl implements LayerValidator {
 		String layerID = validatorLayer.getLayerID();
 		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
 		SimpleFeatureIterator sfcIter = sfc.features();
+
+		class Task implements Runnable {
+			ErrorLayer errorLayer;
+			DTFeature dtFeature;
+			List<DTFeature> reDtFeatureList;
+			List<ErrorFeature> errFeatures;
+			List<AttributeFilter> reAttrConditions;
+			String relationLayerId;
+			int index;
+
+			public Task(ErrorLayer errorLayer, DTFeature dtFeature, List<DTFeature> reDtFeatureList,
+					List<AttributeFilter> reAttrConditions, String relationLayerId, int index) {
+				super();
+				this.errorLayer = errorLayer;
+				this.dtFeature = dtFeature;
+				this.reDtFeatureList = reDtFeatureList;
+				this.reAttrConditions = reAttrConditions;
+				this.relationLayerId = relationLayerId;
+				this.index = index;
+			}
+
+			@Override
+			public void run() {
+				for (int j = this.index; j < reDtFeatureList.size(); j++) {
+					DTFeature reDtFeature = reDtFeatureList.get(j);
+					SimpleFeature reSf = reDtFeature.getSimefeature();
+					if (dtFeature.equals(reDtFeature))
+						continue;
+					DTFeature reFeature = new DTFeature(relationLayerId, reSf, reAttrConditions);
+					this.errFeatures = graphicValidator.validateSelfEntity(dtFeature, reFeature, tolerance);
+					if (errFeatures != null) {
+						for (ErrorFeature errFeature : errFeatures) {
+							errFeature.setLayerID(layerID);
+						}
+						errorLayer.addErrorFeatureList(errFeatures);
+					}
+				}
+
+			}
+		}
+		SimpleFeatureIterator reSfcIter = null;
+		// relation
 		if (relationLayers != null) {
 			for (int i = 0; i < relationLayers.size(); i++) {
 				DTLayer relationLayer = relationLayers.get(i);
@@ -494,37 +577,153 @@ public class LayerValidatorImpl implements LayerValidator {
 					reAttrConditions = optionFilter.getFilter();
 				}
 				SimpleFeatureCollection reSfc = relationLayer.getSimpleFeatureCollection();
-				while (sfcIter.hasNext()) {
-					SimpleFeature sf = sfcIter.next();
-					DTFeature feature = new DTFeature(layerID, sf, attrConditions);
-					SimpleFeatureIterator reSfcIter = reSfc.features();
-					while (reSfcIter.hasNext()) {
-						SimpleFeature reSf = reSfcIter.next();
-						if (sf.equals(reSf)) {
-							continue;
-						}
-						DTFeature reFeature = new DTFeature(relationLayerId, reSf, reAttrConditions);
-						List<ErrorFeature> errFeatures = graphicValidator.validateSelfEntity(feature, reFeature,
-								tolerance);
-						if (errFeatures != null) {
-							for (ErrorFeature errFeature : errFeatures) {
-								errFeature.setLayerID(layerID);
-								errorLayer.addErrorFeature(errFeature);
+				reSfcIter = reSfc.features();
+
+				// 자기 자신 처리 - 멀티스레딩
+				if (
+				// relationLayers.size() == 1
+				layerID.equals(relationLayerId)) {
+//					int core = Runtime.getRuntime().availableProcessors();
+					int core = 2;
+					ExecutorService executorService = Executors.newFixedThreadPool(core,
+							new ThreadFactoryBuilder().setNameFormat("self 검수-%d").build());
+					DTFeatureList dtFeatureListJ = new DTFeatureList();
+					List<Future<List<ErrorFeature>>> futures = new ArrayList<>();
+					int index = 0;
+					while (sfcIter.hasNext()) {
+						SimpleFeature sf = sfcIter.next(); // 행
+						// Geometry geom = (Geometry) sf.getDefaultGeometry();
+						DTFeature feature = new DTFeature(layerID, sf, attrConditions);
+
+						if (dtFeatureListJ.isEmpty()) {
+							while (reSfcIter.hasNext()) {
+								dtFeatureListJ.add(new DTFeature(layerID, reSfcIter.next(), attrConditions));
 							}
 						}
+
+						for (int j = 1; j <= core; j++) {
+							int listSize = dtFeatureListJ.size();
+							int front = (listSize / core) * (j - 1);
+							int end = (listSize / core) * j;
+							if (j == core) {
+								end = listSize;
+							}
+							List<ErrorFeature> errFeatures = new ArrayList<>();
+							Runnable task = new Task(errorLayer, feature, dtFeatureListJ.subList(front, end),
+									reAttrConditions, relationLayerId, index);
+							Future<List<ErrorFeature>> futureList = executorService.submit(task, errFeatures);
+							futures.add(futureList);
+						}
+						index++;
 					}
-					reSfcIter.close();
+					for (Future<List<ErrorFeature>> future : futures) {
+						try {
+							future.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					executorService.shutdown();
+					// 복수 레이어 처리
+				} else {
+					FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
+					SimpleFeatureSource source = DataUtilities.source(reSfc);
+					SimpleFeatureCollection refilterSfc = null;
+					while (sfcIter.hasNext()) {
+						SimpleFeature sf = sfcIter.next();
+						Geometry geom = (Geometry) sf.getDefaultGeometry();
+						Filter filter = ff.intersects(ff.property("the_geom"), ff.literal(geom.getEnvelope()));
+						try {
+							refilterSfc = source.getFeatures(filter);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						DTFeature feature = new DTFeature(layerID, sf, attrConditions);
+						reSfcIter = refilterSfc.features();
+
+						while (reSfcIter.hasNext()) {
+							SimpleFeature reSf = reSfcIter.next();
+							if (sf.equals(reSf))
+								continue;
+							DTFeature reFeature = new DTFeature(relationLayerId, reSf, reAttrConditions);
+							List<ErrorFeature> errFeatures = graphicValidator.validateSelfEntity(feature, reFeature,
+									tolerance);
+							if (errFeatures != null) {
+								for (ErrorFeature errFeature : errFeatures) {
+									errFeature.setLayerID(layerID);
+									errorLayer.addErrorFeature(errFeature);
+								}
+							}
+						}
+						reSfcIter.close();
+					}
 				}
 			}
 		}
 		sfcIter.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
 		}
 	}
+
+//	@Override
+//	public ErrorLayer validateSelfEntity(DTLayerList relationLayers, OptionTolerance tolerance)
+//			throws SchemaException, IOException {
+//
+//		ErrorLayer errorLayer = new ErrorLayer();
+//		OptionFilter optionFilter = validatorLayer.getFilter();
+//		List<AttributeFilter> attrConditions = null;
+//		if (optionFilter != null) {
+//			attrConditions = optionFilter.getFilter();
+//		}
+//		String layerID = validatorLayer.getLayerID();
+//		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+//		SimpleFeatureIterator sfcIter = sfc.features();
+//		if (relationLayers != null) {
+//			for (int i = 0; i < relationLayers.size(); i++) {
+//				DTLayer relationLayer = relationLayers.get(i);
+//				String relationLayerId = relationLayer.getLayerID();
+//				OptionFilter reFilter = relationLayer.getFilter();
+//				List<AttributeFilter> reAttrConditions = null;
+//				if (reFilter != null) {
+//					reAttrConditions = optionFilter.getFilter();
+//				}
+//				SimpleFeatureCollection reSfc = relationLayer.getSimpleFeatureCollection();
+//				while (sfcIter.hasNext()) {
+//					SimpleFeature sf = sfcIter.next();
+//					DTFeature feature = new DTFeature(layerID, sf, attrConditions);
+//					SimpleFeatureIterator reSfcIter = reSfc.features();
+//					while (reSfcIter.hasNext()) {
+//						SimpleFeature reSf = reSfcIter.next();
+//						if (sf.equals(reSf)) {
+//							continue;
+//						}
+//						DTFeature reFeature = new DTFeature(relationLayerId, reSf, reAttrConditions);
+//						List<ErrorFeature> errFeatures = graphicValidator.validateSelfEntity(feature, reFeature,
+//								tolerance);
+//						if (errFeatures != null) {
+//							for (ErrorFeature errFeature : errFeatures) {
+//								errFeature.setLayerID(layerID);
+//								errorLayer.addErrorFeature(errFeature);
+//							}
+//						}
+//					}
+//					reSfcIter.close();
+//				}
+//			}
+//		}
+//		sfcIter.close();
+//		if (errorLayer.getErrFeatureList().size() > 0) {
+//			errorLayer.setLayerID(validatorLayer.getLayerID());
+//			return errorLayer;
+//		} else {
+//			return null;
+//		}
+//	}
 
 	@Override
 	public ErrorLayer validateOutBoundary(DTLayerList relationLayers, OptionTolerance tole) throws SchemaException {
@@ -596,7 +795,7 @@ public class LayerValidatorImpl implements LayerValidator {
 			}
 		}
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -636,21 +835,13 @@ public class LayerValidatorImpl implements LayerValidator {
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
 
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 
 			return null;
 		}
 	}
-
-	/**
-	 * @author DY.Oh
-	 * @Date 2018. 3. 6. 오후 2:02:50
-	 * @param fixedValue
-	 * @return ErrorLayer
-	 * @decription
-	 */
 
 	@Override
 	public ErrorLayer validateLayerFixMiss(String geometry, List<FixedValue> fixedValue) {
@@ -680,7 +871,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -731,7 +922,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -763,7 +954,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -804,16 +995,49 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
 		}
 	}
 
+	public ErrorLayer validateNodeMiss(DTLayer relationLayer, OptionTolerance tole) {
+
+		ErrorLayer errorLayer = new ErrorLayer();
+		String layerID = validatorLayer.getLayerID();
+		OptionFilter filter = validatorLayer.getFilter();
+		List<AttributeFilter> attrConditions = null;
+		if (filter != null) {
+			attrConditions = filter.getFilter();
+		}
+		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+		SimpleFeatureIterator simpleFeatureIterator = sfc.features();
+		while (simpleFeatureIterator.hasNext()) {
+			SimpleFeature simpleFeature = simpleFeatureIterator.next();
+			DTFeature feature = new DTFeature(layerID, simpleFeature, attrConditions);
+			List<ErrorFeature> errFeatures = graphicValidator.validateNodeMiss(feature, sfc, relationLayer, tole);
+			if (errFeatures != null) {
+				for (ErrorFeature errFeature : errFeatures) {
+					errFeature.setLayerID(layerID);
+					errorLayer.addErrorFeature(errFeature);
+				}
+			} else {
+				continue;
+			}
+		}
+		simpleFeatureIterator.close();
+		if (errorLayer.getErrFeatureList().size() > 0) {
+			errorLayer.setLayerID(validatorLayer.getLayerID());
+			return errorLayer;
+		} else {
+
+			return null;
+		}
+	}
+
 	@Override
-	public ErrorLayer validateNodeMiss(DTLayerList relationLayers, String geomColumn, OptionTolerance tole)
-			throws SchemaException {
+	public ErrorLayer validateNodeMiss(DTLayerList relationLayers, OptionTolerance tole) throws SchemaException {
 
 		ErrorLayer errorLayer = new ErrorLayer();
 		String layerID = validatorLayer.getLayerID();
@@ -853,7 +1077,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
 
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 
@@ -892,7 +1116,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -900,7 +1124,51 @@ public class LayerValidatorImpl implements LayerValidator {
 	}
 
 	@Override
-	public ErrorLayer validateOneAcre(DTLayerList relationLayers, double spatialAccuracyTolorence) {
+	public ErrorLayer validateOneAcre(DTLayer relationLayer) {
+
+		ErrorLayer errorLayer = new ErrorLayer();
+		String layerID = validatorLayer.getLayerID();
+
+		OptionFilter filter = validatorLayer.getFilter();
+		List<AttributeFilter> attrConditions = null;
+
+		if (filter != null) {
+			attrConditions = filter.getFilter();
+		}
+
+		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+		List<SimpleFeature> simpleFeatures = new ArrayList<SimpleFeature>();
+		SimpleFeatureIterator simpleFeatureIterator = sfc.features();
+
+		while (simpleFeatureIterator.hasNext()) {
+
+			SimpleFeature simpleFeature = simpleFeatureIterator.next();
+			simpleFeatures.add(simpleFeature);
+		}
+		simpleFeatureIterator.close();
+		SimpleFeatureCollection relationSfc = relationLayer.getSimpleFeatureCollection();
+		for (int j = 0; j < simpleFeatures.size(); j++) {
+			SimpleFeature simpleFeature = simpleFeatures.get(j);
+			DTFeature feature = new DTFeature(layerID, simpleFeature, attrConditions);
+			// 단독지류계 검수
+			ErrorFeature errFeature = graphicValidator.validateOneAcre(feature, relationSfc);
+			if (errFeature != null) {
+				errFeature.setLayerID(layerID);
+				errorLayer.addErrorFeature(errFeature);
+			} else {
+				continue;
+			}
+		}
+		if (errorLayer.getErrFeatureList().size() > 0) {
+			errorLayer.setLayerID(validatorLayer.getLayerID());
+			return errorLayer;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ErrorLayer validateOneAcre(DTLayerList relationLayers) {
 
 		ErrorLayer errorLayer = new ErrorLayer();
 		String layerID = validatorLayer.getLayerID();
@@ -940,7 +1208,41 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
+			return errorLayer;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ErrorLayer validateOneStage(DTLayer relationLayer) {
+
+		ErrorLayer errorLayer = new ErrorLayer();
+		String layerID = validatorLayer.getLayerID();
+		OptionFilter filter = validatorLayer.getFilter();
+		List<AttributeFilter> attrConditions = null;
+		if (filter != null) {
+			attrConditions = filter.getFilter();
+		}
+		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+		SimpleFeatureIterator simpleFeatureIterator = sfc.features();
+		while (simpleFeatureIterator.hasNext()) {
+			SimpleFeature simpleFeature = simpleFeatureIterator.next();
+			DTFeature feature = new DTFeature(layerID, simpleFeature, attrConditions);
+			List<ErrorFeature> errFeatures = graphicValidator.validateOneStage(feature, relationLayer);
+			if (errFeatures != null) {
+				for (ErrorFeature errFeature : errFeatures) {
+					errFeature.setLayerID(layerID);
+					errorLayer.addErrorFeature(errFeature);
+				}
+			} else {
+				continue;
+			}
+		}
+		simpleFeatureIterator.close();
+		if (errorLayer.getErrFeatureList().size() > 0) {
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -977,7 +1279,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1025,7 +1327,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1056,7 +1358,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1088,7 +1390,37 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
+			return errorLayer;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ErrorLayer validateBoundaryMiss(DTLayer relationLayer) {
+
+		ErrorLayer errorLayer = new ErrorLayer();
+		String layerID = validatorLayer.getLayerID();
+		OptionFilter filter = validatorLayer.getFilter();
+		List<AttributeFilter> attrConditions = null;
+		if (filter != null) {
+			attrConditions = filter.getFilter();
+		}
+		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+		SimpleFeatureIterator simpleFeatureIterator = sfc.features();
+		while (simpleFeatureIterator.hasNext()) {
+			SimpleFeature simpleFeature = simpleFeatureIterator.next();
+			DTFeature feature = new DTFeature(layerID, simpleFeature, attrConditions);
+			ErrorFeature errorFeature = graphicValidator.validateBoundaryMiss(feature, relationLayer);
+			if (errorFeature != null) {
+				errorFeature.setLayerID(layerID);
+				errorLayer.addErrorFeature(errorFeature);
+			}
+		}
+		simpleFeatureIterator.close();
+		if (errorLayer.getErrFeatureList().size() > 0) {
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1121,7 +1453,39 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
+			return errorLayer;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ErrorLayer validateCenterLineMiss(DTLayer relationLayer) {
+
+		ErrorLayer errorLayer = new ErrorLayer();
+		String layerID = validatorLayer.getLayerID();
+		OptionFilter filter = validatorLayer.getFilter();
+		List<AttributeFilter> attrConditions = null;
+		if (filter != null) {
+			attrConditions = filter.getFilter();
+		}
+		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+		SimpleFeatureIterator simpleFeatureIterator = sfc.features();
+		while (simpleFeatureIterator.hasNext()) {
+			SimpleFeature simpleFeature = simpleFeatureIterator.next();
+			DTFeature feature = new DTFeature(layerID, simpleFeature, attrConditions);
+			ErrorFeature errFeature = graphicValidator.validateCenterLineMiss(feature, relationLayer);
+			if (errFeature != null) {
+				errFeature.setLayerID(layerID);
+				errorLayer.addErrorFeature(errFeature);
+			} else {
+				continue;
+			}
+			simpleFeatureIterator.close();
+		}
+		if (errorLayer.getErrFeatureList().size() > 0) {
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1156,7 +1520,7 @@ public class LayerValidatorImpl implements LayerValidator {
 			simpleFeatureIterator.close();
 		}
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1190,7 +1554,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1234,7 +1598,43 @@ public class LayerValidatorImpl implements LayerValidator {
 			simpleFeatureIterator.close();
 		}
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
+			return errorLayer;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ErrorLayer valildateLinearDisconnection(DTLayer relationLayer, OptionTolerance tole) throws SchemaException {
+
+		ErrorLayer errorLayer = new ErrorLayer();
+		String layerID = validatorLayer.getLayerID();
+		OptionFilter filter = validatorLayer.getFilter();
+		List<AttributeFilter> attrConditions = null;
+		if (filter != null) {
+			attrConditions = filter.getFilter();
+		}
+		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
+		SimpleFeatureIterator simpleFeatureIterator = sfc.features();
+
+		while (simpleFeatureIterator.hasNext()) {
+			SimpleFeature simpleFeature = simpleFeatureIterator.next();
+			DTFeature feature = new DTFeature(layerID, simpleFeature, attrConditions);
+			List<ErrorFeature> errorFeatures = graphicValidator.validateLinearDisconnection(feature, relationLayer,
+					tole);
+			if (errorFeatures != null) {
+				for (ErrorFeature errFeature : errorFeatures) {
+					errFeature.setLayerID(layerID);
+					errorLayer.addErrorFeature(errFeature);
+				}
+			} else {
+				continue;
+			}
+		}
+		simpleFeatureIterator.close();
+		if (errorLayer.getErrFeatureList().size() > 0) {
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1274,7 +1674,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1309,7 +1709,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1343,7 +1743,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1377,7 +1777,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1411,7 +1811,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1445,7 +1845,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1460,7 +1860,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		 * 쓰레드 ValidateUNodeMiss 결과클래스
 		 * 
 		 * @author SG.Lee
-		 * @Date 2017. 9. 6. 오후 3:09:38
+		 * @since 2017. 9. 6. 오후 3:09:38
 		 */
 		class ValidateUNodeMissResult {
 			ErrorLayer treadErrorLayer = new ErrorLayer();
@@ -1523,7 +1923,7 @@ public class LayerValidatorImpl implements LayerValidator {
 				relationFeatureIterator.close();
 
 				if (errorLayer.getErrFeatureList().size() > 0) {
-					errorLayer.setLayerName(validatorLayer.getLayerID());
+					errorLayer.setLayerID(validatorLayer.getLayerID());
 					validateUNodeMissResult.mergeErrorLayer(errorLayer);
 					errorLayer = null; // 에러레이어 초기화
 				}
@@ -1573,7 +1973,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		 * 쓰레드 validateUAvrgDPH20 결과클래스
 		 * 
 		 * @author SG.Lee
-		 * @Date 2017. 9. 6. 오후 3:09:38
+		 * @since 2017. 9. 6. 오후 3:09:38
 		 */
 		class ValidateUAvrgDPH20Result {
 			ErrorLayer treadErrorLayer = new ErrorLayer();
@@ -1612,7 +2012,7 @@ public class LayerValidatorImpl implements LayerValidator {
 				ErrorLayer errorLayer = new ErrorLayer();
 				for (OptionFigure reFigure : reFigures) {
 					String relayerID = relationLayer.getLayerID();
-					String reCode = reFigure.getCode();
+					String reCode = reFigure.getLayerID();
 					if (!relayerID.equals(reCode)) {
 						continue;
 					}
@@ -1625,7 +2025,7 @@ public class LayerValidatorImpl implements LayerValidator {
 					}
 				}
 				if (errorLayer.getErrFeatureList().size() > 0) {
-					errorLayer.setLayerName(validatorLayer.getLayerID());
+					errorLayer.setLayerID(validatorLayer.getLayerID());
 					validateUAvrgDPH20Result.mergeErrorLayer(errorLayer);
 					errorLayer = null; // 에러레이어 초기화
 				}
@@ -1636,7 +2036,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		List<AttributeFigure> tempAttrFigures = new ArrayList<AttributeFigure>();
 
 		for (OptionFigure figure : figures) {
-			code = figure.getCode();
+			code = figure.getLayerID();
 			if (layerID.equals(code) || code == null) {
 				// 관로
 				List<AttributeFigure> attrFigs = figure.getFigure();
@@ -1698,7 +2098,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		 * 쓰레드 ValidateULeaderline 결과클래스
 		 * 
 		 * @author SG.Lee
-		 * @Date 2017. 9. 6. 오후 3:09:38
+		 * @since 2017. 9. 6. 오후 3:09:38
 		 */
 		class ValidateULeaderlineResult {
 			ErrorLayer treadErrorLayer = new ErrorLayer();
@@ -1763,7 +2163,7 @@ public class LayerValidatorImpl implements LayerValidator {
 				relationIter.close();
 
 				if (errorLayer.getErrFeatureList().size() > 0) {
-					errorLayer.setLayerName(validatorLayer.getLayerID());
+					errorLayer.setLayerID(validatorLayer.getLayerID());
 					validateULeaderlineResult.mergeErrorLayer(errorLayer);
 					errorLayer = null; // 에러레이어 초기화
 				}
@@ -1834,11 +2234,11 @@ public class LayerValidatorImpl implements LayerValidator {
 		DTLayer readerLayer = null; // 지시선
 
 		OptionTolerance readerTolerance = reTolerances.get(0);
-		String readerCode = readerTolerance.getCode();
+		String readerCode = readerTolerance.getLayerID();
 		OptionTolerance lineTolerance = reTolerances.get(1);
-		String lineCode = lineTolerance.getCode();
+		String lineCode = lineTolerance.getLayerID();
 		OptionTolerance textTolerance = reTolerances.get(2);
-		String textCode = textTolerance.getCode();
+		String textCode = textTolerance.getLayerID();
 
 		for (DTLayer relationLayer : relationLayers) {
 			String relationLayerId = relationLayer.getLayerID();
@@ -1867,7 +2267,7 @@ public class LayerValidatorImpl implements LayerValidator {
 			sfcIter.close();
 		}
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -1882,7 +2282,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		 * 쓰레드 ValidateUSymbolDirection 결과클래스
 		 * 
 		 * @author SG.Lee
-		 * @Date 2017. 9. 6. 오후 3:09:38
+		 * @since 2017. 9. 6. 오후 3:09:38
 		 */
 		class ValidateUSymbolDirectionResult {
 			ErrorLayer treadErrorLayer = new ErrorLayer();
@@ -1925,7 +2325,7 @@ public class LayerValidatorImpl implements LayerValidator {
 				ErrorLayer errorLayer = new ErrorLayer();
 				for (OptionFigure reFigure : reFigures) {
 					String relayerID = relationLayer.getLayerID();
-					String reCode = reFigure.getCode();
+					String reCode = reFigure.getLayerID();
 					if (!relayerID.equals(reCode)) {
 						continue;
 					}
@@ -1948,7 +2348,7 @@ public class LayerValidatorImpl implements LayerValidator {
 					}
 					reSimpleFeatureIter.close();
 					if (errorLayer.getErrFeatureList().size() > 0) {
-						errorLayer.setLayerName(validatorLayer.getLayerID());
+						errorLayer.setLayerID(validatorLayer.getLayerID());
 						validateUSymbolDirectionResult.mergeErrorLayer(errorLayer);
 						errorLayer = null; // 에러레이어 초기화
 					}
@@ -1960,7 +2360,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		List<AttributeFigure> tempAttrFigures = new ArrayList<AttributeFigure>();
 
 		for (OptionFigure figure : figures) {
-			code = figure.getCode();
+			code = figure.getLayerID();
 			if (layerID.equals(code) || code == null) {
 				// 관로
 				List<AttributeFigure> attrFigs = figure.getFigure();
@@ -2015,7 +2415,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		 * 쓰레드 ValidateUSymbolOut 결과클래스
 		 * 
 		 * @author SG.Lee
-		 * @Date 2017. 9. 6. 오후 3:09:38
+		 * @since 2017. 9. 6. 오후 3:09:38
 		 */
 		class ValidateUSymbolOutResult {
 			ErrorLayer treadErrorLayer = new ErrorLayer();
@@ -2065,7 +2465,7 @@ public class LayerValidatorImpl implements LayerValidator {
 				}
 				simpleFeatureIterator.close();
 				if (errorLayer.getErrFeatureList().size() > 0) {
-					errorLayer.setLayerName(validatorLayer.getLayerID());
+					errorLayer.setLayerID(validatorLayer.getLayerID());
 					validateUSymbolOutResult.mergeErrorLayer(errorLayer);
 					errorLayer = null; // 에러레이어 초기화
 				}
@@ -2139,7 +2539,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -2173,7 +2573,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -2209,7 +2609,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 
@@ -2219,15 +2619,8 @@ public class LayerValidatorImpl implements LayerValidator {
 
 	// 임상도 검수
 
-	/**
-	 * 
-	 * @since 2018. 3. 21.
-	 * @author DY.Oh
-	 * @param figures
-	 * @return
-	 */
 	@Override
-	public ErrorLayer validateFFcodeLogicalAttribute(List<OptionFigure> figures) {
+	public ErrorLayer validateFcodeLogicalAttribute(List<OptionFigure> figures) {
 
 		ErrorLayer errorLayer = new ErrorLayer();
 		String layerID = validatorLayer.getLayerID();
@@ -2244,7 +2637,7 @@ public class LayerValidatorImpl implements LayerValidator {
 			sf = simpleFeatureIterator.next();
 			DTFeature feature = new DTFeature(layerID, sf, attrConditions);
 			for (OptionFigure figure : figures) {
-				String fCode = figure.getCode();
+				String fCode = figure.getLayerID();
 				ErrorFeature errorFeature = null;
 				if (fCode == null) {
 					errorFeature = attributeValidator.validateFcodeLogicalAttribute(feature, figure);
@@ -2261,7 +2654,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 
@@ -2269,12 +2662,6 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 	}
 
-	/**
-	 * @since 2018. 3. 21.
-	 * @author DY.Oh
-	 * @param figures
-	 * @return ErrorLayer
-	 */
 	@Override
 	public ErrorLayer validateFLabelLogicalAttribute(List<OptionFigure> figures) {
 
@@ -2293,7 +2680,7 @@ public class LayerValidatorImpl implements LayerValidator {
 			DTFeature feature = new DTFeature(layerID, sf, attrConditions);
 			for (OptionFigure figure : figures) {
 
-				String fCode = figure.getCode();
+				String fCode = figure.getLayerID();
 				ErrorFeature errorFeature = null;
 				if (fCode == null) {
 					errorFeature = attributeValidator.validateFLabelLogicalAttribute(feature, figure);
@@ -2310,19 +2697,13 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * @since 2018. 3. 23.
-	 * @author DY.Oh
-	 * @param tole
-	 * @return ErrorLayer
-	 */
 	@Override
 	public ErrorLayer validateFEntityInHole() {
 
@@ -2348,7 +2729,7 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
@@ -2377,7 +2758,7 @@ public class LayerValidatorImpl implements LayerValidator {
 			sf = iter.next();
 			feature = new DTFeature(layerID, sf, attrConditions);
 			for (OptionFigure figure : figures) {
-				String fCode = figure.getCode();
+				String fCode = figure.getLayerID();
 				List<ErrorFeature> errorFeatures = new ArrayList<>();
 				if (fCode == null) {
 					errorFeatures = attributeValidator.validateDissolve(feature, sfc, figure);
@@ -2396,76 +2777,13 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		iter.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * @since 2018. 3. 30.
-	 * @author DY.Oh
-	 * @param figures
-	 * @param closeLayer
-	 * @return ErrorLayer
-	 */
-	@Override
-	public ErrorLayer validateDissolve(List<OptionFigure> figures, DTLayer closeLayer) {
-
-		ErrorLayer errorLayer = new ErrorLayer();
-		String layerID = validatorLayer.getLayerID();
-
-		OptionFilter filter = validatorLayer.getFilter();
-		List<AttributeFilter> attrConditions = null;
-		if (filter != null) {
-			attrConditions = filter.getFilter();
-		}
-
-		SimpleFeatureCollection sfc = validatorLayer.getSimpleFeatureCollection();
-		SimpleFeatureIterator iter = sfc.features();
-		SimpleFeatureCollection closeSfc = closeLayer.getSimpleFeatureCollection();
-
-		SimpleFeature sf;
-		DTFeature feature;
-
-		while (iter.hasNext()) {
-			sf = iter.next();
-			feature = new DTFeature(layerID, sf, attrConditions);
-			for (OptionFigure figure : figures) {
-				String fCode = figure.getCode();
-				List<ErrorFeature> errorFeatures = new ArrayList<>();
-				if (fCode == null) {
-					errorFeatures = attributeValidator.validateDissolve(feature, closeSfc, figure);
-				} else {
-					if (fCode.equals(layerID)) {
-						errorFeatures = attributeValidator.validateDissolve(feature, closeSfc, figure);
-					}
-				}
-				if (errorFeatures != null) {
-					for (ErrorFeature errFeature : errorFeatures) {
-						errFeature.setLayerID(layerID);
-						errorLayer.addErrorFeature(errFeature);
-					}
-				}
-			}
-		}
-		iter.close();
-		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
-			return errorLayer;
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * 
-	 * @since 2018. 4. 10.
-	 * @author DY.Oh
-	 * @param relationLayers
-	 * @return
-	 */
 	@Override
 	public ErrorLayer validateSymbolOut(DTLayerList relationLayers) {
 
@@ -2491,10 +2809,11 @@ public class LayerValidatorImpl implements LayerValidator {
 		}
 		simpleFeatureIterator.close();
 		if (errorLayer.getErrFeatureList().size() > 0) {
-			errorLayer.setLayerName(validatorLayer.getLayerID());
+			errorLayer.setLayerID(validatorLayer.getLayerID());
 			return errorLayer;
 		} else {
 			return null;
 		}
 	}
+
 }

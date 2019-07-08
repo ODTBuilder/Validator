@@ -10,13 +10,12 @@ import org.opengis.feature.simple.SimpleFeature;
 import com.git.gdsbuilder.type.dt.feature.DTFeature;
 import com.git.gdsbuilder.type.dt.layer.DTLayer;
 import com.git.gdsbuilder.type.validate.error.ErrorFeature;
-import com.git.gdsbuilder.type.validate.option.specific.AttributeFigure;
-import com.git.gdsbuilder.type.validate.option.specific.AttributeFilter;
-import com.git.gdsbuilder.type.validate.option.specific.OptionFigure;
-import com.git.gdsbuilder.type.validate.option.specific.OptionFilter;
-import com.git.gdsbuilder.type.validate.option.specific.OptionTolerance;
-import com.git.gdsbuilder.type.validate.option.type.DMQAOptions;
-import com.git.gdsbuilder.validator.feature.filter.FeatureFilter;
+import com.git.gdsbuilder.type.validate.option.AttributeFigure;
+import com.git.gdsbuilder.type.validate.option.AttributeFilter;
+import com.git.gdsbuilder.type.validate.option.DMQAOptions;
+import com.git.gdsbuilder.type.validate.option.OptionFigure;
+import com.git.gdsbuilder.type.validate.option.OptionFilter;
+import com.git.gdsbuilder.type.validate.option.OptionTolerance;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -111,9 +110,8 @@ public class FeatureCloseCollectionValidatorImpl implements FeatureCloseCollecti
 			if (minDistPt == null) {
 				return null;
 			}
-			ErrorFeature errFeature = new ErrorFeature(featureID, DMQAOptions.Type.REFENTITYNONE.getErrCode(),
-					DMQAOptions.Type.REFENTITYNONE.getErrTypeE(), DMQAOptions.Type.REFENTITYNONE.getErrNameE(), "",
-					minDistPt);
+			ErrorFeature errFeature = new ErrorFeature(featureID, DMQAOptions.REFENTITYNONE.getErrCode(),
+					DMQAOptions.REFENTITYNONE.getErrTypeE(), DMQAOptions.REFENTITYNONE.getErrNameE(), "", minDistPt);
 			return errFeature;
 		} else {
 			return null;
@@ -207,9 +205,8 @@ public class FeatureCloseCollectionValidatorImpl implements FeatureCloseCollecti
 			if (minDistPt == null) {
 				return null;
 			}
-			ErrorFeature errFeature = new ErrorFeature(featureID, DMQAOptions.Type.REFENTITYNONE.getErrCode(),
-					DMQAOptions.Type.REFENTITYNONE.getErrTypeE(), DMQAOptions.Type.REFENTITYNONE.getErrNameE(), "",
-					minDistPt);
+			ErrorFeature errFeature = new ErrorFeature(featureID, DMQAOptions.REFENTITYNONE.getErrCode(),
+					DMQAOptions.REFENTITYNONE.getErrTypeE(), DMQAOptions.REFENTITYNONE.getErrNameE(), "", minDistPt);
 			return errFeature;
 		} else {
 			return null;
@@ -317,24 +314,14 @@ public class FeatureCloseCollectionValidatorImpl implements FeatureCloseCollecti
 			String reLayerId = closeLayer.getLayerID();
 
 			ErrorFeature errFeature = new ErrorFeature(featureID, reLayerId, reFeatureID,
-					DMQAOptions.Type.REFZVALUEMISS.getErrCode(), DMQAOptions.Type.REFZVALUEMISS.getErrTypeE(),
-					DMQAOptions.Type.REFZVALUEMISS.getErrNameE(), "", minDistPt);
+					DMQAOptions.REFZVALUEMISS.getErrCode(), DMQAOptions.REFZVALUEMISS.getErrTypeE(),
+					DMQAOptions.REFZVALUEMISS.getErrNameE(), "", minDistPt);
 			return errFeature;
 		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * @since 2018. 3. 22.
-	 * @author DY.Oh
-	 * @param simpleFeature
-	 * @param closeSfc
-	 * @param closeBoundary
-	 * @param tolerance
-	 * @param figure
-	 * @return ErrorFeature
-	 */
 	@Override
 	public ErrorFeature validateRefAttributeMiss(DTFeature feature, DTLayer closeLayer, Geometry closeBoundary,
 			OptionTolerance tolerance, OptionFigure figure) {
@@ -448,8 +435,8 @@ public class FeatureCloseCollectionValidatorImpl implements FeatureCloseCollecti
 			}
 			String reLayerId = closeLayer.getLayerID();
 			ErrorFeature errFeature = new ErrorFeature(featureID, reLayerId, reFeatureID,
-					DMQAOptions.Type.REFATTRIBUTEMISS.getErrCode(), DMQAOptions.Type.REFATTRIBUTEMISS.getErrTypeE(),
-					DMQAOptions.Type.REFATTRIBUTEMISS.getErrNameE(), "", minDistPt);
+					DMQAOptions.REFATTRIBUTEMISS.getErrCode(), DMQAOptions.REFATTRIBUTEMISS.getErrTypeE(),
+					DMQAOptions.REFATTRIBUTEMISS.getErrNameE(), "", minDistPt);
 			return errFeature;
 		} else {
 			return null;

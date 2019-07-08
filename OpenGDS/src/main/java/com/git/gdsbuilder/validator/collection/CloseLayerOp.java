@@ -1,6 +1,21 @@
+/*
+ *    OpenGDS/Builder
+ *    http://git.co.kr
+ *
+ *    (C) 2014-2017, GeoSpatial Information Technology(GIT)
+ *    
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation;
+ *    version 3 of the License.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
 package com.git.gdsbuilder.validator.collection;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,24 +24,13 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.factory.CommonFactoryFinder;
-import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.feature.SchemaException;
-import org.geotools.feature.simple.SimpleFeatureBuilder;
-import org.geotools.geometry.jts.JTS;
-import org.geotools.geometry.jts.JTSFactoryFinder;
-import org.geotools.referencing.CRS;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.opengis.referencing.operation.MathTransform;
 
-import com.git.gdsbuilder.file.writer.SHPFileWriter;
 import com.git.gdsbuilder.type.dt.collection.MapSystemRule.MapSystemRuleType;
 import com.git.gdsbuilder.type.dt.layer.DTLayer;
-import com.git.gdsbuilder.type.validate.option.specific.OptionTolerance;
+import com.git.gdsbuilder.type.validate.option.OptionTolerance;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -35,18 +39,36 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * @className CloseLayerOp.java
- * @description 인접 레이어 영역내의 객체를 계산하는 클래스
+ * 인접 영역 검수 시 검수 영역의 허용 오차 범위 내에 있는 검수 대상 레이어의 객체들과 인접 검수 영역 내에 레이어의 객체들을 계산하는
+ * 클래스.
+ * <p>
+ * 인접 객체 계산 결과는 검수 영역과 인접한 검수 대상 레이어의 객체들을 모아 생성한 {@link DTLayer}와 검수 영역과 인접한 인접
+ * 영역 레이어의 객체들을 모아 생성한 {@link DTLayer}임.
+ * 
  * @author DY.Oh
- * @date 2018. 1. 30. 오후 2:32:24
+ *
  */
 public class CloseLayerOp {
 
+	/**
+	 * Geometry Column name
+	 */
 	protected static String geomColunm = "the_geom";
-
+	/**
+	 * 인접 검수 영역 방향 (BOTTOM or LEFT or RIGHT or TOP)
+	 */
 	String direction;
+	/**
+	 * 검수 대상 레이어
+	 */
 	DTLayer typeLayer;
+	/**
+	 * 인접 영역 내 검수 대상 레이어와 동일한 ID를 가진 레이어
+	 */
 	DTLayer closeLayer;
+	/**
+	 * 검수 영역
+	 */
 	Geometry closeBoundary;
 
 	public String getDirection() {
@@ -82,14 +104,19 @@ public class CloseLayerOp {
 	}
 
 	/**
+	 * 수치지도 인접 영역 검수 시 검수 영역의 허용 오차 범위 내에 있는 검수 대상 레이어의 객체들과 인접 검수 영역 내에 레이어의 객체들을
+	 * 계산함.
+	 * <p>
+	 * 검수 영역 레이어의 Geometry 타입이 {@link LineString}이며 검수 영역이 한개의 {@link LineString}인
+	 * 경우
+	 * 
+	 * @param type            인접 검수 영역 방향 (BOTTOM or LEFT or RIGHT or TOP)
+	 * @param neatLineLayer   검수 영역 {@link DTLayer}
+	 * @param typeLayer       검수 대상 {@link DTLayer}
+	 * @param closeLayer      검수 영역과 인접한 인접 영역 내 {@link DTLayer}
+	 * @param optionTolerance 검수 영역 허용 오차
+	 * 
 	 * @author DY.Oh
-	 * @Date 2018. 1. 30. 오후 2:33:07
-	 * @param type
-	 * @param neatLineLayer
-	 * @param typeLayer
-	 * @param closeLayer
-	 * @param tolerance
-	 * @decription 인접 레이어 영역내의 객체를 계산
 	 */
 	public void closeLayerOp(MapSystemRuleType type, DTLayer neatLineLayer, DTLayer typeLayer, DTLayer closeLayer,
 			OptionTolerance optionTolerance) {
@@ -119,8 +146,6 @@ public class CloseLayerOp {
 				i++;
 			}
 		}
-
-		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
 		FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
 
 		Coordinate[] boundaryCoors = null;
@@ -130,19 +155,19 @@ public class CloseLayerOp {
 
 		if (direction.equals(MapSystemRuleType.TOP.getTypeName())) {
 			boundaryCoors = new Coordinate[] { firstPoint, secondPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 		if (direction.equals(MapSystemRuleType.BOTTOM.getTypeName())) {
 			boundaryCoors = new Coordinate[] { thirdPoint, fourthPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 		if (direction.equals(MapSystemRuleType.LEFT.getTypeName())) {
 			boundaryCoors = new Coordinate[] { firstPoint, fourthPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 		if (direction.equals(MapSystemRuleType.RIGHT.getTypeName())) {
 			boundaryCoors = new Coordinate[] { secondPoint, thirdPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 
 		Polygon bufferPolygon = (Polygon) boundary.buffer(tolerance);
@@ -163,14 +188,28 @@ public class CloseLayerOp {
 			e.printStackTrace();
 		}
 		this.direction = direction;
-		this.typeLayer = new DTLayer(typeLayer.getLayerID(), typeLayer.getLayerType(), typeFtCollection, null, null);
-		this.closeLayer = new DTLayer(closeLayer.getLayerID(), closeLayer.getLayerType(), closeFtCollection, null,
-				null);
+		this.typeLayer = new DTLayer(typeLayer.getLayerID(), typeLayer.getLayerType(), typeFtCollection, null);
+		this.closeLayer = new DTLayer(closeLayer.getLayerID(), closeLayer.getLayerType(), closeFtCollection, null);
 		this.closeBoundary = boundary;
 
 	}
 
-	public void closeLayerOpF2(MapSystemRuleType type, DTLayer neatLineLayer, DTLayer typeLayer, DTLayer closeLayer,
+	/**
+	 * 임상도 인접 영역 검수 시 검수 영역의 허용 오차 범위 내에 있는 검수 대상 레이어의 객체들과 인접 검수 영역 내에 레이어의 객체들을
+	 * 계산함.
+	 * <p>
+	 * 검수 영역 레이어의 Geometry 타입이 {@link Polygon}이며 검수 영역이 여러개의 {@link Polygon}으로 구성되어
+	 * 있는 경우
+	 * 
+	 * @param type            인접 검수 영역 방향 (BOTTOM or LEFT or RIGHT or TOP)
+	 * @param neatLineLayer   검수 영역 {@link DTLayer}
+	 * @param typeLayer       검수 대상 {@link DTLayer}
+	 * @param closeLayer      검수 영역과 인접한 인접 영역 내 {@link DTLayer}
+	 * @param optionTolerance 검수 영역 허용 오차
+	 * 
+	 * @author DY.Oh
+	 */
+	public void closeLayerOpF(MapSystemRuleType type, DTLayer neatLineLayer, DTLayer typeLayer, DTLayer closeLayer,
 			OptionTolerance optionTolerance) {
 
 		double tolerance = optionTolerance.getValue();
@@ -199,7 +238,6 @@ public class CloseLayerOp {
 		Coordinate thirdPoint = coordinateArray[2];
 		Coordinate fourthPoint = coordinateArray[3];
 
-		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
 		FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
 
 		Coordinate[] boundaryCoors = null;
@@ -207,40 +245,22 @@ public class CloseLayerOp {
 		String direction = type.getTypeName();
 		if (direction.equals(MapSystemRuleType.TOP.getTypeName())) {
 			boundaryCoors = new Coordinate[] { firstPoint, secondPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 		if (direction.equals(MapSystemRuleType.BOTTOM.getTypeName())) {
 			boundaryCoors = new Coordinate[] { thirdPoint, fourthPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 		if (direction.equals(MapSystemRuleType.LEFT.getTypeName())) {
 			boundaryCoors = new Coordinate[] { firstPoint, fourthPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 		if (direction.equals(MapSystemRuleType.RIGHT.getTypeName())) {
 			boundaryCoors = new Coordinate[] { secondPoint, thirdPoint };
-			boundary = geometryFactory.createLineString(boundaryCoors);
+			boundary = new GeometryFactory().createLineString(boundaryCoors);
 		}
 
 		Polygon bufferPolygon = (Polygon) boundary.buffer(tolerance);
-
-		// try {
-		// DefaultFeatureCollection dfc = new DefaultFeatureCollection();
-		// SimpleFeatureType sfType = DataUtilities.createType("test",
-		// "the_geom:Polygon");
-		// CoordinateReferenceSystem worldCRS = CRS.decode("EPSG:32652");
-		// CoordinateReferenceSystem dataCRS = CRS.decode("EPSG:5186");
-		// MathTransform transform = CRS.findMathTransform(worldCRS, dataCRS);
-		// Geometry testGeom = JTS.transform(bufferPolygon, transform);
-		// SimpleFeature newSimpleFeature = SimpleFeatureBuilder.build(sfType,
-		// new Object[] { testGeom }, "test");
-		// dfc.add(newSimpleFeature);
-		// SHPFileWriter.writeSHP("EPSG:5186", dfc,
-		// "C:\\Users\\GIT\\Desktop\\test\\boundary.shp");
-		// } catch (Exception e) {
-		// // TODO: handle exception
-		// }
-
 		Filter filter = ff.intersects(ff.property(geomColunm), ff.literal(bufferPolygon));
 
 		SimpleFeatureSource typeSource = DataUtilities.source(typeLayer.getSimpleFeatureCollection());
@@ -258,61 +278,10 @@ public class CloseLayerOp {
 			e.printStackTrace();
 		}
 		this.direction = direction;
-		this.typeLayer = new DTLayer(typeLayer.getLayerID(), typeLayer.getLayerType(), typeFtCollection, null, null);
-		this.closeLayer = new DTLayer(closeLayer.getLayerID(), closeLayer.getLayerType(), closeFtCollection, null,
-				null);
+		this.typeLayer = new DTLayer(typeLayer.getLayerID(), typeLayer.getLayerType(), typeFtCollection, null);
+		this.closeLayer = new DTLayer(closeLayer.getLayerID(), closeLayer.getLayerType(), closeFtCollection, null);
 		this.closeBoundary = boundary;
 
-	}
-
-	public void closeLayerOpF(DTLayer neatLineLayer, DTLayer typeLayer, DTLayer closeLayer,
-			OptionTolerance optionTolerance) {
-
-		double tolerance = optionTolerance.getValue();
-
-		// 임상도
-		SimpleFeatureCollection neatLineCollection = neatLineLayer.getSimpleFeatureCollection();
-		List<Geometry> geometries = new ArrayList<>();
-		SimpleFeatureIterator featureIterator = neatLineCollection.features();
-		while (featureIterator.hasNext()) {
-			SimpleFeature feature = featureIterator.next();
-			Geometry geometry = (Geometry) feature.getDefaultGeometry();
-			geometries.add(geometry);
-		}
-		Geometry boundary = null;
-		if (geometries.size() > 1) {
-			GeometryCollection geometryCollection = (GeometryCollection) new GeometryFactory()
-					.buildGeometry(geometries);
-			Geometry union = geometryCollection.union();
-			boundary = union.getBoundary();
-		} else {
-			boundary = geometries.get(0).getBoundary();
-		}
-
-		FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-
-		Geometry bufferPolygon = boundary.buffer(tolerance);
-
-		Filter filter = ff.intersects(ff.property(geomColunm), ff.literal(bufferPolygon));
-
-		SimpleFeatureSource typeSource = DataUtilities.source(typeLayer.getSimpleFeatureCollection());
-		SimpleFeatureSource closeSource = DataUtilities.source(closeLayer.getSimpleFeatureCollection());
-
-		SimpleFeatureCollection typeFtCollection = null;
-		SimpleFeatureCollection closeFtCollection = null;
-		try {
-			// type
-			typeFtCollection = typeSource.getFeatures(filter);
-			// close
-			closeFtCollection = closeSource.getFeatures(filter);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.typeLayer = new DTLayer(typeLayer.getLayerID(), typeLayer.getLayerType(), typeFtCollection, null, null);
-		this.closeLayer = new DTLayer(closeLayer.getLayerID(), closeLayer.getLayerType(), closeFtCollection, null,
-				null);
-		this.closeBoundary = boundary;
 	}
 
 	private Coordinate[] getSort5Coordinate(Coordinate[] coordinates) {
