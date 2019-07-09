@@ -169,6 +169,7 @@ try {
 </code></pre>
 - 테스트 코드 작성 후 각각의 error shp file 생성 여부 확인 
 - error shp file은 OpenGDS / Builder (공간자료 편집도구) 또는 타 GIS 편집 툴에서 확인 가능
+- 기타 기능 및 자세한 사용 방법은 개발자 API(javadoc) 참고 
 
 사용 라이브러리
 =====
